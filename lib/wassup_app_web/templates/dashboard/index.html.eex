@@ -1,0 +1,3 @@
+<section class="phx-hero">
+<h2>Welcome, <%= @current_user.name %>!</h2>
+</section>
