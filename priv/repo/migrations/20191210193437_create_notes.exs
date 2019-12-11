@@ -1,6 +1,8 @@
 defmodule WassupApp.Repo.Migrations.CreateNotes do
   use Ecto.Migration
 
+  alias WassupApp.Notes.Note.SentimentEnum
+
   def change do
     create table(:notes, primary_key: false) do
       add :id, :uuid, primary_key: true

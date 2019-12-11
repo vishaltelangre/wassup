@@ -3,6 +3,12 @@ defmodule WassupApp.Notes.Note do
 
   alias WassupApp.Accounts.User
 
+  import EctoEnum
+
+  @sentiments ~w(happy neutral bored sad)
+
+  defenum(SentimentEnum, @sentiments)
+
   schema "notes" do
     field :body, :string
     field :favorite, :boolean, default: false
@@ -12,6 +18,8 @@ defmodule WassupApp.Notes.Note do
 
     timestamps()
   end
+
+  def sentiments, do: @sentiments
 
   @doc false
   def changeset(note, attrs) do
