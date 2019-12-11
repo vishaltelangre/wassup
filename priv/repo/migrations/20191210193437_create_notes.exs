@@ -9,7 +9,7 @@ defmodule WassupApp.Repo.Migrations.CreateNotes do
       add :body, :string
       add :favorite, :boolean, default: false, null: false
       add :sentiment, SentimentEnum.type(), null: false
-      add :submitted_at, :naive_datetime, default: fragment("clock_timestamp()")
+      add :submitted_at, :utc_datetime, default: fragment("timezone('utc', now())")
       add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: false
 
       timestamps()

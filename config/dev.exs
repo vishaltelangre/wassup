@@ -2,6 +2,8 @@ use Mix.Config
 
 # Configure your database
 config :wassup_app, WassupApp.Repo,
+  migration_primary_key: [name: :id, type: :binary_id],
+  migration_timestamps: [type: :utc_datetime],
   username: "postgres",
   password: "postgres",
   database: "wassup_app_dev",

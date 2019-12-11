@@ -13,7 +13,7 @@ defmodule WassupApp.Notes.Note do
     field :body, :string
     field :favorite, :boolean, default: false
     field :sentiment, SentimentEnum
-    field :submitted_at, :naive_datetime
+    field :submitted_at, :utc_datetime
     belongs_to :user, User
 
     timestamps()
