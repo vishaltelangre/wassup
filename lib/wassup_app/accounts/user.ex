@@ -2,12 +2,14 @@ defmodule WassupApp.Accounts.User do
   use WassupApp.BaseModel
 
   alias WassupApp.Accounts.User
+  alias WassupApp.Notes.Note
 
   schema "users" do
     field :name, :string
     field :email, :string
     field :password_hash, :string
     field :password, :string, virtual: true
+    has_many :notes, Note
 
     timestamps()
   end

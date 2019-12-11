@@ -11,9 +11,34 @@
 # and so on) as they will fail if something goes wrong.
 
 alias WassupApp.Accounts
+alias WassupApp.Notes
 
-Accounts.find_or_create_user(%{
-  name: "John Doe",
-  email: "john@example.com",
-  password: "test1234"
+{:ok, user} =
+  Accounts.find_or_create_user(%{
+    name: "John Doe",
+    email: "john@example.com",
+    password: "test1234"
+  })
+
+Notes.create_note_for_user(user.id, %{
+  body: "John's first note",
+  favorite: true,
+  sentiment: :happy
+})
+
+Notes.create_note_for_user(user.id, %{
+  body: "John's second note",
+  sentiment: :neutral
+})
+
+{:ok, user} =
+  Accounts.find_or_create_user(%{
+    name: "Jane Doe",
+    email: "jane@example.com",
+    password: "test1234"
+  })
+
+Notes.create_note_for_user(user.id, %{
+  body: "I am bored now",
+  sentiment: :bored
 })

@@ -1,1 +1,30 @@
-Notes
+<h1>Listing Notes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Body</th>
+      <th>Favorite</th>
+      <th>Sentiment</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for note <- @notes do %>
+    <tr>
+      <td><%= note.body %></td>
+      <td><%= note.favorite %></td>
+      <td><%= note.sentiment %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.note_path(@conn, :show, note) %></span>
+        <span><%= link "Edit", to: Routes.note_path(@conn, :edit, note) %></span>
+        <span><%= link "Delete", to: Routes.note_path(@conn, :delete, note), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Note", to: Routes.note_path(@conn, :new) %></span>
