@@ -20,6 +20,7 @@ defmodule WassupApp.Notes do
   def list_notes_for_user(user_id) do
     Note
     |> where(user_id: ^user_id)
+    |> order_by(asc: :submitted_at)
     |> Repo.all()
   end
 

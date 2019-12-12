@@ -20,16 +20,14 @@ alias WassupApp.Notes
     password: "test1234"
   })
 
-Notes.create_note_for_user(user.id, %{
-  body: "John's first note",
-  favorite: true,
-  sentiment: :happy
-})
-
-Notes.create_note_for_user(user.id, %{
-  body: "John's second note",
-  sentiment: :neutral
-})
+Enum.map(1..100, fn n ->
+  Notes.create_note_for_user(user.id, %{
+    body: "John's #{n} note",
+    favorite: Enum.random(0..1) == 0,
+    sentiment: Enum.random(WassupApp.Notes.Note.sentiments()),
+    submitted_at: DateTime.utc_now() |> DateTime.add(-60 * 60 * 24 * n)
+  })
+end)
 
 {:ok, user} =
   Accounts.find_or_create_user(%{

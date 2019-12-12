@@ -5,9 +5,15 @@ defmodule WassupApp.Notes.Note do
 
   import EctoEnum
 
-  @sentiments ~w(happy neutral bored sad)
+  @derive {Jason.Encoder, only: [:id, :body, :sentiment, :favorite, :submitted_at]}
 
-  defenum(SentimentEnum, @sentiments)
+  @sentiment_details %{
+    sad: %{value: 1, color: "#e55"},
+    neutral: %{value: 2, color: "#aac"},
+    happy: %{value: 3, color: "#5c5"}
+  }
+
+  defenum(SentimentEnum, @sentiment_details |> Map.keys() |> Enum.map(&to_string/1))
 
   schema "notes" do
     field :body, :string
@@ -19,7 +25,7 @@ defmodule WassupApp.Notes.Note do
     timestamps()
   end
 
-  def sentiments, do: @sentiments
+  def sentiment_details, do: @sentiment_details
 
   @doc false
   def changeset(note, attrs) do

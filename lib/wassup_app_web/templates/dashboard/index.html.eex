@@ -1,3 +1,1 @@
-<section class="phx-hero">
-<h2>Welcome, <%= @current_user.name %>!</h2>
-</section>
+<div id="sentiment-line-chart" data-notes="<%= @notes %>" data-sentiment-details="<%= @sentiment_details %>"></div>
