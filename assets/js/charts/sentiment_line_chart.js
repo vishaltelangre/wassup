@@ -14,7 +14,7 @@ const createChart = (targetNodeId, data) => {
   // Make responsive
   chart.responsive.enabled = true;
   // Set input format for the dates
-  chart.dateFormatter.inputDateFormat = "yyyy-MM-ddTHH:MM:ssZ";
+  chart.dateFormatter.inputDateFormat = "i";
   // Set data
   chart.data = data;
 
@@ -39,14 +39,17 @@ const createDateAxis = (chart, data, interactive) => {
   dateAxis.renderer.grid.template.strokeOpacity = 0.1;
   dateAxis.renderer.grid.template.location = 0;
   // Aggregate when dataset is large
-  dateAxis.groupData = true;
+  dateAxis.groupData = false;
   // Zoom-in to the small subset when dataset contains more than 31 items
   dateAxis.start = interactive && (data.length > 31) ? 0.8 : 0;
   dateAxis.keepSelection = true;
+  // Add small spacing from left and right on date axis to avoid clipping graph
+  dateAxis.extraMin = 0.04;
+  dateAxis.extraMax = 0.04;
   // Data granularity
   dateAxis.baseInterval = {
     timeUnit: "minute",
-    count: 5
+    count: 1
   };
   // Format tick labels based on zoom-level
   dateAxis.dateFormats.setKey("minute", "hh:mm a");
@@ -78,6 +81,9 @@ const createValueAxis = chart => {
   valueAxis.renderer.grid.template.location = 0;
   valueAxis.renderer.grid.template.strokeOpacity = 0;
   valueAxis.renderer.minGridDistance = 40;
+  // Fixed minimum and maximum ticks on value axis
+  valueAxis.min = 0;
+  valueAxis.max = 4;
   // Hide tick labels
   valueAxis.renderer.labels.template.disabled = true;
 
@@ -92,7 +98,7 @@ const createPrimarySeries = (chart, dateFieldName, valueFieldName) => {
   series.fill = am4core.color("#9cc");
   series.fillOpacity = 0.1;
   series.defaultState.transitionDuration = 1000;
-  series.tensionX = 0.8;
+  series.tensionX = 1;
   series.tensionY = 1;
   series.strokeWidth = 4;
   series.connect = true;
@@ -147,7 +153,7 @@ const createDataItemBullets = (series, sentimentDetails) => {
 
 const createPanningCursor = (chart, series, dateAxis) => {
   const cursor = new am4charts.XYCursor();
-  cursor.behavior = "panXY";
+  cursor.behavior = "panX";
   cursor.xAxis = dateAxis;
   cursor.snapToSeries = series;
   cursor.lineX.opacity = 0.7;

@@ -5,7 +5,7 @@ defmodule WassupAppWeb.DashboardController do
 
   def index(conn, _params) do
     notes =
-      Notes.list_notes_for_user(conn.assigns.current_user.id)
+      Notes.list_notes_for_user(conn.assigns.current_user.id, asc: :submitted_at)
       |> Enum.map(fn %{sentiment: sentiment} = notes ->
         %{notes | sentiment: Note.sentiment_details()[sentiment][:value]}
       end)

@@ -17,10 +17,10 @@ defmodule WassupApp.Notes do
       [%Note{}, ...]
 
   """
-  def list_notes_for_user(user_id) do
+  def list_notes_for_user(user_id, order_by \\ [desc: :submitted_at]) do
     Note
     |> where(user_id: ^user_id)
-    |> order_by(asc: :submitted_at)
+    |> order_by(^order_by)
     |> Repo.all()
   end
 
