@@ -45,7 +45,7 @@ const createDateAxis = (chart, data, interactive) => {
   dateAxis.keepSelection = true;
   // Add small spacing from left and right on date axis to avoid clipping graph
   dateAxis.extraMin = 0.04;
-  dateAxis.extraMax = 0.04;
+  dateAxis.extraMax = 0.006;
   // Data granularity
   dateAxis.baseInterval = {
     timeUnit: "minute",
@@ -194,9 +194,11 @@ export const renderLineChart = ((
     valueFieldName = "sentiment",
     interactive = true
   }) => {
+    let chart;
+
   am4core.ready(() => {
     globalSetup();
-    const chart = createChart(targetNodeId, data);
+    chart = createChart(targetNodeId, data);
     configureZoomOutButton(chart, interactive);
     const dateAxis = createDateAxis(chart, data, interactive);
     const valueAxis = createValueAxis(chart);
@@ -210,5 +212,8 @@ export const renderLineChart = ((
       createPanningCursor(chart, series, dateAxis);
       createScrollbar(chart, dateFieldName, valueFieldName);
     }
+
   });
+
+  return chart;
 });

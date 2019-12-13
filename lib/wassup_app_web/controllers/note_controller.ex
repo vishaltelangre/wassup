@@ -19,33 +19,27 @@ defmodule WassupAppWeb.NoteController do
   def create(conn, %{"note" => note_params}) do
     case Notes.create_note_for_user(conn.assigns.current_user.id, note_params) do
       {:ok, note} ->
+        WassupAppWeb.NoteChannel.broadcast_refresh(conn.assigns.current_user.id)
+
         conn
         |> put_flash(:info, "Note created successfully.")
         |> redirect(to: Routes.note_path(conn, :show, note))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        IO.inspect(changeset, label: "ERORROOOR")
         render(conn, "new.html", changeset: changeset)
     end
   end
 
   def show(conn, %{"id" => _id}) do
-    # note = Notes.get_note_for_user!(conn.assigns.current_user.id, id)
-    # render(conn, "show.html", note: note)
     render(conn, "show.html")
   end
 
   def edit(conn, %{"id" => _id}) do
-    # note = Notes.get_note_for_user!(conn.assigns.current_user.id, id)
-    # changeset = Notes.change_note(note)
-    # render(conn, "edit.html", note: note, changeset: changeset)
     changeset = Notes.change_note(conn.assigns.note)
     render(conn, "edit.html", changeset: changeset)
   end
 
   def update(conn, %{"id" => _id, "note" => note_params}) do
-    # note = Notes.get_note_for_user!(conn.assigns.current_user.id, id)
-
     case Notes.update_note(conn.assigns.note, note_params) do
       {:ok, note} ->
         conn
@@ -58,7 +52,6 @@ defmodule WassupAppWeb.NoteController do
   end
 
   def delete(conn, %{"id" => _id}) do
-    # note = Notes.get_note_for_user!(conn.assigns.current_user.id, id)
     {:ok, _note} = Notes.delete_note(conn.assigns.note)
 
     conn

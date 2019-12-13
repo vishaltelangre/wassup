@@ -27,6 +27,10 @@ defmodule WassupApp.Notes.Note do
 
   def sentiment_details, do: @sentiment_details
 
+  def sentiment_value(sentiment) do
+    Map.fetch!(sentiment_details(), sentiment).value
+  end
+
   @doc false
   def changeset(note, attrs) do
     note

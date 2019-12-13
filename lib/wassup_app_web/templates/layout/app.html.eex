@@ -27,6 +27,10 @@
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
       <%= render @view_module, @view_template, assigns %>
     </main>
+    <script>
+      window.userToken = "<%= assigns[:user_token] %>";
+      window.userId = "<%= assigns[:current_user] && assigns[:current_user] |> Map.get(:id) %>";
+    </script>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

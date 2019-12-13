@@ -17,11 +17,23 @@ defmodule WassupApp.Notes do
       [%Note{}, ...]
 
   """
-  def list_notes_for_user(user_id, order_by \\ [desc: :submitted_at]) do
-    Note
-    |> where(user_id: ^user_id)
-    |> order_by(^order_by)
-    |> Repo.all()
+  def list_notes_for_user(user_id, options \\ []) do
+    default_options = [order_by: [desc: :submitted_at], limit: -1]
+    options = Keyword.merge(default_options, options)
+
+    query =
+      Note
+      |> where(user_id: ^user_id)
+      |> order_by(^options[:order_by])
+
+    query =
+      if options[:limit] == -1 do
+        query
+      else
+        query |> limit(^options[:limit])
+      end
+
+    Repo.all(query)
   end
 
   @doc """

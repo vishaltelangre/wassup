@@ -14,17 +14,9 @@ import "phoenix_html"
 // Import local files
 //
 // Local files can be imported directly using relative paths, for example:
-// import socket from "./socket"
+import socket from "./socket"
+import { initializeDashboard } from "./dashboard";
 
-import { renderLineChart } from "./charts/sentiment_line_chart";
-
-document.addEventListener('DOMContentLoaded', function (event) {
-  const targetNodeId = "sentiment-line-chart";
-  const targetNode = document.getElementById(targetNodeId);
-  if (!targetNode) return;
-
-  const data = JSON.parse(targetNode.getAttribute("data-notes"));
-  const sentimentDetails = JSON.parse(targetNode.getAttribute("data-sentiment-details"));
-
-  renderLineChart(targetNodeId, data, { sentimentDetails, interactive: true });
+document.addEventListener('DOMContentLoaded', () => {
+  initializeDashboard();
 });

@@ -6,6 +6,7 @@
       <th>Body</th>
       <th>Favorite</th>
       <th>Sentiment</th>
+      <th>Submitted</th>
 
       <th></th>
     </tr>
@@ -16,6 +17,7 @@
       <td><%= note.body %></td>
       <td><%= note.favorite %></td>
       <td><%= note.sentiment %></td>
+      <td><%= note.submitted_at %></td>
 
       <td>
         <span><%= link "Show", to: Routes.note_path(@conn, :show, note) %></span>
