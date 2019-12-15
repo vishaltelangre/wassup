@@ -8,9 +8,10 @@
 // from the params if you are not using authentication.
 import {Socket} from "phoenix"
 let socket;
+const { userToken } = App;
 
-if (window.userToken) {
-  socket = new Socket("/socket", { params: { token: window.userToken } })
+if (userToken) {
+  socket = new Socket("/socket", { params: { token: userToken } })
 
   socket.connect();
 }

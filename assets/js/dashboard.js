@@ -6,7 +6,7 @@ let sentimentLineChartRef;
 const joinChannel = () => {
   if (!socket) return;
 
-  const channel = socket.channel(`note:dashboard:${window.userId}`, {});
+  const channel = socket.channel(`note:dashboard:${App.userId}`, {});
 
   channel.on("refresh", ({body}) => {
     if (sentimentLineChartRef) {
@@ -38,7 +38,7 @@ const renderSentimentLineChart = (data = []) => {
   const targetNode = document.getElementById(targetNodeId);
   if (!targetNode) return;
 
-  const sentimentDetails = JSON.parse(targetNode.getAttribute("data-sentiment-details"));
+  const { sentimentDetails } = App;
 
   sentimentLineChartRef = renderLineChart(targetNodeId, data, { sentimentDetails, interactive: true });
 };

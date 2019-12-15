@@ -1,1 +1,1 @@
-<div id="sentiment-line-chart" data-notes="<%= @notes %>" data-sentiment-details="<%= @sentiment_details %>"></div>
+<div id="sentiment-line-chart"></div>
