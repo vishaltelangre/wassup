@@ -1,1 +1,19 @@
-<div id="sentiment-line-chart"></div>
+<div class="container dashboard">
+  <div class="row">
+    <div class="column">
+      <div class="widget">
+        <%= render WassupAppWeb.NoteView, "form.html", Map.put(assigns, :action, Routes.note_path(@conn, :create)) %>
+      </div>
+      <br/>
+      <div class="widget">
+        <ul id="notes">
+        </ul>
+      </div>
+    </div>
+    <div class="column">
+      <div class="widget">
+        <div id="sentiment-line-chart"></div>
+      </div>
+    </div>
+  </div>
+</div>

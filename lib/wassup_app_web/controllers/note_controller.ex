@@ -18,15 +18,15 @@ defmodule WassupAppWeb.NoteController do
 
   def create(conn, %{"note" => note_params}) do
     case Notes.create_note_for_user(conn.assigns.current_user.id, note_params) do
-      {:ok, note} ->
+      {:ok, _} ->
         WassupAppWeb.NoteChannel.broadcast_refresh(conn.assigns.current_user.id)
 
-        conn
-        |> put_flash(:info, "Note created successfully.")
-        |> redirect(to: Routes.note_path(conn, :show, note))
+        json(conn, %{})
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        conn
+        |> put_status(:unprocessable_entity)
+        |> render(WassupAppWeb.ErrorView, "error.json", changeset: changeset)
     end
   end
 

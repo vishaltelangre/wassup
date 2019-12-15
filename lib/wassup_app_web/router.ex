@@ -2,7 +2,7 @@ defmodule WassupAppWeb.Router do
   use WassupAppWeb, :router
 
   pipeline :browser do
-    plug :accepts, ["html"]
+    plug :accepts, ["html", "json"]
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery

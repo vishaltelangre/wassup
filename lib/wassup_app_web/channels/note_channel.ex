@@ -34,7 +34,7 @@ defmodule WassupAppWeb.NoteChannel do
 
   defp latest_user_notes(user_id) do
     user_id
-    |> Notes.list_notes_for_user(order_by: [asc: :submitted_at], limit: 7)
+    |> Notes.list_notes_for_user(limit: 7)
     |> Enum.map(fn note ->
       %{note | sentiment: Note.sentiment_value(note.sentiment)}
     end)

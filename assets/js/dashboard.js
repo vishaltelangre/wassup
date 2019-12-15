@@ -10,16 +10,20 @@ const joinChannel = () => {
 
   channel.on("refresh", ({body}) => {
     if (sentimentLineChartRef) {
+      const data = JSON.parse(body);
       maybeDisposeChart();
-      renderSentimentLineChart(JSON.parse(body))
+      renderSentimentLineChart(data);
+      refreshList(data);
     }
   });
 
   channel.join()
     .receive("ok", (response) => {
       if (sentimentLineChartRef) {
+        const data = JSON.parse(response.body);
         maybeDisposeChart();
-        renderSentimentLineChart(JSON.parse(response.body))
+        renderSentimentLineChart(data)
+        refreshList(data);
       }
     })
     .receive("error", resp => { console.error("Unable to join dashboard channel", resp) });
@@ -40,10 +44,21 @@ const renderSentimentLineChart = (data = []) => {
 
   const { sentimentDetails } = App;
 
-  sentimentLineChartRef = renderLineChart(targetNodeId, data, { sentimentDetails, interactive: true });
+  sentimentLineChartRef = renderLineChart(targetNodeId, data, { sentimentDetails, interactive: false });
+};
+
+const refreshList = (data = []) => {
+  const targetNodeId = ".dashboard #notes";
+  const targetNode = document.querySelector(targetNodeId);
+  if (!targetNode) return;
+
+  const noteItem = ({body}) => `<li>${body}</<li>`;
+  const html = data.map(noteItem).join("");
+  targetNode.innerHTML = html;
 };
 
 export const initializeDashboard = () => {
   joinChannel();
   renderSentimentLineChart();
+  refreshList();
 };

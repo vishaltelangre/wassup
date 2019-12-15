@@ -1,0 +1,9 @@
+.dashboard .widget {
+  padding: 5px;
+  box-shadow: 2px 2px 3px 0px #ddd;
+  border-radius: 10px;
+}
+.dashboard #sentiment-line-chart {
+  height: 200px;
+  min-height: 200px;
+}

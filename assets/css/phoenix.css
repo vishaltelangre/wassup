@@ -61,30 +61,6 @@ select {
   margin: -1rem 0 2rem;
 }
 
-/* Phoenix promo and logo */
-.phx-hero {
-  text-align: center;
-  border-bottom: 1px solid #e3e3e3;
-  background: #eee;
-  border-radius: 6px;
-  padding: 3em;
-  margin-bottom: 3rem;
-  font-weight: 200;
-  font-size: 120%;
-}
-.phx-hero p {
-  margin: 0;
-}
-.phx-logo {
-  min-width: 300px;
-  margin: 1rem;
-  display: block;
-}
-.phx-logo img {
-  width: auto;
-  display: block;
-}
-
 /* Headers */
 header {
   width: 100%;
@@ -126,9 +102,5 @@ header nav a {
   }
   header nav ul {
     margin: 1rem;
-  }
-  .phx-logo {
-    flex-basis: 527px;
-    margin: 2rem 1rem;
   }
 }

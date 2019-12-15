@@ -15,6 +15,12 @@ const createChart = (targetNodeId, data) => {
   chart.responsive.enabled = true;
   // Set input format for the dates
   chart.dateFormatter.inputDateFormat = "i";
+  // Sort data in ascending order
+  chart.events.on("beforedatavalidated", () => {
+    chart.data.sort((a, b) => {
+      return (new Date(a.submitted_at)) - (new Date(b.submitted_at));
+    });
+  });
   // Set data
   chart.data = data;
 
@@ -44,8 +50,8 @@ const createDateAxis = (chart, data, interactive) => {
   dateAxis.start = interactive && (data.length > 31) ? 0.8 : 0;
   dateAxis.keepSelection = true;
   // Add small spacing from left and right on date axis to avoid clipping graph
-  dateAxis.extraMin = 0.04;
-  dateAxis.extraMax = 0.006;
+  dateAxis.extraMin = interactive ? 0.04 : 0.06;
+  dateAxis.extraMax = interactive ? 0.006 : 0.03;
   // Data granularity
   dateAxis.baseInterval = {
     timeUnit: "minute",
@@ -109,7 +115,7 @@ const createPrimarySeries = (chart, dateFieldName, valueFieldName) => {
   return series;
 };
 
-const createSentimentRangeOnValueAxis = (sentiment, sentimentDetails, series, valueAxis) => {
+const createSentimentRangeOnValueAxis = (sentiment, sentimentDetails, series, valueAxis, interactive) => {
   const { value, color } = sentimentDetails[sentiment];
   // Create vertical range on series around the sentiment value
   const range = valueAxis.createSeriesRange(series);
@@ -125,9 +131,10 @@ const createSentimentRangeOnValueAxis = (sentiment, sentimentDetails, series, va
   range.bullet = bullet;
   // Display the sentiment emoji on that bullet
   const emoji = range.bullet.createChild(am4core.Image);
+  const emojiSize = interactive ? 48 : 24;
   emoji.href = `/images/${sentiment}.svg`;
-  emoji.width = 48;
-  emoji.height = 48;
+  emoji.width = emojiSize;
+  emoji.height = emojiSize;
   emoji.horizontalCenter = "middle";
   emoji.verticalCenter = "middle";
   emoji.filters.push(new am4core.DropShadowFilter());
@@ -204,7 +211,7 @@ export const renderLineChart = ((
     const valueAxis = createValueAxis(chart);
     const series = createPrimarySeries(chart, dateFieldName, valueFieldName);
     Object.keys(sentimentDetails).forEach(sentiment => {
-      createSentimentRangeOnValueAxis(sentiment, sentimentDetails, series, valueAxis);
+      createSentimentRangeOnValueAxis(sentiment, sentimentDetails, series, valueAxis, interactive);
     });
     createDataItemBullets(series, sentimentDetails);
 
