@@ -5,11 +5,11 @@
     </div>
   <% end %>
 
-  <%= textarea f, :body, placeholder: "Wassup?" %>
+  <%= textarea f, :body, placeholder: "What's in your mind?" %>
   <%= error_tag f, :body %>
 
   <div class="row">
-    <div class="column">
+    <div class="column column-60">
       <div class="sentiment">
         <%= for sentiment <- sentiments do %>
           <%= label class: "control-label radio" do %>
@@ -19,8 +19,10 @@
         <% end %>
       </div>
     </div>
-    <div class="column">
-      <%= submit "Save" %>
+    <div class="column column-40 actions">
+      <div>
+        <%= submit "Save", class: "button button-outline" %>
+      </div>
     </div>
   </div>
 

@@ -131,7 +131,7 @@ const createSentimentRangeOnValueAxis = (sentiment, sentimentDetails, series, va
   range.bullet = bullet;
   // Display the sentiment emoji on that bullet
   const emoji = range.bullet.createChild(am4core.Image);
-  const emojiSize = interactive ? 48 : 24;
+  const emojiSize = interactive ? 48 : 28;
   emoji.href = `/images/${sentiment}.svg`;
   emoji.width = emojiSize;
   emoji.height = emojiSize;

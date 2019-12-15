@@ -1,15 +1,24 @@
 <div class="container dashboard">
   <div class="row">
     <div class="column">
+      <h2>Wassup?</h2>
       <div class="widget">
         <%= render WassupAppWeb.NoteView, "form.html", Map.put(assigns, :action, Routes.note_path(@conn, :create)) %>
       </div>
       <br/>
+      <h2>
+        Recent
+        <%= link "See more ...", to: "#", class: "widget-meta-link" %>
+      </h2>
       <div class="widget">
         <ul id="notes"></ul>
       </div>
     </div>
     <div class="column">
+      <h2>
+        How's the mood recently?
+        <%= link "See in detail", to: "#", class: "widget-meta-link" %>
+      </h2>
       <div class="widget">
         <div id="sentiment-line-chart"></div>
       </div>

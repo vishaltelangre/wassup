@@ -18,7 +18,7 @@ h6{font-size: 1.4rem; letter-spacing: 0; line-height: 1.2}
 
 .container{
   margin: 0 auto;
-  max-width: 80.0rem;
+  max-width: 100.0rem;
   padding: 0 2.0rem;
   position: relative;
   width: 100%
@@ -64,8 +64,8 @@ select {
 /* Headers */
 header {
   width: 100%;
-  background: #fdfdfd;
-  border-bottom: 1px solid #eaeaea;
+  background: rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid #000;
   margin-bottom: 2rem;
 }
 header section {
@@ -102,5 +102,16 @@ header nav a {
   }
   header nav ul {
     margin: 1rem;
+  }
+}
+
+@media (max-width: 42.5rem) {
+  .row {
+    flex-direction: column;
+  }
+
+  .row .column[class*=" column-"] {
+    margin-left: 0;
+    max-width: 100%;
   }
 }
