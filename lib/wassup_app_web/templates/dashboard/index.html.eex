@@ -6,8 +6,7 @@
       </div>
       <br/>
       <div class="widget">
-        <ul id="notes">
-        </ul>
+        <ul id="notes"></ul>
       </div>
     </div>
     <div class="column">

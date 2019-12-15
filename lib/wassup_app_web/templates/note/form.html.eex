@@ -8,16 +8,20 @@
   <%= textarea f, :body, placeholder: "Wassup?" %>
   <%= error_tag f, :body %>
 
-  <div class="sentiment">
-    <%= for sentiment <- sentiments do %>
-      <%= label class: "control-label radio" do %>
-        <%= radio_button f, :sentiment, sentiment, checked: (input_value(f, :sentiment) || :neutral) == sentiment %>
-        <%= img_tag(Routes.static_path(@conn, "/images/#{sentiment}.svg")) %>
-      <% end %>
-    <% end %>
+  <div class="row">
+    <div class="column">
+      <div class="sentiment">
+        <%= for sentiment <- sentiments do %>
+          <%= label class: "control-label radio" do %>
+            <%= radio_button f, :sentiment, sentiment, checked: (input_value(f, :sentiment) || :neutral) == sentiment %>
+            <%= img_tag(Routes.static_path(@conn, "/images/#{sentiment}.svg")) %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class="column">
+      <%= submit "Save" %>
+    </div>
   </div>
 
-  <div>
-    <%= submit "Save" %>
-  </div>
 <% end %>
