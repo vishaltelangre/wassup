@@ -1,5 +1,8 @@
 /* This file is for your main application css. */
 
 @import "./phoenix.css";
-@import "./custom.css";
+@import "./dropdown.css";
+@import "./common.css";
+@import "./auth.css";
+@import "./notes.css";
 @import "./dashboard.css";

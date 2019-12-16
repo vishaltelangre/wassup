@@ -1,32 +1,30 @@
-<h1>Listing Notes</h1>
+<%= link "← Back to dashboard", to: Routes.dashboard_path(@conn, :index), class: "back-link" %>
+<div id="notes" class="notes-page">
+  <h1>Notes</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Body</th>
-      <th>Favorite</th>
-      <th>Sentiment</th>
-      <th>Submitted</th>
+  <ul>
+    <%= for note <- @notes do %>
+      <li class="row">
+        <div class="meta column column-20">
+          <%= img_tag(Routes.static_path(@conn, "/images/#{note.sentiment}.svg"), class: "sentiment-emoji") %>
+          <span class="label"><%= note.submitted_at %></span>
+        </div>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for note <- @notes do %>
-    <tr>
-      <td><%= note.body %></td>
-      <td><%= note.favorite %></td>
-      <td><%= note.sentiment %></td>
-      <td><%= note.submitted_at %></td>
-
-      <td>
-        <span><%= link "Show", to: Routes.note_path(@conn, :show, note) %></span>
-        <span><%= link "Edit", to: Routes.note_path(@conn, :edit, note) %></span>
-        <span><%= link "Delete", to: Routes.note_path(@conn, :delete, note), method: :delete, data: [confirm: "Are you sure?"] %></span>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
-
-<span><%= link "New Note", to: Routes.note_path(@conn, :new) %></span>
+        <div class="column column-75">
+          <p><%= note.body %></p>
+        </div>
+        <div class="meta column column-10">
+          <div class="dropdown">
+            <a href="javascript:void(0)" class="dropdown-trigger">
+              <%= img_tag(Routes.static_path(@conn, "/images/gear.svg"), class: "dropdown-trigger-icon") %>
+            </a>
+            <div class="dropdown-content">
+              <%= link "Edit", to: Routes.note_path(@conn, :edit, note) %>
+              <%= link "Remove", to: Routes.note_path(@conn, :delete, note), method: :delete, data: [confirm: "Are you sure that you want the selected note?"] %>
+            </div>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</div>

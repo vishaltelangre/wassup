@@ -1,0 +1,67 @@
+#notes li {
+  list-style-type: none;
+  border-bottom: 1px solid #000;
+  padding: 3px 10px;
+  margin: 1px 0 0 0;
+  width: 100%;
+}
+
+#notes li:hover {
+  background: rgba(0, 0, 0, 0.3) !important;
+  transition: background 0.5s ease;
+}
+
+#notes li:first-child {
+  margin-top: 0;
+}
+
+#notes li:last-child {
+  border-bottom: 0px solid #000;
+  margin-bottom: 0;
+}
+
+#notes li:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+#notes li .meta {
+  display: flex !important;
+  align-items: center;
+  justify-items: center;
+}
+
+#notes li p {
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  color: #aaa;
+  word-break: break-word;
+  max-width: 100%;
+}
+
+#notes li .label {
+  border-radius: 5px;
+  padding: 2px 5px;
+  text-shadow: 0 1px 0 #333;
+  background-color: #333;
+  font-size: 10px;
+  color: #999;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.notes-page ul {
+  list-style: circle inside;
+  box-shadow: 2px 2px 3px 0px #000;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.notes-page li {
+  border-bottom: 1px solid #111;
+}
+
+.notes-page li .sentiment-emoji {
+  width: 24px;
+  height: 24px;
+}

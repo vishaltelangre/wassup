@@ -8,7 +8,7 @@
       <br/>
       <h2>
         Recent
-        <%= link "See more ...", to: "#", class: "widget-meta-link" %>
+        <%= link "See more ...", to: Routes.note_path(@conn, :index), class: "widget-meta-link" %>
       </h2>
       <div class="widget">
         <ul id="notes"></ul>

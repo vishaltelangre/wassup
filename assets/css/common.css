@@ -5,15 +5,26 @@ body {
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCI+CjxmaWx0ZXIgaWQ9Im4iPgo8ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjciIG51bU9jdGF2ZXM9IjEwIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIj48L2ZlVHVyYnVsZW5jZT4KPC9maWx0ZXI+CjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWxsPSIjMDAwIj48L3JlY3Q+CjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWx0ZXI9InVybCgjbikiIG9wYWNpdHk9IjAuNCI+PC9yZWN0Pgo8L3N2Zz4=");
 }
 
-textarea {
+input, textarea {
+  color: #fff;
   font-size: 14px;
+}
+
+textarea {
   border: 0px solid #000;
   box-shadow: 2px 3px 10px -5px #000;
   margin-bottom: 0;
   height: 120px;
   max-height: 120px;
   resize: none;
-  color: #fff;
+}
+
+.back-link {
+  display: inline-block;
+  font-weight: normal;
+  text-shadow: 0 1px 0 #000;
+  letter-spacing: normal;
+  margin-bottom: 20px;
 }
 
 #sentiment-line-chart {

@@ -1,0 +1,31 @@
+.auth-page {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.auth-page h2 {
+  text-align: center;
+  margin: 40px auto;
+}
+
+.auth-page .control-label {
+  font-size: 14px;
+  font-weight: normal;
+  color: #666;
+  text-shadow: 1px 2px 1px #000;
+}
+
+.auth-page input {
+  border-color: #999;
+}
+
+.auth-page .actions {
+  text-align: center;
+}
+
+.auth-page .divider {
+  display: block;
+  color: #555;
+  text-shadow: 2px 2px 1px #000;
+  margin-bottom: 1rem;
+}

@@ -101,8 +101,8 @@ const createPrimarySeries = (chart, dateFieldName, valueFieldName) => {
   series.dataFields.dateX = dateFieldName;
   series.dataFields.valueY = valueFieldName;
   series.sequencedInterpolation = true;
-  series.fill = am4core.color("#9cc");
-  series.fillOpacity = 0.1;
+  series.fill = am4core.color("#000");
+  series.fillOpacity = 0.2;
   series.defaultState.transitionDuration = 1000;
   series.tensionX = 1;
   series.tensionY = 1;

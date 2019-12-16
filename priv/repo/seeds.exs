@@ -22,7 +22,7 @@ alias WassupApp.Notes
 
 Enum.map(1..100, fn n ->
   Notes.create_note_for_user(user.id, %{
-    body: "John's #{n} note",
+    body: "John's #{n - 101} note",
     favorite: Enum.random(0..1) == 0,
     sentiment: Enum.random(WassupApp.Notes.Note.sentiment_details() |> Map.keys()),
     submitted_at: DateTime.utc_now() |> DateTime.add(-60 * 60 * 24 * n)
