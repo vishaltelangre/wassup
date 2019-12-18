@@ -19,7 +19,6 @@ defmodule WassupApp.UeberauthInfoParser do
   end
 
   def parse(%Auth{} = auth) do
-    IO.inspect(basic_info(auth))
     {:ok, basic_info(auth)}
   end
 

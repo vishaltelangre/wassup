@@ -45,8 +45,6 @@ defmodule WassupAppWeb.AuthController do
         |> redirect(to: "/")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        IO.inspect(changeset, label: "Error while creating user from auth")
-
         conn
         |> put_flash(:error, "Something went wrong")
         |> redirect(to: Routes.login_path(conn, :request))

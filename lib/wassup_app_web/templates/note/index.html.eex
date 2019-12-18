@@ -1,6 +1,40 @@
-<%= link "← Back to dashboard", to: Routes.dashboard_path(@conn, :index), class: "back-link" %>
+<%= link "⟵ Back to dashboard", to: Routes.dashboard_path(@conn, :index), class: "back-link" %>
 <div id="notes" class="notes-page">
   <h1>Notes</h1>
+
+  <%= if @conn.params["filter"]["q"] == nil && @paginate[:total_count] == 0 do %>
+    <div class="no-results">
+      No results found.
+    </div>
+  <% else %>
+    <div class="criteria">
+        <%= form_for :filter, Routes.note_path(@conn, :index), [method: :get], fn f -> %>
+          <span class="search">
+            <%= img_tag(Routes.static_path(@conn, "/images/search.svg"), class: "search-icon") %>
+            <%= text_input(f, :q, value: @conn.params["filter"]["q"], class: "value", placeholder: "Search", onchange: "this.form.submit();") %>
+            <%= if search_filter_present?(@conn) do %>
+              <%= link to: reset_search_filter_path(@conn), class: "reset-search", title: "Reset Search" do %>
+                <%= img_tag(Routes.static_path(@conn, "/images/clear.svg"), class: "clear-icon") %>
+              <% end %>
+            <% end %>
+          </span>
+          <%= if @paginate[:total_count] > 0 do %>
+            <%= pagination_links(@conn, @paginate, []) %>
+            <span class="per-page-results">
+              Show&nbsp;
+              <%= select(f, :per_page, [10, 20, 30, 50, 100], selected: @paginate[:per_page], class: "value", onchange: "this.form.submit();") %>
+              &nbsp;per page
+            </span>
+          <% end %>
+        <% end %>
+    </div>
+  <% end %>
+
+  <%= if search_filter_present?(@conn) && @paginate[:total_count] == 0 do %>
+    <div class="no-results">
+      No results found for <strong><%= @conn.params["filter"]["q"] %></strong>.
+    </div>
+  <% end %>
 
   <ul>
     <%= for note <- @notes do %>

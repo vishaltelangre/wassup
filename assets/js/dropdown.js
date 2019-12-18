@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const closestTriggerTarget = target && target.closest(`.${triggerClassName}`);
     if (closestTriggerTarget) {
       const content = closestTriggerTarget.parentNode.querySelector(`.${contentClassName}`);
-      content.classList.add("show");
+      content.classList.toggle("show");
     }
   }, false);
 });

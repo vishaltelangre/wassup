@@ -16,7 +16,8 @@
 }
 
 .auth-page input {
-  border-color: #999;
+  border: 1px solid #111;
+  box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.5);
 }
 
 .auth-page .actions {

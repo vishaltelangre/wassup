@@ -6,7 +6,7 @@ defmodule WassupApp.Notes do
   import Ecto.Query, warn: false
   alias WassupApp.Repo
 
-  alias WassupApp.Notes.Note
+  alias WassupApp.Notes.{Note, FilteredNotePaginator}
 
   @doc """
   Returns the list of notes for a user.
@@ -34,6 +34,19 @@ defmodule WassupApp.Notes do
       end
 
     Repo.all(query)
+  end
+
+  @doc """
+  Returns the filtered and paginated notes for a user.
+
+  ## Examples
+
+      iex> paginate_notes_for_user("1234", %{"q" => "house", "per_page" => 10, "page" => 2})
+      %{data: [%Note{}, ...], paginate: %{current_page: 2, next_page: 3, per_page: 10, prev_page: 1, total_count: 50, total_pages: 5}}
+
+  """
+  def paginate_notes_for_user(user_id, criteria \\ %{}) do
+    Note |> where(user_id: ^user_id) |> FilteredNotePaginator.paginate(criteria)
   end
 
   @doc """

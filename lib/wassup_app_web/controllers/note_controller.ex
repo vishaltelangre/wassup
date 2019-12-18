@@ -6,9 +6,11 @@ defmodule WassupAppWeb.NoteController do
 
   plug :authorize_note when action in [:show, :edit, :update, :delete]
 
-  def index(conn, _params) do
-    notes = Notes.list_notes_for_user(conn.assigns.current_user.id)
-    render(conn, "index.html", notes: notes)
+  def index(conn, params) do
+    %{data: data, paginate: paginate} =
+      Notes.paginate_notes_for_user(conn.assigns.current_user.id, params["filter"] || %{})
+
+    render(conn, "index.html", notes: data, paginate: paginate)
   end
 
   def new(conn, _params) do
