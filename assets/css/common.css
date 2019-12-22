@@ -19,6 +19,10 @@ textarea {
   resize: none;
 }
 
+table {
+  margin-bottom: 0;
+}
+
 .back-link {
   display: inline-block;
   font-weight: normal;

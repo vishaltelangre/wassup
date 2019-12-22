@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Close all expanded dropdowns
     const dropdowns = document.getElementsByClassName(contentClassName);
     for (let dropdown of dropdowns) {
-      if (dropdown.classList.contains(showClassName)) {
+      const containsDateRangePicker = dropdown.closest('.daterange-picker');
+      if (dropdown.classList.contains(showClassName) && !containsDateRangePicker) {
         dropdown.classList.remove(showClassName);
       }
     }

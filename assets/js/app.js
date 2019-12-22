@@ -18,6 +18,7 @@ import socket from "./socket"
 import "./dropdown";
 import { initializeDashboard } from "./dashboard";
 import "./note";
+import "./daterange_picker";
 
 document.addEventListener('DOMContentLoaded', () => {
   initializeDashboard();

@@ -6,3 +6,4 @@
 @import "./auth.css";
 @import "./notes.css";
 @import "./dashboard.css";
+@import "~@bevacqua/rome/dist/rome.css";

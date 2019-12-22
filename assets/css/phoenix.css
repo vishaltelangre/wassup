@@ -118,6 +118,20 @@ header nav a {
   display: inline-block;
 }
 
+/* Custom Button Sizes */
+
+.button-small {
+  font-size: .8rem;
+  height: 2.8rem;
+  line-height: 2.8rem;
+  padding: 0 1.5rem;
+}
+
+.button-clear {
+  background-color: transparent;
+  border-color: transparent;
+}
+
 @media (min-width: 40.0rem) { /* Small devices (landscape phones, 576px and up) */
   header section {
     flex-direction: row;

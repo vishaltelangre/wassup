@@ -26,7 +26,7 @@ defmodule WassupApp.MixProject do
 
   defp app_list(:dev), do: [:dotenv | app_list()]
   defp app_list(_), do: app_list()
-  defp app_list(), do: [:logger, :ueberauth, :ueberauth_identity, :ueberauth_google]
+  defp app_list(), do: [:logger, :ueberauth, :ueberauth_identity, :ueberauth_google, :timex]
 
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]
@@ -52,7 +52,8 @@ defmodule WassupApp.MixProject do
       {:ueberauth_identity, "~> 0.2"},
       {:ueberauth_google, "~> 0.8"},
       {:argon2_elixir, "~> 2.0"},
-      {:dotenv, "~> 3.0.0"}
+      {:dotenv, "~> 3.0.0"},
+      {:timex, "~> 3.5"}
     ]
   end
 
