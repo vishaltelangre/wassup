@@ -1,9 +1,11 @@
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import am4themes_dark from "@amcharts/amcharts4/themes/dark";
 
 const globalSetup = () => {
   // Enable themes
+  am4core.useTheme(am4themes_dark);
   am4core.useTheme(am4themes_animated);
 };
 
@@ -178,13 +180,13 @@ const createScrollbar = (chart, dateFieldName, valueFieldName) => {
   scrollbarSeries.defaultState.properties.visible = false;
   // Hide this series from legend, too (in case there is one)
   scrollbarSeries.hiddenInLegend = true;
-  scrollbarSeries.fillOpacity = 0.1;
-  scrollbarSeries.strokeOpacity = 0.2;
   // Create a horizontal scrollbar and place it beneath the date axis
   var scrollbar = new am4charts.XYChartScrollbar();
   scrollbar.series.push(scrollbarSeries);
   scrollbar.marginTop = 40;
   scrollbar.height = 30;
+  scrollbar.fillOpacity = 0;
+  scrollbar.strokeOpacity = 0;
   chart.scrollbarX = scrollbar;
   scrollbar.parent = chart.bottomAxesContainer;
   // Hide scrollbar series otherwise it is displayed on top of the primary

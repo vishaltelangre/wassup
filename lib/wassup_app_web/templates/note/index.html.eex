@@ -35,16 +35,7 @@
                 <div class="dropdown-content">
                   <div class="row">
                     <div class="column column-25">
-                      <%= link "Today", to: {:javascript, "void(0)"}, class: "today" %>
-                      <%= link "Yesterday", to: {:javascript, "void(0)"}, class: "yesterday" %>
-                      <%= link "Last 7 Days", to: {:javascript, "void(0)"}, class: "last-7-days" %>
-                      <%= link "Last 30 Days", to: {:javascript, "void(0)"}, class: "last-30-days" %>
-                      <%= link "This Month", to: {:javascript, "void(0)"}, class: "this-month" %>
-                      <%= link "Last Month", to: {:javascript, "void(0)"}, class: "last-month" %>
-                      <%= link "Last 3 Months", to: {:javascript, "void(0)"}, class: "last-3-months" %>
-                      <%= link "This Year", to: {:javascript, "void(0)"}, class: "this-year" %>
-                      <%= link "Last Year", to: {:javascript, "void(0)"}, class: "last-year" %>
-                      <%= link "Last 5 Years", to: {:javascript, "void(0)"}, class: "last-5-years" %>
+                      <%= period_option_links(@conn) %>
                       <%= link "Custom Period", to: {:javascript, "void(0)"}, class: "custom-period" %>
                     </div>
                     <div class="column column-75">

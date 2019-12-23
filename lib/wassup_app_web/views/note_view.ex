@@ -1,29 +1,19 @@
 defmodule WassupAppWeb.NoteView do
   use WassupAppWeb, :view
 
-  import WassupAppWeb.SharedView, only: [sentiments: 0]
+  import WassupAppWeb.SharedView, only: [sentiments: 0, reset_filter_path: 2, filter_present?: 2]
   import WassupAppWeb.PaginateView, only: [pagination_links: 3]
 
-  def reset_filter_path(conn = %Plug.Conn{}, filter_name) do
-    conn |> reset_filter_path(filter_name, conn.params["filter"])
+  alias WassupApp.PeriodOptions
+
+  def period_option_links(conn) do
+    PeriodOptions.options() |> Enum.map(fn option -> period_option_link(conn, option) end)
   end
 
-  def reset_filter_path(conn, _filter_name, _filter_params = nil) do
-    Path.join(["/" | conn.path_info])
-  end
+  def period_option_link(conn, option) do
+    class =
+      option |> to_string |> String.trim() |> String.downcase() |> String.replace(~r/\s+/, "-")
 
-  def reset_filter_path(conn, filter_name, filter_params) do
-    filter_params |> Map.delete(filter_name) |> Map.delete("page") |> reset_filters_path(conn)
-  end
-
-  defp reset_filters_path(new_filter_params, conn) do
-    params = Map.put(conn.params, "filter", new_filter_params)
-    Path.join(["/" | conn.path_info]) <> "?" <> Plug.Conn.Query.encode(params)
-  end
-
-  def filter_present?(conn, filter_name) do
-    filter = conn.params["filter"][filter_name]
-
-    !(filter == nil || String.length(String.trim(filter)) == 0)
+    link(option, to: {:javascript, "void(0)"}, class: class)
   end
 end

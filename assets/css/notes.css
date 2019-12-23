@@ -66,73 +66,6 @@
   height: 32px;
 }
 
-.notes-page .criteria {
-  display: flex;
-  font-size: 14px;
-  color: #777;
-  text-shadow: 2px 2px 0px #111;
-  margin: 20px 0;
-  padding: 10px;
-  border: 1px solid rgba(25, 25, 25, 0.4);
-  box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, 0.3) inset;
-  border-radius: 10px;
-}
-
-.notes-page .criteria ul, .notes-page .criteria input, .notes-page .criteria select {
-  margin-bottom: 0;
-}
-
-.notes-page .criteria form {
-  display: flex;
-  justify-content:space-around;
-  margin-bottom: 0;
-  width: 100%;
-  align-items: center;
-  justify-items: center;
-}
-
-.notes-page .criteria .search {
-  position: relative;
-}
-
-.notes-page .criteria .search img.search-icon {
-  left: 0px;
-  position: absolute;
-  top: 6px;
-  padding-right: 20px;
-  opacity: 1;
-  width: 44px;
-  height: 32px;
-}
-
-.notes-page .criteria .period img.calendar-icon {
-  left: 3px;
-  position: absolute;
-  top: 8px;
-  padding-right: 20px;
-  opacity: 1;
-  width: 44px;
-  height: 24px;
-}
-
-.notes-page .criteria img.clear-icon {
-  right: 3px;
-  position: absolute;
-  top: 8px;
-  padding-left: 5px;
-  opacity: 1;
-  width: 24px;
-  height: 24px;
-}
-
-.notes-page .criteria .total-count, .notes-page .criteria .per-page-results, .notes-page .criteria .search {
-  display: inline-block;
-}
-
-.notes-page .criteria .value {
-  font-weight: bold;
-}
-
 .notes-page nav {
   display: flex;
   justify-content: space-around;
@@ -144,36 +77,6 @@
 
 .notes-page ul.pagination li {
   border-bottom: 0px solid #000 !important;
-}
-
-.notes-page .criteria .value {
-  color: #ccc;
-}
-
-.notes-page .criteria .search .value, .notes-page .criteria .period .value {
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.5);
-  padding: 0 22px 0 30px;
-}
-
-.notes-page .criteria .search .value:focus, .notes-page .criteria .period .value:focus {
-  border-color: #0069d9;
-  outline: 0;
-}
-
-.notes-page .criteria .search .value, .notes-page .criteria .period .value {
-  min-width: 280px;
-}
-
-.notes-page .criteria .per-page-results .value {
-  padding: 0 25px 0 5px;
-  border: 0;
-  box-shadow: 0 0 0 0;
-}
-
-.notes-page .criteria .dropdown-content {
-  width: 600px;
-  right: -40%;
 }
 
 .notes-page .period .from, .notes-page .period .to {
@@ -232,21 +135,6 @@
 }
 
 @media (max-width: 42.5rem) {
-  .notes-page .criteria .search .value, .notes-page .criteria .period .value {
-    min-width: 100px;
-  }
-
-  .notes-page .criteria .per-page-results {
-    line-height: 0px;
-    margin-left: 10px;
-    font-size: 12px;
-  }
-
-  .notes-page .criteria .dropdown-content {
-    width: 490px;
-    right: -140px;
-  }
-
   .period .actions {
     text-align: left;
   }

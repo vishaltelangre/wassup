@@ -1,0 +1,32 @@
+<%= link "⟵ Back to dashboard", to: Routes.dashboard_path(@conn, :index), class: "back-link" %>
+<div class="timeline-graph-page">
+  <h1>Mood Chart</h1>
+
+  <div class="criteria">
+    <%= form_for :filter, Routes.graph_path(@conn, :timeline), [method: :get], fn f -> %>
+      <span class="search">
+        <%= img_tag(Routes.static_path(@conn, "/images/search.svg"), class: "search-icon") %>
+        <%= text_input(f, :q, value: @conn.params["filter"]["q"], class: "value", placeholder: "Search", onchange: "this.form.submit();") %>
+        <%= if filter_present?(@conn, "q") do %>
+          <%= link to: reset_filter_path(@conn, "q"), class: "reset-search", title: "Reset Search" do %>
+            <%= img_tag(Routes.static_path(@conn, "/images/clear.svg"), class: "clear-icon") %>
+          <% end %>
+        <% end %>
+      </span>
+      <div class="period">
+        <div class="dropdown">
+          <a href="javascript:void(0)" class="dropdown-trigger">
+            <%= img_tag(Routes.static_path(@conn, "/images/calendar.svg"), class: "calendar-icon") %>
+            <%= text_input(f, :period, value: period_filter_value(@conn), class: "value", placeholder: "Period", onchange: "this.form.submit();", readonly: true) %>
+          </a>
+          <div class="dropdown-content">
+            <%= period_option_links(@conn) %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div id="detailed-timeline-chart" data-notes="<%= Jason.encode!(@notes) %>"></div>
+</div>

@@ -34,6 +34,7 @@ defmodule WassupAppWeb.Router do
     pipe_through [:browser, :valid_user]
 
     get "/", DashboardController, :index
+    get "/graphs/timeline", GraphController, :timeline
 
     resources "/notes", NoteController
   end

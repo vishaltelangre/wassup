@@ -1,0 +1,16 @@
+.timeline-graph-page .criteria .dropdown-content {
+  width: 280px;
+  right: 0;
+}
+
+.timeline-graph-page .period .dropdown-content a.active {
+  font-weight: bold;
+  background: #333;
+  color: #999;
+}
+
+#detailed-timeline-chart {
+  margin-top: 50px;
+  height: 500px;
+  min-height: 500px;
+}

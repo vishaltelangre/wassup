@@ -18,22 +18,37 @@ defmodule WassupApp.Notes do
 
   """
   def list_notes_for_user(user_id, options \\ []) do
-    default_options = [order_by: [desc: :submitted_at], limit: -1]
+    default_options = [order_by: [desc: :submitted_at]]
     options = Keyword.merge(default_options, options)
 
     query =
       Note
       |> where(user_id: ^user_id)
+      |> maybe_between_period(options[:period])
+      |> maybe_search_condition(options[:q])
       |> order_by(^options[:order_by])
-
-    query =
-      if options[:limit] == -1 do
-        query
-      else
-        query |> limit(^options[:limit])
-      end
+      |> maybe_limit(options[:limit])
 
     Repo.all(query)
+  end
+
+  defp maybe_between_period(query, %{from: from, to: to}) do
+    query |> where([n], n.submitted_at >= ^from and n.submitted_at <= ^to)
+  end
+
+  defp maybe_between_period(query, _period), do: query
+
+  defp maybe_search_condition(query, ""), do: query
+  defp maybe_search_condition(query, nil), do: query
+
+  defp maybe_search_condition(query, q) do
+    query |> where([n], ilike(n.body, ^"%#{q}%"))
+  end
+
+  defp maybe_limit(query, _limit = nil), do: query
+
+  defp maybe_limit(query, limit) do
+    query |> limit(^limit)
   end
 
   @doc """

@@ -20,8 +20,10 @@ import { initializeDashboard } from "./dashboard";
 import "./note";
 import "./daterange_picker";
 import { localizeDateTimes } from "./localize_datetime";
+import { renderDetailedTimelineChart } from "./charts/detailed_timeline_chart";
 
 document.addEventListener('DOMContentLoaded', () => {
   initializeDashboard();
   localizeDateTimes();
+  renderDetailedTimelineChart();
 });

@@ -17,7 +17,7 @@
     <div class="column">
       <h2>
         How's your mood recently?
-        <%= link "See in detail", to: "#", class: "widget-meta-link" %>
+        <%= link "See in detail", to: Routes.graph_path(@conn, :timeline), class: "widget-meta-link" %>
       </h2>
       <div class="widget">
         <div id="sentiment-line-chart"></div>

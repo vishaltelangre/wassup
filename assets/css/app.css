@@ -2,8 +2,10 @@
 
 @import "./phoenix.css";
 @import "./dropdown.css";
+@import "./criteria.css";
 @import "./common.css";
 @import "./auth.css";
 @import "./notes.css";
+@import "./graph.css";
 @import "./dashboard.css";
 @import "~@bevacqua/rome/dist/rome.css";
