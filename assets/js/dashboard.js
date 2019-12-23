@@ -1,5 +1,6 @@
 import { renderLineChart } from "./charts/sentiment_line_chart";
 import socket from "./socket";
+import { localizeDateTime, dateTimeFromNow } from "./localize_datetime";
 
 let sentimentLineChartRef;
 
@@ -47,40 +48,6 @@ const renderSentimentLineChart = (data = []) => {
   sentimentLineChartRef = renderLineChart(targetNodeId, data, { sentimentDetails, interactive: false });
 };
 
-const relativeTime = time => {
-  const msPerMinute = 60 * 1000;
-  const msPerHour = msPerMinute * 60;
-  const msPerDay = msPerHour * 24;
-  const msPerMonth = msPerDay * 30;
-  const msPerYear = msPerDay * 365;
-
-  const elapsed = new Date() - time;
-
-  if (elapsed < msPerMinute) {
-    return Math.round(elapsed / 1000) + ' seconds ago';
-  }
-
-  else if (elapsed < msPerHour) {
-    return Math.round(elapsed / msPerMinute) + ' minutes ago';
-  }
-
-  else if (elapsed < msPerDay) {
-    return Math.round(elapsed / msPerHour) + ' hours ago';
-  }
-
-  else if (elapsed < msPerMonth) {
-    return 'about ' + Math.round(elapsed / msPerDay) + ' days ago';
-  }
-
-  else if (elapsed < msPerYear) {
-    return 'about ' + Math.round(elapsed / msPerMonth) + ' months ago';
-  }
-
-  else {
-    return 'about ' + Math.round(elapsed / msPerYear) + ' years ago';
-  }
-}
-
 const truncate = (text, length) => {
   const elipsis = text.length > length ? '...' : '';
   return text.substring(0, length) + elipsis;
@@ -98,11 +65,12 @@ const refreshList = (data = []) => {
       const { value } = App.sentimentDetails[key];
       return value === sentiment;
     })[0];
+    const localDateTime = localizeDateTime(date).format('MMM DD, YYYY - hh:mm:ss A');
 
     return `
       <li class="row" style="border-left: 5px solid ${sentimentDetails[sentimentName].color};">
         <div class="meta column column-33">
-          <span class="label">${relativeTime(date)}</span>
+          <span class="label" title="${localDateTime}">${dateTimeFromNow(date)}</span>
 
         </div>
         <p class="column column-67" title="${body}">${truncate(body, 75)}</p>

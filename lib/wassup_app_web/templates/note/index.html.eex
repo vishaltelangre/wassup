@@ -89,7 +89,7 @@
       <li class="row">
         <div class="meta column column-20">
           <%= img_tag(Routes.static_path(@conn, "/images/#{note.sentiment}.svg"), class: "sentiment-emoji") %>
-          <span class="label"><%= note.submitted_at %></span>
+          <span class="label datetime" data-datetime="<%= note.submitted_at %>"><%= note.submitted_at %></span>
         </div>
 
         <div class="column column-75">

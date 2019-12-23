@@ -19,7 +19,9 @@ import "./dropdown";
 import { initializeDashboard } from "./dashboard";
 import "./note";
 import "./daterange_picker";
+import { localizeDateTimes } from "./localize_datetime";
 
 document.addEventListener('DOMContentLoaded', () => {
   initializeDashboard();
+  localizeDateTimes();
 });
