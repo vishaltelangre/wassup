@@ -7,7 +7,7 @@
       </div>
       <br/>
       <h2>
-        Recent
+        Recent Notes
         <%= link "See more ...", to: Routes.note_path(@conn, :index), class: "widget-meta-link" %>
       </h2>
       <div class="widget">
@@ -16,7 +16,7 @@
     </div>
     <div class="column">
       <h2>
-        How's the mood recently?
+        How's your mood recently?
         <%= link "See in detail", to: "#", class: "widget-meta-link" %>
       </h2>
       <div class="widget">

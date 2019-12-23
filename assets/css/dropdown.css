@@ -54,4 +54,9 @@
   height: 24px;
   line-height: 24px;
   vertical-align: middle;
+  opacity: 0.5;
+}
+
+.dropdown-trigger-icon:hover {
+  opacity: 1;
 }

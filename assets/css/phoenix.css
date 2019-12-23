@@ -21,7 +21,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 10px;
   font-weight: bold;
   text-shadow: 2px 4px 0 #000;
-  color: rgba(255, 255, 255, 0.7);
+  color: #fff;
 }
 
 .container{
