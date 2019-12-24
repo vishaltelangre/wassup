@@ -23,6 +23,19 @@ table {
   margin-bottom: 0;
 }
 
+nav.main a {
+  color: #ccc;
+}
+
+nav.main a:hover {
+  color: #fff;
+}
+
+.dropdown-icon {
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="14" viewBox="0 0 29 14" width="29"><path fill="%23d1d1d1" d="M9.37727 3.625l5.08154 6.93523L19.54036 3.625"/></svg>') center right no-repeat;
+  padding-right: 3.0rem;
+}
+
 .back-link {
   display: inline-block;
   font-weight: normal;

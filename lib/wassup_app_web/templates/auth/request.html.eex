@@ -1,5 +1,5 @@
 <div class="auth-page">
-  <h2>Login</h2>
+  <h1>Sign In</h1>
   <%= form_tag Routes.auth_path(@conn, :identity_callback), method: "post" do %>
     <div class='control-group'>
       <label class='control-label' for='email-input'>Email</label>
@@ -13,10 +13,12 @@
 
     <div class='control-group actions'>
       <div>
-        <button class='btn btn-primary'>Login</button>
-        <span class= "divider">OR</span>
-        <%= link "Login using Google", to: Routes.auth_path(@conn, :request, "google"), class: "button button-outline" %>
+        <button class='btn btn-primary'>Sign In</button>
+        <span class= "divider">or</span>
+        <%= link "Sign In using Google", to: Routes.auth_path(@conn, :request, "google"), class: "button button-small button-outline" %>
       </div>
     </div>
   <% end %>
+
+  <p class="help-text">Don't have account, <%= link "Sign Up", to: Routes.registration_path(@conn, :new) %></p>
 </div>

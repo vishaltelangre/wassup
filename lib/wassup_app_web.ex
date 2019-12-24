@@ -51,7 +51,9 @@ defmodule WassupAppWeb do
       use Phoenix.Router
       import Plug.Conn
       import Phoenix.Controller
-      import WassupAppWeb.Plugs.Auth, only: [valid_user: 2]
+
+      import WassupAppWeb.Plugs.Auth,
+        only: [valid_user: 2, ensure_not_signed_in: 2, ensure_password_is_set: 2]
     end
   end
 

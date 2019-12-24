@@ -1,4 +1,7 @@
 <div class="auth-page">
-  <h2>Sign Up</h2>
-  <%= render "form.html", Map.put(assigns, :action, Routes.registration_path(@conn, :create)) %>
+  <h1>Sign Up</h1>
+
+  <%= render "form.html", assigns |> Map.put(:action, Routes.registration_path(@conn, :create)) |> Map.put(:editing, false) |> Map.put(:prompt_password, false) %>
+
+  <p class="help-text">Already have an account, <%= link "Sign In", to: Routes.login_path(@conn, :request) %></p>
 </div>

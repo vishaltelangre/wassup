@@ -4,18 +4,13 @@ defmodule WassupAppWeb.NoteController do
   alias WassupApp.Notes
   alias WassupApp.Notes.Note
 
-  plug :authorize_note when action in [:show, :edit, :update, :delete]
+  plug :authorize_note when action in [:edit, :update, :delete]
 
   def index(conn, params) do
     %{data: data, paginate: paginate} =
       Notes.paginate_notes_for_user(conn.assigns.current_user.id, params["filter"] || %{})
 
     render(conn, "index.html", notes: data, paginate: paginate)
-  end
-
-  def new(conn, _params) do
-    changeset = Notes.change_note(%Note{})
-    render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"note" => note_params}) do
@@ -30,10 +25,6 @@ defmodule WassupAppWeb.NoteController do
         |> put_status(:unprocessable_entity)
         |> render(WassupAppWeb.ErrorView, "error.json", changeset: changeset)
     end
-  end
-
-  def show(conn, %{"id" => _id}) do
-    render(conn, "show.html")
   end
 
   def edit(conn, %{"id" => _id}) do

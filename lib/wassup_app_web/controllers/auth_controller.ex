@@ -1,7 +1,6 @@
 defmodule WassupAppWeb.AuthController do
   use WassupAppWeb, :controller
   plug Ueberauth
-  plug :ensure_not_signed_in when action in [:request, :callback, :identity_callback]
 
   alias WassupApp.Accounts
   alias WassupApp.Accounts.User
@@ -81,13 +80,5 @@ defmodule WassupAppWeb.AuthController do
     conn
     |> put_flash(:error, error)
     |> render("request.html")
-  end
-
-  defp ensure_not_signed_in(conn, _) do
-    if conn.assigns.current_user do
-      conn |> redirect(to: "/") |> halt()
-    else
-      conn
-    end
   end
 end

@@ -1,0 +1,11 @@
+<%= if not(is_nil(@current_user.password_hash)) do %>
+  <%= link "⟵ Dashboard", to: Routes.dashboard_path(@conn, :index), class: "back-link" %>
+<% end %>
+
+<div class="auth-page">
+  <h1>
+    <%= if is_nil(@current_user.password_hash), do: "Set Password & " %>
+    Update Account
+  </h1>
+  <%= render WassupAppWeb.RegistrationView, "form.html", assigns |> Map.put(:action, Routes.account_path(@conn, :update)) |> Map.put(:editing, true) |> Map.put(:prompt_password, is_nil(@current_user.password_hash)) %>
+</div>

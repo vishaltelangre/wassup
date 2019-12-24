@@ -3,30 +3,53 @@
   margin: 0 auto;
 }
 
-.auth-page h2 {
+.auth-page h1 {
+  font-size: 25px;
   text-align: center;
   margin: 40px auto;
+}
+
+.auth-page form {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  padding: 50px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  box-shadow: 2px 2px 1px 2px rgba(60, 60, 60, 0.18) inset;
 }
 
 .auth-page .control-label {
   font-size: 14px;
   font-weight: normal;
-  color: #666;
+  color: #999;
   text-shadow: 1px 2px 1px #000;
 }
 
-.auth-page input {
+.auth-page input, .auth-page select {
   border: 1px solid #111;
   box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 14px;
+  width: 100%;
 }
 
 .auth-page .actions {
+  margin-top: 20px;
   text-align: center;
 }
 
 .auth-page .divider {
   display: block;
-  color: #555;
+  font-size: 14px;
+  color: #999;
   text-shadow: 2px 2px 1px #000;
   margin-bottom: 1rem;
+}
+
+.auth-page .help-text {
+  font-size: 14px;
+  text-align: center;
+}
+
+.auth-page .help-text a {
+  font-weight: bold;
 }

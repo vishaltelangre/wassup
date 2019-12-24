@@ -18,7 +18,7 @@ defmodule WassupApp.Accounts.User do
   end
 
   @doc false
-  def registration_changeset(%User{} = user, attrs) do
+  def changeset(%User{} = user, attrs) do
     user
     |> cast(attrs, [:name, :email, :password, :password_confirmation, :verified_at, :timezone])
     |> validate_required([:name, :email])
@@ -33,7 +33,10 @@ defmodule WassupApp.Accounts.User do
 
   defp maybe_require_password(changeset) do
     case changeset do
-      %Ecto.Changeset{changes: %{verified_at: _}} ->
+      %Ecto.Changeset{changes: %{verified_at: verified_at}} when not is_nil(verified_at) ->
+        changeset
+
+      %Ecto.Changeset{data: %User{password_hash: password_hash}} when not is_nil(password_hash) ->
         changeset
 
       _ ->
@@ -43,7 +46,7 @@ defmodule WassupApp.Accounts.User do
 
   defp maybe_require_timezone(changeset) do
     case changeset do
-      %Ecto.Changeset{changes: %{verified_at: _}} ->
+      %Ecto.Changeset{changes: %{verified_at: verified_at}} when not is_nil(verified_at) ->
         changeset
 
       _ ->

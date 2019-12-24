@@ -11,11 +11,20 @@
   <body>
     <header>
       <section class="container">
-        <nav role="navigation">
+        <nav class="main" role="navigation">
           <ul>
             <li>
               <%= if @current_user do %>
-                (<%= @current_user.email %>) <%= link "Logout", to: Routes.logout_path(@conn, :delete), method: :delete %>
+                <div class="dropdown">
+                  <a href="javascript:void(0)" class="dropdown-trigger">
+                    <%= "#{@current_user.name}" %>
+                    <span class='dropdown-icon'></span>
+                  </a>
+                  <div class="dropdown-content">
+                    <%= link "Update Account", to: Routes.account_path(@conn, :edit) %>
+                    <%= link "Logout", to: Routes.logout_path(@conn, :delete), method: :delete %>
+                  </div>
+                </div>
               <% end %>
             </li>
           </ul>

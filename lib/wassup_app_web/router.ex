@@ -16,43 +16,41 @@ defmodule WassupAppWeb.Router do
   end
 
   scope "/", WassupAppWeb do
-    pipe_through :browser
+    pipe_through [:browser, :ensure_not_signed_in]
 
+    # Login
     get "/login", AuthController, :request, as: :login
-    delete "/logout", AuthController, :delete, as: :logout
+    get "/auth/:provider", AuthController, :request
+    get "/auth/:provider/callback", AuthController, :callback
+    post "/auth/identity/callback", AuthController, :identity_callback
 
-    resources "/register", RegistrationController, only: [:new, :create]
-  end
-
-  scope "/auth", WassupAppWeb do
-    pipe_through :browser
-
-    get "/:provider", AuthController, :request
-    get "/:provider/callback", AuthController, :callback
-    post "/identity/callback", AuthController, :identity_callback
+    # Registration
+    get "/register", RegistrationController, :new
+    post "/register", RegistrationController, :create
   end
 
   scope "/", WassupAppWeb do
     pipe_through [:browser, :valid_user]
 
-    get "/", DashboardController, :index
-    get "/graphs/timeline", GraphController, :timeline
+    # Logout
+    delete "/logout", AuthController, :delete, as: :logout
 
-    resources "/notes", NoteController
+    # Account Management
+    resources "/account", AccountController, singleton: true, only: [:edit, :update]
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", WassupAppWeb do
-  #   pipe_through :api
-  # end
-  #
-  # scope "/admin", WassupAppWeb.Admin, as: :admin do
-  #   pipe_through :browser
+  scope "/", WassupAppWeb do
+    pipe_through [:browser, :valid_user, :ensure_password_is_set]
 
-  #   resources "/images",  ImageController
-  #   resources "/reviews", ReviewController
-  #   resources "/users",   UserController
-  # end
+    # Dashboard
+    get "/", DashboardController, :index
+
+    # Graphs
+    get "/graphs/timeline", GraphController, :timeline
+
+    # Notes
+    resources "/notes", NoteController, except: [:new, :show]
+  end
 
   defp put_user_token(conn, _) do
     if current_user = conn.assigns[:current_user] do

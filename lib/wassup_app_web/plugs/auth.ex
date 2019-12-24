@@ -33,4 +33,22 @@ defmodule WassupAppWeb.Plugs.Auth do
         |> halt()
     end
   end
+
+  def ensure_not_signed_in(conn, _opts) do
+    if conn.assigns.current_user do
+      conn |> redirect(to: "/") |> halt()
+    else
+      conn
+    end
+  end
+
+  def ensure_password_is_set(conn, _opts) do
+    current_user = conn.assigns.current_user
+
+    if current_user && is_nil(current_user.password_hash) do
+      conn |> redirect(to: Routes.account_path(conn, :edit)) |> halt()
+    else
+      conn
+    end
+  end
 end

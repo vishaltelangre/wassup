@@ -74,7 +74,7 @@ defmodule WassupApp.Accounts do
   """
   def create_user(attrs \\ %{}) do
     %User{}
-    |> User.registration_changeset(attrs)
+    |> User.changeset(attrs)
     |> Repo.insert()
   end
 
@@ -93,7 +93,7 @@ defmodule WassupApp.Accounts do
   def find_or_create_user(attrs) do
     case get_user_by_email(attrs.email) do
       %User{} = user ->
-        user |> User.registration_changeset(attrs) |> Repo.update()
+        user |> update_user(attrs)
 
       nil ->
         create_user(attrs)
@@ -113,11 +113,9 @@ defmodule WassupApp.Accounts do
 
   """
   def update_user(%User{} = user, attrs) do
-    # TODO
-
-    # user
-    # |> User.changeset(attrs)
-    # |> Repo.update()
+    user
+    |> User.changeset(attrs)
+    |> Repo.update()
   end
 
   @doc """
@@ -146,7 +144,7 @@ defmodule WassupApp.Accounts do
 
   """
   def change_user(%User{} = user) do
-    User.registration_changeset(user, %{})
+    User.changeset(user, %{})
   end
 
   @doc """
