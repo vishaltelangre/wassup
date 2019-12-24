@@ -27,7 +27,7 @@ defmodule WassupAppWeb.AuthController do
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
     case UeberauthInfoParser.parse(auth) do
       {:ok, info} ->
-        authenticate_using_auth_info(conn, info)
+        conn |> authenticate_using_auth_info(Map.put(info, :verified_at, Timex.now()))
 
       {:error, reason} ->
         conn
@@ -38,13 +38,22 @@ defmodule WassupAppWeb.AuthController do
 
   defp authenticate_using_auth_info(conn, info) do
     case Accounts.find_or_create_user(info) do
-      {:ok, %{id: id}} ->
+      {:ok, %User{id: id, password_hash: _password_hash}} ->
         conn
         |> put_session(:user_id, id)
         |> configure_session(renew: true)
         |> redirect(to: "/")
 
+      {:error, %Ecto.Changeset{errors: [password: {_, _}], valid?: false} = changeset} ->
+        IO.inspect(changeset, label: "Password error")
+
+        conn
+        |> put_flash(:error, "Something went wrong")
+        |> redirect(to: Routes.login_path(conn, :request))
+
       {:error, %Ecto.Changeset{} = changeset} ->
+        IO.inspect(changeset, label: "Authentication failed")
+
         conn
         |> put_flash(:error, "Something went wrong")
         |> redirect(to: Routes.login_path(conn, :request))

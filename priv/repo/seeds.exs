@@ -17,6 +17,8 @@ alias WassupApp.Notes
   Accounts.find_or_create_user(%{
     name: "John Doe",
     email: "john@example.com",
+    timezone: Tzdata.zone_list() |> Enum.random(),
+    verified_at: Timex.now(),
     password: "test1234"
   })
 
@@ -33,6 +35,8 @@ end)
   Accounts.find_or_create_user(%{
     name: "Jane Doe",
     email: "jane@example.com",
+    timezone: Tzdata.zone_list() |> Enum.random(),
+    verified_at: Timex.now(),
     password: "test1234"
   })
 

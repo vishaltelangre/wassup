@@ -1,0 +1,39 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <div class='control-group'>
+    <label class='control-label' for='name-input'>Name</label>
+    <%= text_input f, :name %>
+    <%= error_tag f, :name %>
+  </div>
+
+  <div class='control-group'>
+    <label class='control-label' for='email-input'>Email</label>
+    <%= text_input f, :email %>
+    <%= error_tag f, :email %>
+  </div>
+
+  <div class='control-group'>
+    <label class='control-label' for='timezone-input'>Preferred Time Zone</label>
+    <%= select f, :timezone, Tzdata.zone_lists_grouped, prompt: "Select preferred time zone" %>
+    <%= error_tag f, :timezone %>
+  </div>
+
+  <div class='control-group'>
+    <label class='control-label' for='password-input'>Password</label>
+    <%= password_input f, :password %>
+    <%= error_tag f, :password %>
+  </div>
+
+  <div class='control-group'>
+    <label class='control-label' for='password-confirmation-input'>Confirm Password</label>
+    <%= password_input f, :password_confirmation %>
+    <%= error_tag f, :password_confirmation %>
+  </div>
+
+  <div class='control-group actions'>
+    <div>
+      <%= submit "Sign Up" %>
+      <span class= "divider">OR</span>
+      <%= link "Login using Google", to: Routes.auth_path(@conn, :request, "google"), class: "button button-outline" %>
+    </div>
+  </div>
+<% end %>

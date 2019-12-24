@@ -1,0 +1,4 @@
+<div class="auth-page">
+  <h2>Sign Up</h2>
+  <%= render "form.html", Map.put(assigns, :action, Routes.registration_path(@conn, :create)) %>
+</div>

@@ -74,18 +74,8 @@ defmodule WassupApp.Accounts do
   """
   def create_user(attrs \\ %{}) do
     %User{}
-    |> User.registration_changeset(attrs_with_random_password_when_missing(attrs))
+    |> User.registration_changeset(attrs)
     |> Repo.insert()
-  end
-
-  defp attrs_with_random_password_when_missing(attrs) do
-    random_password =
-      :crypto.strong_rand_bytes(16)
-      |> Base.url_encode64()
-      |> binary_part(0, 16)
-
-    attrs
-    |> Map.put_new(:password, random_password)
   end
 
   @doc """
@@ -102,8 +92,11 @@ defmodule WassupApp.Accounts do
   """
   def find_or_create_user(attrs) do
     case get_user_by_email(attrs.email) do
-      %User{} = user -> {:ok, user}
-      nil -> create_user(attrs)
+      %User{} = user ->
+        user |> User.registration_changeset(attrs) |> Repo.update()
+
+      nil ->
+        create_user(attrs)
     end
   end
 
@@ -141,6 +134,19 @@ defmodule WassupApp.Accounts do
   """
   def delete_user(%User{} = user) do
     Repo.delete(user)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking user changes.
+
+  ## Examples
+
+      iex> change_user(user)
+      %Ecto.Changeset{source: %User{}}
+
+  """
+  def change_user(%User{} = user) do
+    User.registration_changeset(user, %{})
   end
 
   @doc """

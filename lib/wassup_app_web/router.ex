@@ -20,6 +20,8 @@ defmodule WassupAppWeb.Router do
 
     get "/login", AuthController, :request, as: :login
     delete "/logout", AuthController, :delete, as: :logout
+
+    resources "/register", RegistrationController, only: [:new, :create]
   end
 
   scope "/auth", WassupAppWeb do
