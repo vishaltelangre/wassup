@@ -7,6 +7,7 @@ defmodule WassupApp.Notes do
   alias WassupApp.Repo
 
   alias WassupApp.Notes.{Note, FilteredNotePaginator}
+  alias WassupApp.Accounts.User
 
   @doc """
   Returns the list of notes for a user.
@@ -56,12 +57,14 @@ defmodule WassupApp.Notes do
 
   ## Examples
 
-      iex> paginate_notes_for_user("1234", %{"q" => "house", "per_page" => 10, "page" => 2})
+      iex> paginate_notes_for_user(%User{}, %{"q" => "house", "per_page" => 10, "page" => 2})
       %{data: [%Note{}, ...], paginate: %{current_page: 2, next_page: 3, per_page: 10, prev_page: 1, total_count: 50, total_pages: 5}}
 
   """
-  def paginate_notes_for_user(user_id, criteria \\ %{}) do
-    Note |> where(user_id: ^user_id) |> FilteredNotePaginator.paginate(criteria)
+  def paginate_notes_for_user(%User{} = user, criteria \\ %{}) do
+    Note
+    |> where(user_id: ^user.id)
+    |> FilteredNotePaginator.paginate(criteria |> Map.put("timezone", user.timezone))
   end
 
   @doc """

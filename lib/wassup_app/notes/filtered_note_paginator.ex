@@ -6,6 +6,7 @@ defmodule WassupApp.Notes.FilteredNotePaginator do
   @default_criteria %{
     "q" => "",
     "period" => "",
+    "timezone" => "Etc/UTC",
     "per_page" => 30,
     "page" => 1
   }
@@ -24,30 +25,32 @@ defmodule WassupApp.Notes.FilteredNotePaginator do
   defp rebuild_query(query, %{
          "q" => q,
          "period" => period,
+         "timezone" => timezone,
          "per_page" => per_page,
          "page" => page
        }) do
     query
-    |> maybe_between_period(period)
+    |> maybe_between_period(period, timezone)
     |> maybe_search_condition(q)
     |> order_by(desc: :submitted_at)
     |> limit(^per_page)
     |> offset((^page - 1) * ^per_page)
   end
 
-  defp maybe_between_period(query, ""), do: query
+  defp maybe_between_period(query, "", _timezone), do: query
 
-  defp maybe_between_period(query, period) do
+  defp maybe_between_period(query, period, timezone) do
     [from, to] = String.split(period, "-", trim: true)
+    from = parse_period_date(from, timezone) |> Timex.beginning_of_day()
+    to = parse_period_date(to, timezone) |> Timex.end_of_day()
 
-    from_date = String.trim(from) |> Timex.parse!("%b %e, %Y", :strftime) |> Timex.to_datetime()
+    query |> where([n], n.submitted_at >= ^from and n.submitted_at <= ^to)
+  end
 
-    to_date =
-      String.trim(to <> " 23:59:59")
-      |> Timex.parse!("%b %e, %Y %T", :strftime)
-      |> Timex.to_datetime()
-
-    query |> where([n], n.submitted_at >= ^from_date and n.submitted_at <= ^to_date)
+  defp parse_period_date(date, timezone) do
+    String.trim(date)
+    |> Timex.parse!("%b %e, %Y", :strftime)
+    |> Timex.to_datetime(timezone)
   end
 
   defp maybe_search_condition(query, ""), do: query

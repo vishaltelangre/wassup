@@ -8,7 +8,7 @@ defmodule WassupAppWeb.NoteController do
 
   def index(conn, params) do
     %{data: data, paginate: paginate} =
-      Notes.paginate_notes_for_user(conn.assigns.current_user.id, params["filter"] || %{})
+      Notes.paginate_notes_for_user(conn.assigns.current_user, params["filter"] || %{})
 
     render(conn, "index.html", notes: data, paginate: paginate)
   end
