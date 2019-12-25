@@ -1,8 +1,8 @@
 
 .dashboard .widget {
-  box-shadow: 2px 2px 3px 0px #000;
+  box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.15);
 }
 
 .widget-meta-link {
@@ -11,7 +11,6 @@
   float: right;
   line-height: 30px;
   font-weight: normal;
-  text-shadow: 0 1px 0 #000;
   letter-spacing: normal;
 }
 

@@ -28,6 +28,7 @@
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   border-radius: 5px;
   z-index: 1;
+  right: 0;
 }
 
 /* Links inside the dropdown */
@@ -46,8 +47,10 @@
   background-color: rgba(0, 0, 0, 1);
 }
 
-/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-.show {display:block;}
+/* Show the dropdown menu */
+.show {
+  display: block;
+}
 
 .dropdown-trigger-icon {
   width: 24px;

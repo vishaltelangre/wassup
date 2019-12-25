@@ -8,7 +8,7 @@
       <br/>
       <h2>
         Recent Notes
-        <%= link "See more ...", to: Routes.note_path(@conn, :index), class: "widget-meta-link" %>
+        <%= link "All Notes ⟶", to: Routes.note_path(@conn, :index), class: "widget-meta-link" %>
       </h2>
       <div class="widget">
         <ul id="notes"></ul>
@@ -17,7 +17,7 @@
     <div class="column">
       <h2>
         How's your mood recently?
-        <%= link "See in detail", to: Routes.graph_path(@conn, :timeline), class: "widget-meta-link" %>
+        <%= link "Detailed Chart ⟶", to: Routes.graph_path(@conn, :timeline), class: "widget-meta-link" %>
       </h2>
       <div class="widget">
         <div id="sentiment-line-chart"></div>

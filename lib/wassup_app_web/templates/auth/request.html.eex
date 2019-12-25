@@ -15,7 +15,10 @@
       <div>
         <button class='btn btn-primary'>Sign In</button>
         <span class= "divider">or</span>
-        <%= link "Sign In using Google", to: Routes.auth_path(@conn, :request, "google"), class: "button button-small button-outline" %>
+        <%= link to: Routes.auth_path(@conn, :request, "google"), class: "button button-small button-outline google-auth-button" do %>
+          <%= img_tag(Routes.static_path(@conn, "/images/google.svg")) %>
+          Sign In Using Google
+        <% end %>
       </div>
     </div>
   <% end %>

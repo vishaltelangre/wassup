@@ -1,7 +1,7 @@
 #notes li {
   list-style-type: none;
   border-bottom: 1px solid #000;
-  padding: 3px 10px;
+  padding: 6px 10px;
   margin: 1px 0 0 0;
   width: 100%;
 }
@@ -52,9 +52,9 @@
 
 .notes-page ul {
   list-style: circle inside;
-  box-shadow: 2px 2px 3px 0px #000;
+  box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.15);
 }
 
 .notes-page li {
@@ -64,6 +64,7 @@
 .notes-page li .sentiment-emoji {
   width: 32px;
   height: 32px;
+  filter: drop-shadow(2px 2px 1px rgba(0, 0, 0, 0.5));
 }
 
 .notes-page nav {

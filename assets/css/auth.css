@@ -14,7 +14,7 @@
   padding: 50px;
   background: rgba(0, 0, 0, 0.15);
   border-radius: 10px;
-  box-shadow: 2px 2px 1px 2px rgba(60, 60, 60, 0.18) inset;
+  box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.5);
 }
 
 .auth-page .control-label {
@@ -25,10 +25,6 @@
 }
 
 .auth-page input, .auth-page select {
-  border: 1px solid #111;
-  box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.5);
-  color: #fff;
-  font-size: 14px;
   width: 100%;
 }
 
@@ -52,4 +48,17 @@
 
 .auth-page .help-text a {
   font-weight: bold;
+}
+
+.auth-page .google-auth-button {
+  position: relative;
+  padding-left: 32px;
+}
+
+.auth-page .google-auth-button img {
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  top: 7px;
+  left: 12px;
 }

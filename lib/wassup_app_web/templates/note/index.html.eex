@@ -1,4 +1,4 @@
-<%= link "⟵ Back to dashboard", to: Routes.dashboard_path(@conn, :index), class: "back-link" %>
+<%= link "⟵ Dashboard", to: Routes.dashboard_path(@conn, :index), class: "back-link" %>
 <div id="notes" class="notes-page">
   <h1>Notes</h1>
 
@@ -89,7 +89,7 @@
         <div class="meta column column-10">
           <div class="dropdown">
             <a href="javascript:void(0)" class="dropdown-trigger">
-              <%= img_tag(Routes.static_path(@conn, "/images/gear.svg"), class: "dropdown-trigger-icon") %>
+              <%= img_tag(Routes.static_path(@conn, "/images/more.svg"), class: "dropdown-trigger-icon") %>
             </a>
             <div class="dropdown-content">
               <%= link "Edit", to: Routes.note_path(@conn, :edit, note) %>

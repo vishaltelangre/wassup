@@ -1,4 +1,4 @@
-<%= link "⟵ Back to dashboard", to: Routes.dashboard_path(@conn, :index), class: "back-link" %>
+<%= link "⟵ Dashboard", to: Routes.dashboard_path(@conn, :index), class: "back-link" %>
 <div class="timeline-graph-page">
   <h1>Mood Chart</h1>
 

@@ -21,7 +21,7 @@
     </div>
     <div class="column column-40 actions">
       <div>
-        <%= submit "Save", class: "button button-outline" %>
+        <%= submit "Save", class: "button button-small button-outline" %>
       </div>
     </div>
   </div>

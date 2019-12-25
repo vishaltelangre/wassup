@@ -40,7 +40,10 @@
       <% else %>
         <%= submit "Sign Up" %>
         <span class= "divider">or</span>
-        <%= link "Sign Up Using Google", to: Routes.auth_path(@conn, :request, "google"), class: "button button-small button-outline" %>
+        <%= link to: Routes.auth_path(@conn, :request, "google"), class: "button button-small button-outline google-auth-button" do %>
+          <%= img_tag(Routes.static_path(@conn, "/images/google.svg")) %>
+          Sign Up Using Google
+        <% end %>
       <% end %>
     </div>
   </div>
