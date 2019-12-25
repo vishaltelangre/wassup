@@ -8,13 +8,10 @@ defmodule WassupAppWeb.GraphController do
     filter = params["filter"] || %{}
 
     notes =
-      Notes.list_notes_for_user(conn.assigns.current_user.id,
+      Notes.list_notes_for_user(conn.assigns.current_user,
         period: parsed_period(conn, filter),
         q: filter["q"]
       )
-      |> Enum.map(fn note ->
-        %{note | sentiment: Note.sentiment_value(note.sentiment)}
-      end)
 
     render(conn, "timeline.html", notes: notes)
   end

@@ -2,6 +2,7 @@ defmodule WassupAppWeb.NoteChannel do
   use WassupAppWeb, :channel
 
   alias WassupApp.{Notes, Notes.Note}
+  alias WassupApp.Accounts
 
   def join("note:dashboard:" <> user_id, _message, socket) do
     if user_id == socket.assigns.current_user do
@@ -33,11 +34,8 @@ defmodule WassupAppWeb.NoteChannel do
   end
 
   defp latest_user_notes(user_id) do
-    user_id
+    Accounts.get_user!(user_id)
     |> Notes.list_notes_for_user(limit: 7)
-    |> Enum.map(fn note ->
-      %{note | sentiment: Note.sentiment_value(note.sentiment)}
-    end)
     |> Jason.encode!()
   end
 end

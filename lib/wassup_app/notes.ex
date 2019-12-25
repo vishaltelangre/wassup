@@ -18,19 +18,19 @@ defmodule WassupApp.Notes do
       [%Note{}, ...]
 
   """
-  def list_notes_for_user(user_id, options \\ []) do
+  def list_notes_for_user(%User{} = user, options \\ []) do
     default_options = [order_by: [desc: :submitted_at]]
     options = Keyword.merge(default_options, options)
 
     query =
       Note
-      |> where(user_id: ^user_id)
+      |> where(user_id: ^user.id)
       |> maybe_between_period(options[:period])
       |> maybe_search_condition(options[:q])
       |> order_by(^options[:order_by])
       |> maybe_limit(options[:limit])
 
-    Repo.all(query)
+    Repo.all(query) |> Enum.map(&Note.transform_fields(&1, user.timezone))
   end
 
   defp maybe_between_period(query, %{from: from, to: to}) do
@@ -65,6 +65,12 @@ defmodule WassupApp.Notes do
     Note
     |> where(user_id: ^user.id)
     |> FilteredNotePaginator.paginate(criteria |> Map.put("timezone", user.timezone))
+    |> transform_paginated_note_fields(user.timezone)
+  end
+
+  defp transform_paginated_note_fields(%{data: data} = paginate_result, timezone) do
+    paginate_result
+    |> Map.put(:data, data |> Enum.map(&Note.transform_fields(&1, timezone)))
   end
 
   @doc """
@@ -84,6 +90,7 @@ defmodule WassupApp.Notes do
   def get_note!(id) do
     Note
     |> Repo.get!(id)
+    |> Note.transform_fields()
   end
 
   @doc """
@@ -93,17 +100,18 @@ defmodule WassupApp.Notes do
 
   ## Examples
 
-      iex> get_note_for_user!(1, 123)
+      iex> get_note_for_user!(%User{}, 123)
       %Note{}
 
-      iex> get_note_for_user!(1, 456)
+      iex> get_note_for_user!(%User{}, 456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_note_for_user!(user_id, id) do
+  def get_note_for_user!(user, id) do
     Note
-    |> where(user_id: ^user_id)
+    |> where(user_id: ^user.id)
     |> Repo.get!(id)
+    |> Note.transform_fields(user.timezone)
   end
 
   @doc """

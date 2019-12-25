@@ -59,18 +59,13 @@ const refreshList = (data = []) => {
   const { sentimentDetails } = App;
   if (!targetNode) return;
 
-  const noteItem = ({body, sentiment, favorite, submitted_at, color}) => {
-    const date = new Date(submitted_at);
-    const sentimentName = Object.keys(App.sentimentDetails).filter((key) => {
-      const { value } = App.sentimentDetails[key];
-      return value === sentiment;
-    })[0];
-    const localDateTime = localizeDateTime(date).format('MMM DD, YYYY - hh:mm:ss A');
+  const noteItem = ({body, sentiment_color, submitted_at}) => {
+    const localDateTime = localizeDateTime(submitted_at).format('MMM DD, YYYY - hh:mm:ss A');
 
     return `
-      <li class="row" style="border-left: 5px solid ${sentimentDetails[sentimentName].color};">
+      <li class="row" style="border-left: 5px solid ${sentiment_color};">
         <div class="meta column column-33">
-          <span class="label" title="${localDateTime}">${dateTimeFromNow(date)}</span>
+          <span class="label" title="${localDateTime}">${dateTimeFromNow(submitted_at)}</span>
 
         </div>
         <p class="column column-67" title="${body}">${truncate(body, 75)}</p>

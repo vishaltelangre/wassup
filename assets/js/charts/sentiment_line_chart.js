@@ -72,13 +72,7 @@ const createDateAxis = (chart, data, interactive) => {
   dateAxis.renderer.labels.template.fill = am4core.color("#888");
   dateAxis.renderer.labels.template.fontSize = 14;
   // Axis tooltip customizations
-  dateAxis.cursorTooltipEnabled = true;
-  dateAxis.tooltipDateFormat = "MMM d, yyyy";
-  const { tooltip: { background: tooltipBackground }, tooltip} = dateAxis;
-  tooltip.fontSize = 14;
-  tooltipBackground.fillOpacity = 0.6;
-  tooltipBackground.strokeOpacity = 0.6;
-  tooltipBackground.cornerRadius = 5;
+  dateAxis.cursorTooltipEnabled = false;
 
   return dateAxis;
 };
@@ -114,6 +108,23 @@ const createPrimarySeries = (chart, dateFieldName, valueFieldName) => {
   series.minBulletDistance = 15;
   series.simplifiedProcessing = true;
 
+  series.tooltipHTML = `
+    <div class="tooltip">
+      <div class="meta">
+        <span class="submitted">{submitted_at.formatDate("MMM dd, YYYY - hh:mm:ss a")}</span>
+        <img class="emoji-icon" src="/images/{sentiment}.svg" />
+      </div>
+      <p>{body}</p>
+    </div>
+  `;
+  series.tooltip.getFillFromObject = false;
+  series.tooltip.pointerOrientation = "vertical";
+  series.tooltip.background.fill = am4core.color("#111");
+  series.tooltip.background.fillOpacity = 0.9;
+  series.tooltip.background.cornerRadius = 5;
+  series.tooltip.background.strokeOpacity = 0;
+  series.tooltip.label.wrap = true;
+
   return series;
 };
 
@@ -142,19 +153,12 @@ const createSentimentRangeOnValueAxis = (sentiment, sentimentDetails, series, va
   emoji.filters.push(new am4core.DropShadowFilter());
 };
 
-const createDataItemBullets = (series, sentimentDetails) => {
+const createDataItemBullets = series => {
   const bullet = series.bullets.push(new am4charts.CircleBullet());
   bullet.hoverOnFocus = true;
   bullet.stroke = am4core.color("#fff");
   // Colorize bullet with the sentiment's color
-  bullet.adapter.add("fill", (fill, target) => {
-    const { valueY } = target.dataItem;
-    const color = Object.keys(sentimentDetails).reduce((defaultColor, sentiment) => {
-      const { value, color } = sentimentDetails[sentiment];
-      return value === valueY ? color : defaultColor;
-    }, "#eee");
-    return am4core.color(color);
-  });
+  bullet.adapter.add("fill", (fill, { dataItem: { dataContext: { sentiment_color } } }) => am4core.color(sentiment_color));
   // Make bullets grow on hover
   const hoverState = bullet.states.create("hover");
   hoverState.properties.scale = 1.3;
@@ -200,7 +204,7 @@ export const renderLineChart = ((
   {
     sentimentDetails = {},
     dateFieldName = "submitted_at",
-    valueFieldName = "sentiment",
+    valueFieldName = "sentiment_value",
     interactive = true
   }) => {
     let chart;
@@ -215,7 +219,7 @@ export const renderLineChart = ((
     Object.keys(sentimentDetails).forEach(sentiment => {
       createSentimentRangeOnValueAxis(sentiment, sentimentDetails, series, valueAxis, interactive);
     });
-    createDataItemBullets(series, sentimentDetails);
+    createDataItemBullets(series);
 
     if (interactive) {
       createPanningCursor(chart, series, dateAxis);

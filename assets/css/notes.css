@@ -35,7 +35,7 @@
   margin: 0;
   font-size: 14px;
   color: #eee;
-  word-break: break-word;
+  white-space: pre-wrap;
   max-width: 100%;
 }
 
