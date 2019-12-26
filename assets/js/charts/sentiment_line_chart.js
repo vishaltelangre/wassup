@@ -24,7 +24,13 @@ const createChart = (targetNodeId, data) => {
     });
   });
   // Set data
-  chart.data = data;
+  chart.data = data.map(note => {
+    const { body } = note;
+    const maxBodyLength = 250;
+    const trailingEnd = (body.length > maxBodyLength ? `… <a href="javascript:void(0)" data-note='${JSON.stringify(note)}' data-behavior="note-preview-trigger">Read More</a>` : "");
+    note.body_short = body.substring(0, maxBodyLength) + trailingEnd;
+    return note;
+  });
 
   return chart;
 };
@@ -109,12 +115,12 @@ const createPrimarySeries = (chart, dateFieldName, valueFieldName) => {
   series.simplifiedProcessing = true;
 
   series.tooltipHTML = `
-    <div class="tooltip">
+    <div class="tooltip note-preview">
       <div class="meta">
         <span class="submitted">{submitted_at.formatDate("MMM dd, YYYY - hh:mm:ss a")}</span>
         <img class="emoji-icon" src="/images/{sentiment}.svg" />
       </div>
-      <p>{body}</p>
+      <p>{body_short}</p>
     </div>
   `;
   series.tooltip.getFillFromObject = false;
@@ -123,7 +129,8 @@ const createPrimarySeries = (chart, dateFieldName, valueFieldName) => {
   series.tooltip.background.fillOpacity = 0.9;
   series.tooltip.background.cornerRadius = 5;
   series.tooltip.background.strokeOpacity = 0;
-  series.tooltip.label.wrap = true;
+  series.tooltip.label.interactionsEnabled = true;
+  series.tooltip.keepTargetHover = true;
 
   return series;
 };
@@ -220,9 +227,9 @@ export const renderLineChart = ((
       createSentimentRangeOnValueAxis(sentiment, sentimentDetails, series, valueAxis, interactive);
     });
     createDataItemBullets(series);
+    createPanningCursor(chart, series, dateAxis);
 
     if (interactive) {
-      createPanningCursor(chart, series, dateAxis);
       createScrollbar(chart, dateFieldName, valueFieldName);
     }
 

@@ -37,6 +37,12 @@
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
       <%= render @view_module, @view_template, assigns %>
     </main>
+    <div class="modal">
+      <div class="modal-body">
+        <div class="close">×</div>
+        <div class="modal-content"></div>
+      </div>
+    </div>
     <script>
       var App = window.App = {};
       App.sentimentDetails = <%= raw sentiment_details() %>;

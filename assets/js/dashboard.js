@@ -11,10 +11,9 @@ const joinChannel = () => {
 
   channel.on("refresh", ({body}) => {
     if (sentimentLineChartRef) {
-      const data = JSON.parse(body);
       maybeDisposeChart();
-      renderSentimentLineChart(data);
-      refreshList(data);
+      renderSentimentLineChart(JSON.parse(body));
+      refreshList(JSON.parse(body));
     }
   });
 
@@ -23,8 +22,8 @@ const joinChannel = () => {
       if (sentimentLineChartRef) {
         const data = JSON.parse(response.body);
         maybeDisposeChart();
-        renderSentimentLineChart(data)
-        refreshList(data);
+        renderSentimentLineChart(JSON.parse(response.body))
+        refreshList(JSON.parse(response.body));
       }
     })
     .receive("error", resp => { console.error("Unable to join dashboard channel", resp) });
@@ -48,19 +47,19 @@ const renderSentimentLineChart = (data = []) => {
   sentimentLineChartRef = renderLineChart(targetNodeId, data, { sentimentDetails, interactive: false });
 };
 
-const truncate = (text, length) => {
-  const elipsis = text.length > length ? '...' : '';
-  return text.substring(0, length) + elipsis;
-};
-
 const refreshList = (data = []) => {
   const targetNodeId = ".dashboard #notes";
   const targetNode = document.querySelector(targetNodeId);
   const { sentimentDetails } = App;
   if (!targetNode) return;
 
-  const noteItem = ({body, sentiment_color, submitted_at}) => {
+  const noteItem = note => {
+    const { body, sentiment_color, submitted_at } = note;
     const localDateTime = localizeDateTime(submitted_at).format('MMM DD, YYYY - hh:mm:ss A');
+    const truncate = (text, length) => {
+      const elipsis = (text.length > length ? ` <a href="javascript:void(0)" data-note='${JSON.stringify(note)}' data-behavior="note-preview-trigger" title="Read More">…</a>` : "")
+      return text.substring(0, length) + elipsis;
+    };
 
     return `
       <li class="row" style="border-left: 5px solid ${sentiment_color};">
@@ -68,7 +67,7 @@ const refreshList = (data = []) => {
           <span class="label" title="${localDateTime}">${dateTimeFromNow(submitted_at)}</span>
 
         </div>
-        <p class="column column-67" title="${body}">${truncate(body, 75)}</p>
+        <p class="column column-67">${truncate(body, 75)}</p>
       </<li>
     `;
   };

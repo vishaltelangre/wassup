@@ -1,3 +1,6 @@
+import { showModal } from "./modal";
+import { localizeDateTime } from "./localize_datetime";
+
 const formToJSON = form => {
   return {
     _csrf_token: form.querySelector("input[name='_csrf_token']").value,
@@ -40,3 +43,20 @@ document.addEventListener('DOMContentLoaded', () => {
     );
   });
 });
+
+document.addEventListener('click', ({target}) => {
+  if (target.getAttribute('data-behavior') === "note-preview-trigger") {
+    const { submitted_at, sentiment, body } = JSON.parse(target.getAttribute('data-note'));
+    const localDateTime = localizeDateTime(submitted_at).format('MMM DD, YYYY - hh:mm:ss A');
+
+    showModal(`
+      <div class="note-preview">
+        <div class="meta">
+          <span class="submitted">${localDateTime}</span>
+          <img class="emoji-icon" src="/images/${sentiment}.svg" />
+        </div>
+        <p>${body}</p>
+      </div>
+    `);
+  }
+}, false)

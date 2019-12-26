@@ -16,6 +16,7 @@ import "phoenix_html"
 // Local files can be imported directly using relative paths, for example:
 import socket from "./socket"
 import "./dropdown";
+import "./modal";
 import { initializeDashboard } from "./dashboard";
 import "./note";
 import "./daterange_picker";

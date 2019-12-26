@@ -14,27 +14,3 @@
   height: 400px;
   min-height: 400px;
 }
-
-#detailed-timeline-chart .tooltip .meta {
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #222;
-  padding-bottom: 5px;
-  margin-bottom: 5px;
-}
-
-#detailed-timeline-chart .tooltip .meta .submitted {
-  padding: 2px 5px;
-  font-size: 10px;
-  background-color: #222;
-  border-radius: 5px;
-}
-
-#detailed-timeline-chart .tooltip .meta .emoji-icon {
-  width: 32px;
-  height: 32px;
-}
-
-#detailed-timeline-chart .tooltip p {
-  white-space: pre-wrap;
-}
