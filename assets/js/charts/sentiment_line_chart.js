@@ -9,6 +9,43 @@ const globalSetup = () => {
   am4core.useTheme(am4themes_animated);
 };
 
+// Function to add "From" and "To" labels to the fixed period container
+const createPeriodLabel = (parent, field, title) => {
+  const textColor = am4core.color("#555");
+  const fontSize = 11;
+  const titleLabel = parent.createChild(am4core.Label);
+  const valueLabel = parent.createChild(am4core.Label);
+
+  // Title configuration
+  titleLabel.text = `${title}: `;
+  titleLabel.fontSize = fontSize;
+  titleLabel.minWidth = 30;
+  titleLabel.marginRight = 5;
+  titleLabel.fill = textColor;
+
+  // Value configuration
+  valueLabel.id = field;
+  valueLabel.text = "-";
+  valueLabel.fontSize = fontSize;
+  valueLabel.minWidth = 125;
+  valueLabel.fontWeight = "bold";
+  valueLabel.fill = textColor;
+};
+
+// Callback function to update the "From" and "To" label values in the fixed
+// period container
+const updatePeriodLabelValues = chart => {
+  // Grab "minimum" and "maximum" dates on date axis
+  const { xAxis: { minZoomed, maxZoomed }, xAxis } = chart.series.getIndex(0);
+  const fromLabel = chart.map.getKey("from");
+  const toLabel = chart.map.getKey("to");
+
+  if (fromLabel && toLabel) {
+    fromLabel.text = xAxis.formatLabel(minZoomed);
+    toLabel.text = xAxis.formatLabel(maxZoomed);
+  }
+}
+
 const createChart = (targetNodeId, data) => {
   const chart = am4core.create(targetNodeId, am4charts.XYChart);
   // Create initial fade-in
@@ -23,17 +60,54 @@ const createChart = (targetNodeId, data) => {
       return (new Date(a.submitted_at)) - (new Date(b.submitted_at));
     });
   });
-  // Set data
+  // Update label values on fixed period container when chart initializes
+  chart.events.on("ready", () => {
+    updatePeriodLabelValues(chart);
+  });
+  // Set data.
+  // Inject additional "short_body" attribute to every "note" item in the data
+  // with the truncated "body" attribute when it is exceeding defined length.
+  // On clicking on the truncated body in a tooltip, attach data attributes
+  // to trigger a modal with the detailed note preview.
   chart.data = data.map(note => {
     const { body } = note;
     const maxBodyLength = 250;
-    const trailingEnd = (body.length > maxBodyLength ? `… <a href="javascript:void(0)" data-note='${JSON.stringify(note)}' data-behavior="note-preview-trigger">Read More</a>` : "");
-    note.body_short = body.substring(0, maxBodyLength) + trailingEnd;
+    const exceedingMaxBodyLength = body.length > maxBodyLength;
+    const modalTriggerAttributes = `
+      data-note='${JSON.stringify(note)}'
+      data-behavior="note-preview-trigger"
+    `;
+    const elipsis = exceedingMaxBodyLength
+      ? `… <a ${modalTriggerAttributes} href="javascript:void(0)">Read More</a>`
+      : "";
+    const truncatedBody = body.substring(0, maxBodyLength) + elipsis;
+
+    note.short_body = exceedingMaxBodyLength
+      ? `<p ${modalTriggerAttributes}>${truncatedBody}</p>`
+      : truncatedBody;
+
     return note;
   });
 
   return chart;
 };
+
+// Fixed period container to display current "From" and "To" dates on date axis
+const createFixedPeriodContainer = chart => {
+  const container = chart.plotContainer.createChild(am4core.Container);
+  container.width = 200;
+  container.height = 35;
+  container.x = 20;
+  container.y = -10;
+  container.padding(5, 5, 5, 10);
+  container.background.fill = am4core.color("#000");
+  container.background.fillOpacity = 0.2;
+  container.layout = "grid";
+  container.filters.push(new am4core.DropShadowFilter());
+
+  createPeriodLabel(container, "from", "FROM")
+  createPeriodLabel(container, "to", "TO")
+}
 
 const configureZoomOutButton = (chart, interactive) => {
   if (interactive) {
@@ -79,6 +153,14 @@ const createDateAxis = (chart, data, interactive) => {
   dateAxis.renderer.labels.template.fontSize = 14;
   // Axis tooltip customizations
   dateAxis.cursorTooltipEnabled = false;
+  // Date format used to format values obtained from this axis using the
+  // "dateAxis.formatLabel" function
+  dateAxis.dateFormatter.dateFormat = "MMM dd, YYYY - hh:mm:ss a";
+  // Update the "From" and "To" date values in fixed period container whenever
+  // date axis extremes are changed (e.g. by dragging the sliders on scrollbar).
+  dateAxis.events.on("selectionextremeschanged", event => {
+    updatePeriodLabelValues(chart);
+  });
 
   return dateAxis;
 };
@@ -121,7 +203,7 @@ const createPrimarySeries = (chart, dateFieldName, valueFieldName) => {
         <img class="emoji-icon" src="/images/{sentiment}.svg" />
         <img class="emoji-icon" src="{favorite_icon_path}" />
       </div>
-      <p>{body_short}</p>
+      {short_body}
     </div>
   `;
   series.tooltip.getFillFromObject = false;
@@ -166,6 +248,7 @@ const createDataItemBullets = series => {
   bullet.hoverOnFocus = true;
   bullet.stroke = am4core.color("#fff");
   bullet.strokeOpacity = 0;
+  bullet.filters.push(new am4core.DropShadowFilter());
   // Colorize bullet with the sentiment's color
   bullet.adapter.add("fill", (fill, { dataItem: { dataContext: { sentiment_color } } }) => am4core.color(sentiment_color));
   const favoriteIcon = bullet.createChild(am4core.Image);
@@ -200,12 +283,13 @@ const createScrollbar = (chart, dateFieldName, valueFieldName) => {
   // Hide this series from legend, too (in case there is one)
   scrollbarSeries.hiddenInLegend = true;
   // Create a horizontal scrollbar and place it beneath the date axis
-  var scrollbar = new am4charts.XYChartScrollbar();
+  const scrollbar = new am4charts.XYChartScrollbar();
   scrollbar.series.push(scrollbarSeries);
   scrollbar.marginTop = 40;
   scrollbar.height = 30;
   scrollbar.fillOpacity = 0;
   scrollbar.strokeOpacity = 0;
+  scrollbar.draggable = false;
   chart.scrollbarX = scrollbar;
   scrollbar.parent = chart.bottomAxesContainer;
   // Hide scrollbar series otherwise it is displayed on top of the primary
@@ -227,14 +311,23 @@ export const renderLineChart = ((
   am4core.ready(() => {
     globalSetup();
     chart = createChart(targetNodeId, data);
+
+    if (interactive) {
+      createFixedPeriodContainer(chart);
+    }
+
     configureZoomOutButton(chart, interactive);
+
     const dateAxis = createDateAxis(chart, data, interactive);
     const valueAxis = createValueAxis(chart);
     const series = createPrimarySeries(chart, dateFieldName, valueFieldName);
+
     Object.keys(sentimentDetails).forEach(sentiment => {
       createSentimentRangeOnValueAxis(sentiment, sentimentDetails, series, valueAxis, interactive);
     });
+
     createDataItemBullets(series);
+
     createPanningCursor(chart, series, dateAxis);
 
     if (interactive) {
