@@ -9,7 +9,7 @@
   color: #999;
 }
 
-#detailed-timeline-chart {
+.detailed-timeline-chart {
   margin-top: 50px;
   height: 400px;
   min-height: 400px;

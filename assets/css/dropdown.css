@@ -19,13 +19,13 @@
   display: inline-block;
 }
 
-/* Dropdown Content (Hidden by Default) */
+/* Dropdown content (hidden by default) */
 .dropdown-content {
   display: none;
   position: absolute;
   background-color: rgba(10, 10, 10, 0.8);
   min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   z-index: 1;
   right: 0;
@@ -45,11 +45,6 @@
 .dropdown-content a:hover {
   color: #fff;
   background-color: rgba(0, 0, 0, 1);
-}
-
-/* Show the dropdown menu */
-.show {
-  display: block;
 }
 
 .dropdown-trigger-icon {

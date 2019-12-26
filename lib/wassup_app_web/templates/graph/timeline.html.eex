@@ -28,5 +28,5 @@
     <% end %>
   </div>
 
-  <div id="detailed-timeline-chart" data-notes="<%= Jason.encode!(@notes) %>"></div>
+  <div id="detailed-timeline-chart" class="detailed-timeline-chart" data-notes="<%= Jason.encode!(@notes) %>"></div>
 </div>

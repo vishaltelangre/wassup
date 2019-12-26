@@ -89,6 +89,7 @@
   right: -40%;
 }
 
+/* Small screen devices */
 @media (max-width: 42.5rem) {
   .criteria .search .value, .criteria .period .value {
     min-width: 100px;
