@@ -12,7 +12,7 @@
           <%= if @paginate[:total_count] > 0 || (filter_present?(@conn, "q") && @paginate[:total_count] == 0) do %>
             <span class="search">
               <%= img_tag(Routes.static_path(@conn, "/images/search.svg"), class: "search-icon") %>
-              <%= text_input(f, :q, value: @conn.params["filter"]["q"], class: "value", placeholder: "Search", onchange: "this.form.submit();") %>
+              <%= text_input(f, :q, value: @conn.params["filter"]["q"], class: "value", placeholder: "Search", onchange: "this.form.submit();", data: [behavior: "value"]) %>
               <%= if filter_present?(@conn, "q") do %>
                 <%= link to: reset_filter_path(@conn, "q"), class: "reset-search", title: "Reset Search" do %>
                   <%= img_tag(Routes.static_path(@conn, "/images/clear.svg"), class: "clear-icon") %>
@@ -21,29 +21,29 @@
             </span>
           <% end %>
           <%= if @paginate[:total_count] > 0 || (filter_present?(@conn, "period") && @paginate[:total_count] == 0) do %>
-            <div class="period daterange-picker">
+            <div class="period" data-behavior="daterange-picker">
               <div class="dropdown">
-                <a href="javascript:void(0)" class="dropdown-trigger">
+                <a href="javascript:void(0)" data-behavior="dropdown-trigger">
                   <%= img_tag(Routes.static_path(@conn, "/images/calendar.svg"), class: "calendar-icon") %>
-                  <%= text_input(f, :period, value: @conn.params["filter"]["period"], class: "value", placeholder: "Period", onchange: "this.form.submit();", readonly: true) %>
+                  <%= text_input(f, :period, value: @conn.params["filter"]["period"], class: "value", placeholder: "Period", onchange: "this.form.submit();", readonly: true, data: [behavior: "value"]) %>
                   <%= if filter_present?(@conn, "period") do %>
                     <%= link to: reset_filter_path(@conn, "period"), class: "reset-period", title: "Reset Period" do %>
                       <%= img_tag(Routes.static_path(@conn, "/images/clear.svg"), class: "clear-icon") %>
                     <% end %>
                   <% end %>
                 </a>
-                <div class="dropdown-content">
+                <div class="dropdown-content" data-behavior="dropdown-content">
                   <div class="row">
                     <div class="column column-25">
                       <%= period_option_links(@conn) %>
-                      <%= link "Custom Period", to: {:javascript, "void(0)"}, class: "custom-period" %>
+                      <%= link "Custom Period", to: {:javascript, "void(0)"}, class: "daterange-filter", data: [behavior: "custom-period-filter"] %>
                     </div>
                     <div class="column column-75">
-                      <div class="from"></div>
-                      <div class="to"></div>
+                      <div class="from" data-behavior="daterange-picker-from-calendar"></div>
+                      <div class="to" data-behavior="daterange-picker-to-calendar"></div>
                       <div class="actions">
-                        <button class="button button-small button-clear cancel">Cancel</button>
-                        <button class="button button-small apply">Apply</button>
+                        <button class="button button-small button-clear cancel" data-behavior="cancel-daterange">Cancel</button>
+                        <button class="button button-small apply" data-behavior="apply-daterange">Apply</button>
                       </div>
                     </div>
                   </div>
@@ -55,7 +55,7 @@
           <%= if @paginate[:total_count] > 0 do %>
             <span class="per-page-results">
               Show&nbsp;
-              <%= select(f, :per_page, [10, 20, 30, 50, 100], selected: @paginate[:per_page], class: "value", onchange: "this.form.submit();") %>
+              <%= select(f, :per_page, [10, 20, 30, 50, 100], selected: @paginate[:per_page], class: "value", onchange: "this.form.submit();", data: [behavior: "value"]) %>
               &nbsp;per page
             </span>
           <% end %>
@@ -89,10 +89,10 @@
         </div>
         <div class="meta column column-10">
           <div class="dropdown">
-            <a href="javascript:void(0)" class="dropdown-trigger">
+            <a href="javascript:void(0)" data-behavior="dropdown-trigger">
               <%= img_tag(Routes.static_path(@conn, "/images/more.svg"), class: "dropdown-trigger-icon") %>
             </a>
-            <div class="dropdown-content">
+            <div class="dropdown-content" data-behavior="dropdown-content">
               <%= link "Edit", to: Routes.note_path(@conn, :edit, note) %>
               <%= link "Remove", to: Routes.note_path(@conn, :delete, note), method: :delete, data: [confirm: "Are you sure that you want the selected note?"] %>
             </div>

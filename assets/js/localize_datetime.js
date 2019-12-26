@@ -1,7 +1,6 @@
 import { moment } from "@bevacqua/rome";
 
-const dateTimeSelector = ".datetime";
-const relativeDateTimeSelector = ".datetime.relative";
+const dateTimeSelector = "[data-behavior=localize-datetime]";
 
 export const localizeDateTime = utcDateTime => moment.utc(utcDateTime).local();
 

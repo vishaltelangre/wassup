@@ -3,6 +3,19 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import am4themes_dark from "@amcharts/amcharts4/themes/dark";
 
+// Chart colors
+const fixedPeriodContainerLabelColor = am4core.color("#555");
+const fixedPeriodContainerBackgroundColor = am4core.color("#000");
+const zoomOutButtonBackgroundColor = am4core.color("#555");
+const zoomOutButtonHoverBackgroundColor = am4core.color("#606271");
+const zoomOutButtonStrokeColor = am4core.color("#EFD9CE");
+const dateAxisTickLabelColor = am4core.color("#888");
+const primarySeriesFillColor = am4core.color("#000");
+const primarySeriesTooltipBackgroundColor = am4core.color("#111");
+
+// Date format to present dates in
+const displayDateFormat = "MMM dd, YYYY - hh:mm:ss a";
+
 const globalSetup = () => {
   // Enable themes
   am4core.useTheme(am4themes_dark);
@@ -11,7 +24,6 @@ const globalSetup = () => {
 
 // Function to add "From" and "To" labels to the fixed period container
 const createPeriodLabel = (parent, field, title) => {
-  const textColor = am4core.color("#555");
   const fontSize = 11;
   const titleLabel = parent.createChild(am4core.Label);
   const valueLabel = parent.createChild(am4core.Label);
@@ -21,7 +33,7 @@ const createPeriodLabel = (parent, field, title) => {
   titleLabel.fontSize = fontSize;
   titleLabel.minWidth = 30;
   titleLabel.marginRight = 5;
-  titleLabel.fill = textColor;
+  titleLabel.fill = fixedPeriodContainerLabelColor;
 
   // Value configuration
   valueLabel.id = field;
@@ -29,7 +41,7 @@ const createPeriodLabel = (parent, field, title) => {
   valueLabel.fontSize = fontSize;
   valueLabel.minWidth = 125;
   valueLabel.fontWeight = "bold";
-  valueLabel.fill = textColor;
+  valueLabel.fill = fixedPeriodContainerLabelColor;
 };
 
 // Callback function to update the "From" and "To" label values in the fixed
@@ -100,7 +112,7 @@ const createFixedPeriodContainer = chart => {
   container.x = 20;
   container.y = -10;
   container.padding(5, 5, 5, 10);
-  container.background.fill = am4core.color("#000");
+  container.background.fill = fixedPeriodContainerBackgroundColor;
   container.background.fillOpacity = 0.2;
   container.layout = "grid";
   container.filters.push(new am4core.DropShadowFilter());
@@ -113,10 +125,10 @@ const configureZoomOutButton = (chart, interactive) => {
   if (interactive) {
     chart.zoomOutButton.scale = 0.5;
     chart.zoomOutButton.background.cornerRadius(5, 5, 5, 5);
-    chart.zoomOutButton.background.fill = am4core.color("#555");
-    chart.zoomOutButton.icon.stroke = am4core.color("#EFD9CE");
+    chart.zoomOutButton.background.fill = zoomOutButtonBackgroundColor;
+    chart.zoomOutButton.icon.stroke = zoomOutButtonStrokeColor;
     chart.zoomOutButton.icon.strokeWidth = 2;
-    chart.zoomOutButton.background.states.getKey("hover").properties.fill = am4core.color("#606271");
+    chart.zoomOutButton.background.states.getKey("hover").properties.fill = zoomOutButtonHoverBackgroundColor;
   } else {
     chart.zoomOutButton.disabled = true;
   }
@@ -149,13 +161,13 @@ const createDateAxis = (chart, data, interactive) => {
   dateAxis.dateFormats.setKey("month", "MMMM yyyy");
   dateAxis.periodChangeDateFormats.setKey("month", "MMMM yyyy");
   // Tick label customizations
-  dateAxis.renderer.labels.template.fill = am4core.color("#888");
+  dateAxis.renderer.labels.template.fill = dateAxisTickLabelColor;
   dateAxis.renderer.labels.template.fontSize = 14;
   // Axis tooltip customizations
   dateAxis.cursorTooltipEnabled = false;
   // Date format used to format values obtained from this axis using the
   // "dateAxis.formatLabel" function
-  dateAxis.dateFormatter.dateFormat = "MMM dd, YYYY - hh:mm:ss a";
+  dateAxis.dateFormatter.dateFormat = displayDateFormat;
   // Update the "From" and "To" date values in fixed period container whenever
   // date axis extremes are changed (e.g. by dragging the sliders on scrollbar).
   dateAxis.events.on("selectionextremeschanged", event => {
@@ -185,7 +197,7 @@ const createPrimarySeries = (chart, dateFieldName, valueFieldName) => {
   series.dataFields.dateX = dateFieldName;
   series.dataFields.valueY = valueFieldName;
   series.sequencedInterpolation = true;
-  series.fill = am4core.color("#000");
+  series.fill = primarySeriesFillColor;
   series.fillOpacity = 0.2;
   series.defaultState.transitionDuration = 1000;
   series.tensionX = 1;
@@ -199,7 +211,7 @@ const createPrimarySeries = (chart, dateFieldName, valueFieldName) => {
   series.tooltipHTML = `
     <div class="tooltip note-preview">
       <div class="meta">
-        <span class="submitted">{submitted_at.formatDate("MMM dd, YYYY - hh:mm:ss a")}</span>
+        <span class="submitted">{submitted_at.formatDate("${displayDateFormat}")}</span>
         <img class="emoji-icon" src="/images/{sentiment}.svg" />
         <img class="emoji-icon" src="{favorite_icon_path}" />
       </div>
@@ -208,7 +220,7 @@ const createPrimarySeries = (chart, dateFieldName, valueFieldName) => {
   `;
   series.tooltip.getFillFromObject = false;
   series.tooltip.pointerOrientation = "vertical";
-  series.tooltip.background.fill = am4core.color("#111");
+  series.tooltip.background.fill = primarySeriesTooltipBackgroundColor;
   series.tooltip.background.fillOpacity = 0.9;
   series.tooltip.background.cornerRadius = 5;
   series.tooltip.background.strokeOpacity = 0;
@@ -246,7 +258,6 @@ const createSentimentRangeOnValueAxis = (sentiment, sentimentDetails, series, va
 const createDataItemBullets = series => {
   const bullet = series.bullets.push(new am4charts.CircleBullet());
   bullet.hoverOnFocus = true;
-  bullet.stroke = am4core.color("#fff");
   bullet.strokeOpacity = 0;
   bullet.filters.push(new am4core.DropShadowFilter());
   // Colorize bullet with the sentiment's color

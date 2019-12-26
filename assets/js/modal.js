@@ -1,15 +1,20 @@
-export const showModal = contents => {
-  const modal = document.querySelector(".modal");
+const modalSelector = "[data-behavior=modal]";
+const modalContentSelector = "[data-behavior=modal-content]";
+const modalCloseSelector = "[data-behavior=modal-close]";
+const modalShowClassName = "show";
 
-  modal.querySelector('.modal-content').innerHTML = contents;
-  modal.classList.add('show');
+export const showModal = contents => {
+  const modal = document.querySelector(modalSelector);
+
+  modal.querySelector(modalContentSelector).innerHTML = contents;
+  modal.classList.add(modalShowClassName);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const modal = document.querySelector(".modal");
-  const closeButton = document.querySelector(".modal .close");
+  const modal = document.querySelector(modalSelector);
+  const closeButton = document.querySelector(modalCloseSelector);
 
   closeButton.addEventListener('click', () => {
-    modal.classList.remove('show');
+    modal.classList.remove(modalShowClassName);
   });
 });

@@ -10,10 +10,18 @@ defmodule WassupAppWeb.NoteView do
     PeriodOptions.options() |> Enum.map(fn option -> period_option_link(conn, option) end)
   end
 
-  def period_option_link(conn, option) do
-    class =
-      option |> to_string |> String.trim() |> String.downcase() |> String.replace(~r/\s+/, "-")
+  def period_option_link(_conn, option) do
+    dasherized_option =
+      option
+      |> to_string
+      |> String.trim()
+      |> String.downcase()
+      |> String.replace(~r/\s+/, "-")
 
-    link(option, to: {:javascript, "void(0)"}, class: class)
+    link(option,
+      to: {:javascript, "void(0)"},
+      class: "daterange-filter",
+      data: [behavior: "#{dasherized_option}-filter"]
+    )
   end
 end

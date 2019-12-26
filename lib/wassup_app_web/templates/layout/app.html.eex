@@ -16,11 +16,11 @@
             <li>
               <%= if @current_user do %>
                 <div class="dropdown">
-                  <a href="javascript:void(0)" class="dropdown-trigger">
+                  <a href="javascript:void(0)" data-behavior="dropdown-trigger">
                     <%= "#{@current_user.name}" %>
                     <span class='dropdown-icon'></span>
                   </a>
-                  <div class="dropdown-content">
+                  <div class="dropdown-content" data-behavior="dropdown-content">
                     <%= link "Update Account", to: Routes.account_path(@conn, :edit) %>
                     <%= link "Logout", to: Routes.logout_path(@conn, :delete), method: :delete %>
                   </div>
@@ -37,10 +37,10 @@
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
       <%= render @view_module, @view_template, assigns %>
     </main>
-    <div class="modal">
+    <div class="modal" data-behavior="modal">
       <div class="modal-body">
-        <div class="close">×</div>
-        <div class="modal-content"></div>
+        <div class="close" data-behavior="modal-close">×</div>
+        <div class="modal-content" data-behavior="modal-content"></div>
       </div>
     </div>
     <script>

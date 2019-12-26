@@ -11,7 +11,7 @@
         <%= link "All Notes ⟶", to: Routes.note_path(@conn, :index), class: "widget-meta-link" %>
       </h2>
       <div class="widget">
-        <ul id="notes"></ul>
+        <ul id="notes" class="notes" data-behavior="note-list"></ul>
       </div>
     </div>
     <div class="column">

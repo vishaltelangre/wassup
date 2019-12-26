@@ -1,12 +1,16 @@
 import { showModal } from "./modal";
 import { localizeDateTime } from "./localize_datetime";
 
+const csrfTokenSelector = "input[name='_csrf_token']";
+const noteBodyFieldSelector = "textarea[name='note[body]']";
+const noteSentimentRadioSelector = "input[name='note[sentiment]']:checked";
+
 const formToJSON = form => {
   return {
-    _csrf_token: form.querySelector("input[name='_csrf_token']").value,
+    _csrf_token: form.querySelector(csrfTokenSelector).value,
       note: {
-      body: form.querySelector("textarea[name='note[body]']").value,
-        sentiment: form.querySelector("input[name='note[sentiment]']:checked").value
+      body: form.querySelector(noteBodyFieldSelector).value,
+        sentiment: form.querySelector(noteSentimentRadioSelector).value
     }
   };
 };
@@ -27,13 +31,13 @@ const submitForm = (url, data, { onSuccess, onFailure }) => {
   xhr.send(JSON.stringify(data));
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector(".note-form");
   if (!form) return;
 
   const url = form.getAttribute("action");
 
-  form.addEventListener('submit', event => {
+  form.addEventListener("submit", event => {
     event.preventDefault();
     const data = formToJSON(event.target);
     submitForm(
@@ -46,8 +50,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener('click', ({target}) => {
   if (target.getAttribute('data-behavior') === "note-preview-trigger") {
-    const { submitted_at, sentiment, body, favorite, favorite_icon_path } = JSON.parse(target.getAttribute('data-note'));
-    const localDateTime = localizeDateTime(submitted_at).format('MMM DD, YYYY - hh:mm:ss A');
+    const {
+      submitted_at,
+      sentiment,
+      body,
+      favorite_icon_path
+    } = JSON.parse(target.getAttribute('data-note'));
+    const localDateTime =
+      localizeDateTime(submitted_at).format('MMM DD, YYYY - hh:mm:ss A');
 
     showModal(`
       <div class="note-preview">

@@ -1,6 +1,6 @@
-import { renderLineChart } from "./charts/sentiment_line_chart";
 import socket from "./socket";
 import { localizeDateTime, dateTimeFromNow } from "./localize_datetime";
+import { renderLineChart } from "./charts/sentiment_line_chart";
 
 let sentimentLineChartRef;
 
@@ -48,7 +48,7 @@ const renderSentimentLineChart = (data = []) => {
 };
 
 const refreshList = (data = []) => {
-  const targetNodeId = ".dashboard #notes";
+  const targetNodeId = ".dashboard [data-behavior='note-list']";
   const targetNode = document.querySelector(targetNodeId);
   const { sentimentDetails } = App;
   if (!targetNode) return;
@@ -57,14 +57,22 @@ const refreshList = (data = []) => {
     const { body, sentiment_color, submitted_at } = note;
     const localDateTime = localizeDateTime(submitted_at).format('MMM DD, YYYY - hh:mm:ss A');
     const truncate = (text, length) => {
-      const elipsis = (text.length > length ? ` <a href="javascript:void(0)" data-note='${JSON.stringify(note)}' data-behavior="note-preview-trigger" title="Read More">…</a>` : "")
+      const elipsis = text.length > length
+        ? ` <a href="javascript:void(0)"
+               data-note='${JSON.stringify(note)}'
+               data-behavior="note-preview-trigger"
+               title="Read More">…</a>
+          `
+        : "";
       return text.substring(0, length) + elipsis;
     };
 
     return `
       <li class="row" style="border-left: 5px solid ${sentiment_color};">
         <div class="meta column column-33">
-          <span class="label" title="${localDateTime}">${dateTimeFromNow(submitted_at)}</span>
+          <span class="label" title="${localDateTime}">
+            ${dateTimeFromNow(submitted_at)}
+          </span>
 
         </div>
         <p class="column column-67">${truncate(body, 75)}</p>

@@ -1,23 +1,23 @@
 import rome from "@bevacqua/rome";
 
 const { moment } = rome;
-const daterangePickerClassName = "daterange-picker";
-const fromCalendarClassName = "from";
-const toCalendarClassName = "to";
-const valueFieldClassName = "value";
-const applyButtonClassName = "apply";
-const cancelButtonClassName = "cancel";
-const todayFilterClassName = "today";
-const yesterdayFilterClassName = "yesterday";
-const lastSevenDaysFilterClassName = "last-7-days";
-const lastThirtyDaysFilterClassName = "last-30-days";
-const thisMonthFilterClassName = "this-month";
-const lastMonthFilterClassName = "last-month";
-const lastThreeMonthsFilterClassName = "last-3-months";
-const thisYearFilterClassName = "this-year";
-const lastYearFilterClassName = "last-year";
-const lastFiveYearsFilterClassName = "last-5-years";
-const customPeriodFilterClassName = "custom-period";
+const dateRangePickerSelector = "[data-behavior=daterange-picker]";
+const fromCalendarSelector = "[data-behavior=daterange-picker-from-calendar]";
+const toCalendarSelector = "[data-behavior=daterange-picker-to-calendar]";
+const valueFieldSelector = "[data-behavior=value]";
+const applyButtonSelector = "[data-behavior=apply-daterange]";
+const cancelButtonSelector = "[data-behavior=cancel-daterange]";
+const todayFilterSelector = "[data-behavior=today-filter]";
+const yesterdayFilterSelector = "[data-behavior=yesterday-filter]";
+const lastSevenDaysFilterSelector = "[data-behavior=last-7-days-filter]";
+const lastThirtyDaysFilterSelector = "[data-behavior=last-30-days-filter]";
+const thisMonthFilterSelector = "[data-behavior=this-month-filter]";
+const lastMonthFilterSelector = "[data-behavior=last-month-filter]";
+const lastThreeMonthsFilterSelector = "[data-behavior=last-3-months-filter]";
+const thisYearFilterSelector = "[data-behavior=this-year-filter]";
+const lastYearFilterSelector = "[data-behavior=last-year-filter]";
+const lastFiveYearsFilterSelector = "[data-behavior=last-5-years-filter]";
+const customPeriodFilterSelector = "[data-behavior=custom-period-filter]";
 const dateFormat = "MMM D, YYYY";
 
 const isToday = (from, to) =>
@@ -61,27 +61,27 @@ const isLastFiveYearsPeriod = (from, to) =>
     && to.format(dateFormat) === moment().format(dateFormat);
 
 document.addEventListener('DOMContentLoaded', () => {
-  const daterangePickers = document.getElementsByClassName(daterangePickerClassName);
+  const daterangePickers = document.querySelectorAll(dateRangePickerSelector);
 
   for (let daterangePicker of daterangePickers) {
     const pickerChild = selector => daterangePicker.querySelector(selector);
-    const from = pickerChild(`.${fromCalendarClassName}`);
-    const to = pickerChild(`.${toCalendarClassName}`);
-    const getValueField = () => pickerChild(`.${valueFieldClassName}`);
+    const from = pickerChild(fromCalendarSelector);
+    const to = pickerChild(toCalendarSelector);
+    const getValueField = () => pickerChild(valueFieldSelector);
     const value = getValueField().value || "";
     const [rawInitialFromValue, rawInitialToValue] = value.trim().split('-');
     const initialFromValue = moment(rawInitialFromValue.trim(), dateFormat);
     const initialToValue = moment((rawInitialToValue || "").trim(), dateFormat);
 
-    pickerChild(`.${applyButtonClassName}`).addEventListener('click', () => {
+    pickerChild(applyButtonSelector).addEventListener('click', () => {
       const fromDate = rome(from).getMoment() || moment();
       const toDate = rome(to).getMoment() || moment()
       getValueField().value = `${fromDate.format(dateFormat)} - ${toDate.format(dateFormat)}`;
     });
 
-    pickerChild(`.${cancelButtonClassName}`).addEventListener('click', event => {
+    pickerChild(cancelButtonSelector).addEventListener('click', event => {
       event.preventDefault();
-      pickerChild('.dropdown-content').classList.remove('show');
+      pickerChild('[data-behavior=dropdown-content]').classList.remove('show');
     });
 
     const applyFilter = (from, to) => {
@@ -91,99 +91,99 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Handle click on 'Today' filter
-    pickerChild(`.${todayFilterClassName}`).addEventListener('click', () => {
+    pickerChild(todayFilterSelector).addEventListener('click', () => {
       const from = moment().format(dateFormat);
       const to = from;
       applyFilter(from, to);
     });
 
     // Handle click on 'Yesterday' filter
-    pickerChild(`.${yesterdayFilterClassName}`).addEventListener('click', () => {
+    pickerChild(yesterdayFilterSelector).addEventListener('click', () => {
       const from = moment().subtract(1, 'days').format(dateFormat);
       const to = from;
       applyFilter(from, to);
     });
 
     // Handle click on 'Last 7 Days' filter
-    pickerChild(`.${lastSevenDaysFilterClassName}`).addEventListener('click', () => {
+    pickerChild(lastSevenDaysFilterSelector).addEventListener('click', () => {
       const from = moment().subtract(6, 'days').format(dateFormat);
       const to = moment().format(dateFormat);
       applyFilter(from, to);
     });
 
     // Handle click on 'Last 30 Days' filter
-    pickerChild(`.${lastThirtyDaysFilterClassName}`).addEventListener('click', () => {
+    pickerChild(lastThirtyDaysFilterSelector).addEventListener('click', () => {
       const from = moment().subtract(29, 'days').format(dateFormat);
       const to = moment().format(dateFormat);
       applyFilter(from, to);
     });
 
     // Handle click on 'This Month' filter
-    pickerChild(`.${thisMonthFilterClassName}`).addEventListener('click', () => {
+    pickerChild(thisMonthFilterSelector).addEventListener('click', () => {
       const from = moment().startOf('month').format(dateFormat);
       const to = moment().format(dateFormat);
       applyFilter(from, to);
     });
 
     // Handle click on 'Last Month' filter
-    pickerChild(`.${lastMonthFilterClassName}`).addEventListener('click', () => {
+    pickerChild(lastMonthFilterSelector).addEventListener('click', () => {
       const from = moment().subtract(1, 'months').startOf('month').format(dateFormat);
       const to = moment().subtract(1, 'months').endOf('month').format(dateFormat);
       applyFilter(from, to);
     });
 
     // Handle click on 'Last 3 Months' filter
-    pickerChild(`.${lastThreeMonthsFilterClassName}`).addEventListener('click', () => {
+    pickerChild(lastThreeMonthsFilterSelector).addEventListener('click', () => {
       const from = moment().subtract(3, 'months').startOf('month').format(dateFormat);
       const to = moment().format(dateFormat);
       applyFilter(from, to);
     });
 
     // Handle click on 'This Year' filter
-    pickerChild(`.${thisYearFilterClassName}`).addEventListener('click', () => {
+    pickerChild(thisYearFilterSelector).addEventListener('click', () => {
       const from = moment().startOf('year').format(dateFormat);
       const to = moment().format(dateFormat);
       applyFilter(from, to);
     });
 
     // Handle click on 'Last Year' filter
-    pickerChild(`.${lastYearFilterClassName}`).addEventListener('click', () => {
+    pickerChild(lastYearFilterSelector).addEventListener('click', () => {
       const from = moment().subtract(1, 'years').startOf('year').format(dateFormat);
       const to = moment().subtract(1, 'years').endOf('year').format(dateFormat);
       applyFilter(from, to);
     });
 
     // Handle click on 'Last 5 Years' filter
-    pickerChild(`.${lastFiveYearsFilterClassName}`).addEventListener('click', () => {
+    pickerChild(lastFiveYearsFilterSelector).addEventListener('click', () => {
       const from = moment().subtract(5, 'years').startOf('year').format(dateFormat);
       const to = moment().format(dateFormat);
       applyFilter(from, to);
     });
 
-    const setFilterActive = filterClassName => pickerChild(`.${filterClassName}`).classList.add('active');
+    const setFilterActive = filterSelector => pickerChild(filterSelector).classList.add('active');
 
     if (isToday(initialFromValue, initialToValue)) {
-      setFilterActive(todayFilterClassName);
+      setFilterActive(todayFilterSelector);
     } else if (isYesterday(initialFromValue, initialToValue)) {
-      setFilterActive(yesterdayFilterClassName);
+      setFilterActive(yesterdayFilterSelector);
     } else if (isLastSevenDaysPeriod(initialFromValue, initialToValue)) {
-      setFilterActive(lastSevenDaysFilterClassName);
+      setFilterActive(lastSevenDaysFilterSelector);
     } else if (isLastThirtyDaysPeriod(initialFromValue, initialToValue)) {
-      setFilterActive(lastThirtyDaysFilterClassName);
+      setFilterActive(lastThirtyDaysFilterSelector);
     } else if (isThisMonthPeriod(initialFromValue, initialToValue)) {
-      setFilterActive(thisMonthFilterClassName);
+      setFilterActive(thisMonthFilterSelector);
     } else if (isLastMonthPeriod(initialFromValue, initialToValue)) {
-      setFilterActive(lastMonthFilterClassName);
+      setFilterActive(lastMonthFilterSelector);
     } else if (isLastThreeMonthsPeriod(initialFromValue, initialToValue)) {
-      setFilterActive(lastThreeMonthsFilterClassName);
+      setFilterActive(lastThreeMonthsFilterSelector);
     } else if (isThisYearPeriod(initialFromValue, initialToValue)) {
-      setFilterActive(thisYearFilterClassName);
+      setFilterActive(thisYearFilterSelector);
     } else if (isLastYearPeriod(initialFromValue, initialToValue)) {
-      setFilterActive(lastYearFilterClassName);
+      setFilterActive(lastYearFilterSelector);
     } else if (isLastFiveYearsPeriod(initialFromValue, initialToValue)) {
-      setFilterActive(lastFiveYearsFilterClassName);
+      setFilterActive(lastFiveYearsFilterSelector);
     } else {
-      setFilterActive(customPeriodFilterClassName);
+      setFilterActive(customPeriodFilterSelector);
     }
 
     // "From" calendar configuration

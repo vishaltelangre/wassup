@@ -15,11 +15,11 @@
       </span>
       <div class="period">
         <div class="dropdown">
-          <a href="javascript:void(0)" class="dropdown-trigger">
+          <a href="javascript:void(0)" data-behavior="dropdown-trigger">
             <%= img_tag(Routes.static_path(@conn, "/images/calendar.svg"), class: "calendar-icon") %>
             <%= text_input(f, :period, value: period_filter_value(@conn), class: "value", placeholder: "Period", onchange: "this.form.submit();", readonly: true) %>
           </a>
-          <div class="dropdown-content">
+          <div class="dropdown-content" data-behavior="dropdown-content">
             <%= period_option_links(@conn) %>
             </div>
           </div>
