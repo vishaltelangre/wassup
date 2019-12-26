@@ -119,6 +119,7 @@ const createPrimarySeries = (chart, dateFieldName, valueFieldName) => {
       <div class="meta">
         <span class="submitted">{submitted_at.formatDate("MMM dd, YYYY - hh:mm:ss a")}</span>
         <img class="emoji-icon" src="/images/{sentiment}.svg" />
+        <img class="emoji-icon" src="{favorite_icon_path}" />
       </div>
       <p>{body_short}</p>
     </div>
@@ -164,8 +165,15 @@ const createDataItemBullets = series => {
   const bullet = series.bullets.push(new am4charts.CircleBullet());
   bullet.hoverOnFocus = true;
   bullet.stroke = am4core.color("#fff");
+  bullet.strokeOpacity = 0;
   // Colorize bullet with the sentiment's color
   bullet.adapter.add("fill", (fill, { dataItem: { dataContext: { sentiment_color } } }) => am4core.color(sentiment_color));
+  const favoriteIcon = bullet.createChild(am4core.Image);
+  favoriteIcon.propertyFields.href = "favorite_icon_path";
+  favoriteIcon.width = 24;
+  favoriteIcon.height = 24;
+  favoriteIcon.horizontalCenter = "middle";
+  favoriteIcon.verticalCenter = "middle";
   // Make bullets grow on hover
   const hoverState = bullet.states.create("hover");
   hoverState.properties.scale = 1.3;

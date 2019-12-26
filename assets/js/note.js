@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener('click', ({target}) => {
   if (target.getAttribute('data-behavior') === "note-preview-trigger") {
-    const { submitted_at, sentiment, body } = JSON.parse(target.getAttribute('data-note'));
+    const { submitted_at, sentiment, body, favorite, favorite_icon_path } = JSON.parse(target.getAttribute('data-note'));
     const localDateTime = localizeDateTime(submitted_at).format('MMM DD, YYYY - hh:mm:ss A');
 
     showModal(`
@@ -54,6 +54,7 @@ document.addEventListener('click', ({target}) => {
         <div class="meta">
           <span class="submitted">${localDateTime}</span>
           <img class="emoji-icon" src="/images/${sentiment}.svg" />
+          <img class="emoji-icon" src="${favorite_icon_path}" />
         </div>
         <p>${body}</p>
       </div>

@@ -44,7 +44,7 @@ defmodule WassupApp.Notes.Note do
     |> maybe_transform_submitted_at_in_timezone(timezone)
     |> Map.put(:sentiment_value, sentiment_value(sentiment))
     |> Map.put(:sentiment_color, sentiment_color(sentiment))
-    |> Map.put(:favorite_icon_path, favorite && "/images/favorite.svg")
+    |> Map.put(:favorite_icon_path, if(favorite, do: "/images/star.svg", else: "/images/blank.svg"))
   end
 
   defp maybe_transform_submitted_at_in_timezone(note, nil), do: note
