@@ -26,6 +26,10 @@ textarea {
   resize: none;
 }
 
+select {
+  width: auto;
+}
+
 table {
   margin-bottom: 0;
 }
@@ -34,12 +38,12 @@ a {
   text-shadow: 0 1px 0 #000;
 }
 
-h1{font-size: 3.6rem; line-height: 1.25}
-h2{font-size: 2rem; line-height: 1.3}
-h3{font-size: 1.8rem; letter-spacing: -.08rem; line-height: 1.35}
-h4{font-size: 1.6rem; letter-spacing: -.05rem; line-height: 1.5}
-h5{font-size: 1.4rem; letter-spacing: 0; line-height: 1.4}
-h6{font-size: 1.2rem; letter-spacing: 0; line-height: 1.2}
+h1 { font-size: 3.6rem; line-height: 1.25 }
+h2 { font-size: 2rem; line-height: 1.3 }
+h3 { font-size: 1.8rem; letter-spacing: -.08rem; line-height: 1.35 }
+h4 { font-size: 1.6rem; letter-spacing: -.05rem; line-height: 1.5 }
+h5 { font-size: 1.4rem; letter-spacing: 0; line-height: 1.4 }
+h6 { font-size: 1.2rem; letter-spacing: 0; line-height: 1.2 }
 
 h1, h2, h3, h4, h5, h6 {
   line-height: 1;
@@ -47,10 +51,6 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: bold;
   text-shadow: 2px 4px 0 #000;
   color: #fff;
-}
-
-select {
-  width: auto;
 }
 
 /* Reset input background color from Webkit's automcomplete - https://stackoverflow.com/a/37432260/1052356 */
@@ -72,10 +72,10 @@ button, .button {
 
 nav.main a {
   color: #ccc;
-}
 
-nav.main a:hover {
-  color: #fff;
+  &:hover {
+    color: #fff;
+  }
 }
 
 .dropdown-icon {
@@ -105,29 +105,35 @@ nav.main a:hover {
   margin-bottom: 20px;
   border: 1px solid transparent;
   border-radius: 4px;
-  text-align: center
+  text-align: center;
+
+  &:empty {
+    display: none;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
 }
+
 .alert-info {
   color: #0092da;
   background-color: rgba(0, 46, 95, 0.4);
   border-color: #041417;
 }
+
 .alert-warning {
   color: #de8d00;
   background-color: rgba(105, 53, 0, 0.4);
   border-color: #1d1300;
 }
+
 .alert-danger {
   color: #bf1a16;
   background-color: rgba(80, 0, 0, 0.4);
   border-color: #250006;
 }
-.alert p {
-  margin-bottom: 0;
-}
-.alert:empty {
-  display: none;
-}
+
 .help-block {
   color: #a94442;
   display: block;
@@ -140,33 +146,40 @@ header {
   background: rgba(0, 0, 0, 0.5);
   border-bottom: 1px solid #000;
   margin-bottom: 2rem;
-}
-header section {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-header section :first-child {
-  order: 2;
-}
-header section :last-child {
-  order: 1;
-}
-header nav ul,
-header nav li {
-  margin: 0;
-  padding: 0;
-  display: block;
-  text-align: right;
-  white-space: nowrap;
-}
-header nav ul {
-  margin: 1rem;
-  margin-top: 0;
-}
-header nav a {
-  display: inline-block;
+
+  section {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    :first-child {
+      order: 2;
+    }
+
+    :last-child {
+      order: 1;
+    }
+  }
+
+  nav {
+    ul, li {
+      margin: 0;
+      padding: 0;
+      display: block;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    ul {
+      margin: 1rem;
+      margin-top: 0;
+    }
+
+    a {
+      display: inline-block;
+    }
+  }
 }
 
 /* Custom Button Sizes */
@@ -190,11 +203,16 @@ header nav a {
 
 /* Large screen devices */
 @media (min-width: 40.0rem) {
-  header section {
-    flex-direction: row;
-  }
-  header nav ul {
-    margin: 1rem;
+  header {
+    section {
+      flex-direction: row;
+    }
+
+    nav {
+      ul {
+        margin: 1rem;
+      }
+    }
   }
 }
 
@@ -202,10 +220,10 @@ header nav a {
 @media (max-width: 42.5rem) {
   .row {
     flex-direction: column;
-  }
 
-  .row .column[class*=" column-"] {
-    margin-left: 0;
-    max-width: 100%;
+    .column[class*=" column-"] {
+      margin-left: 0;
+      max-width: 100%;
+    }
   }
 }

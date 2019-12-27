@@ -1,0 +1,64 @@
+.auth-page {
+  max-width: 400px;
+  margin: 0 auto;
+
+  h1 {
+    font-size: 25px;
+    text-align: center;
+    margin: 40px auto;
+  }
+
+  form {
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    padding: 50px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.5);
+  }
+
+  .control-label {
+    font-size: 14px;
+    font-weight: normal;
+    color: #999;
+    text-shadow: 1px 2px 1px #000;
+  }
+
+  input, select {
+    width: 100%;
+  }
+
+  .actions {
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .divider {
+    display: block;
+    font-size: 14px;
+    color: #999;
+    text-shadow: 2px 2px 1px #000;
+    margin-bottom: 1rem;
+  }
+
+  .help-text {
+    font-size: 14px;
+    text-align: center;
+
+    a {
+      font-weight: bold;
+    }
+  }
+
+  .google-auth-button {
+    position: relative;
+    padding-left: 32px;
+
+    img {
+      width: 12px;
+      height: 12px;
+      position: absolute;
+      top: 7px;
+      left: 12px;
+    }
+  }
+}

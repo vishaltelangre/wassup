@@ -1,0 +1,38 @@
+.note-preview {
+  .meta {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #222;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+
+    .submitted {
+      padding: 2px 5px;
+      font-size: 10px;
+      background-color: #222;
+      border-radius: 5px;
+    }
+
+    .emoji-icon {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  p {
+    margin: 0;
+    white-space: pre-wrap;
+    max-width: 300px;
+    max-height: 250px;
+    overflow-y: auto;
+  }
+}
+
+.modal-content {
+  .note-preview {
+    p {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+}
