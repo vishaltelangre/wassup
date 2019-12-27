@@ -93,7 +93,7 @@
               <%= img_tag(Routes.static_path(@conn, "/images/more.svg"), class: "dropdown-trigger-icon") %>
             </a>
             <div class="dropdown-content" data-behavior="dropdown-content">
-              <%= link "Edit", to: Routes.note_path(@conn, :edit, note) %>
+              <%= link "Edit", to: Routes.note_path(@conn, :edit, note, referrer: @current_path) %>
               <%= link "Remove", to: Routes.note_path(@conn, :delete, note), method: :delete, data: [confirm: "Are you sure that you want the selected note?"] %>
             </div>
           </div>

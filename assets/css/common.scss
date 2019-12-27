@@ -104,6 +104,11 @@ nav.main a {
   margin-bottom: 20px;
 }
 
+.muted {
+  color: $secondary-text-color;
+  text-shadow: 0 1px 0 $dark-shadow-color;
+}
+
 /* Alerts and form errors */
 .alert {
   padding: 15px;

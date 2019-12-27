@@ -11,7 +11,7 @@ defmodule WassupAppWeb.NoteController do
     %{data: data, paginate: paginate} =
       Notes.paginate_notes_for_user(conn.assigns.current_user, params["filter"] || %{})
 
-    render(conn, "index.html", notes: data, paginate: paginate)
+    render(conn, "index.html", notes: data, paginate: paginate, current_path: current_path(conn))
   end
 
   def create(conn, %{"note" => note_params}) do
@@ -30,18 +30,21 @@ defmodule WassupAppWeb.NoteController do
 
   def edit(conn, %{"id" => _id}) do
     changeset = Notes.change_note(conn.assigns.note)
-    render(conn, "edit.html", changeset: changeset)
+    last_path = conn.params["referrer"] || Routes.note_path(conn, :index)
+    render(conn, "edit.html", changeset: changeset, last_path: last_path)
   end
 
   def update(conn, %{"id" => _id, "note" => note_params}) do
+    last_path = conn.params["referrer"] || Routes.note_path(conn, :index)
+
     case Notes.update_note(conn.assigns.note, note_params) do
-      {:ok, note} ->
+      {:ok, _note} ->
         conn
         |> put_flash(:info, "Note updated successfully.")
-        |> redirect(to: Routes.note_path(conn, :show, note))
+        |> redirect(to: last_path)
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", changeset: changeset)
+        render(conn, "edit.html", changeset: changeset, last_path: last_path)
     end
   end
 

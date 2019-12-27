@@ -2,6 +2,7 @@ import { showModal } from "./modal";
 import { localizeDateTime } from "./localize_datetime";
 
 const csrfTokenSelector = "meta[name='csrf-token']";
+const methodFieldSelector = "input[name='_method']";
 const noteBodyFieldSelector = "textarea[name='note[body]']";
 const noteSentimentRadioSelector = "input[name='note[sentiment]']:checked";
 const notePreviewTriggerSelector = "[data-behavior=note-preview-trigger]";
@@ -10,6 +11,7 @@ const noteFavoriteToggleSelector = "[data-behavior=note-favorite-toggle]";
 const formToJSON = form => {
   return {
     _csrf_token: document.querySelector(csrfTokenSelector).content,
+    _method: document.querySelector(methodFieldSelector).value,
       note: {
       body: form.querySelector(noteBodyFieldSelector).value,
         sentiment: form.querySelector(noteSentimentRadioSelector).value
@@ -97,6 +99,7 @@ const toggleFavorite = toggleElement => {
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector(".note-form");
   if (!form) return;
+  if (form.classList.contains("edit")) return;
 
   const url = form.getAttribute("action");
 

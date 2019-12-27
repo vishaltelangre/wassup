@@ -1,5 +1,9 @@
-<h1>Edit Note</h1>
+<%= link "⟵ Return Back", to: @last_path, class: "back-link" %>
 
-<%= render "form.html", Map.put(assigns, :action, Routes.note_path(@conn, :update, @note)) %>
+<h1>Editing Note</h1>
+<p class="muted">
+  which was saved at
+  <strong><%= @note.submitted_at |> Timex.format!("%b %d, %Y - %I:%M:%S %p", :strftime) %></strong>
+</p>
 
-<span><%= link "Back", to: Routes.note_path(@conn, :index) %></span>
+<%= render "form.html", assigns |> Map.put(:action, Routes.note_path(@conn, :update, @note, referrer: @last_path)) |> Map.put(:action_name, :edit) %>
