@@ -1,12 +1,12 @@
 .criteria {
   display: flex;
   font-size: 14px;
-  color: #777;
-  text-shadow: 2px 2px 0px #111;
+  color: $secondary-text-color;
+  text-shadow: 2px 2px 0px $dark-shadow-color;
   margin: 20px 0;
   padding: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.25);
-  box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.5);
+  border: 1px solid $block-border-color;
+  box-shadow: 2px 2px 2px 0px $block-box-shadow-color;
   border-radius: 10px;
 
   ul, input, select {
@@ -52,7 +52,6 @@
     .value {
       padding: 0 25px 0 5px;
       border: 0;
-      box-shadow: 0 0 0 0;
     }
   }
 

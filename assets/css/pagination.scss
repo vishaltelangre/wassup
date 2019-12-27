@@ -7,7 +7,7 @@
       margin: 0 2px 0 0 !important;
       width: auto !important;
       &.active {
-        background: rgba(0, 0, 0, 0.5);
+        background: $pagination-active-background-color;
       }
     }
   }
@@ -18,7 +18,7 @@
 
   .disabled, .active {
     .page-link {
-      color: #555;
+      color: $pagination-active-and-disabled-page-link-color;
       cursor: text;
     }
   }

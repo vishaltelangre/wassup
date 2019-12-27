@@ -1,7 +1,11 @@
 /* This file is for your main application css. */
 
-@import "./milligram.css";
+@import "./vendor/milligram.css";
 @import "~@bevacqua/rome/dist/rome.css";
+
+@import "./variables.scss";
+@import "./mixins/note_list_item_mixin.scss";
+
 @import "./dropdown.scss";
 @import "./modal.scss";
 @import "./criteria.scss";

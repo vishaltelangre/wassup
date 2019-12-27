@@ -1,68 +1,11 @@
 .notes-page {
   ul {
-    list-style: circle inside;
-    box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 2px 2px 3px 0px $block-box-shadow-color;
     border-radius: 10px;
-    background-color: rgba(0, 0, 0, 0.15);
+    background-color: $block-background-color;
   }
 
-  li {
-    border-bottom: 1px solid #111;
-    list-style-type: none;
-    padding: 6px 10px;
-    margin: 1px 0 0 0;
-    width: 100%;
-
-    &:hover {
-      background: rgba(0, 0, 0, 0.3) !important;
-      transition: background 0.5s ease;
-    }
-
-    &:first-child {
-      margin-top: 0;
-    }
-
-    &:last-child {
-      border-bottom: 0px solid #000;
-      margin-bottom: 0;
-    }
-
-    &:nth-child(even) {
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    .sentiment-emoji {
-      width: 32px;
-      height: 32px;
-      filter: drop-shadow(2px 2px 1px rgba(0, 0, 0, 0.5));
-    }
-
-    .meta {
-      display: flex !important;
-      align-items: center;
-      justify-items: center;
-    }
-
-    .label {
-      border-radius: 5px;
-      padding: 2px 5px;
-      text-shadow: 0 1px 0 #333;
-      background-color: #333;
-      font-size: 10px;
-      color: #c3c3c3;
-      display: inline-block;
-      vertical-align: top;
-    }
-
-    p {
-      padding: 0;
-      margin: 0;
-      font-size: 14px;
-      color: #eee;
-      white-space: pre-wrap;
-      max-width: 100%;
-    }
-  }
+  @include note-list-item-mixin;
 
   nav {
     display: flex;
@@ -70,10 +13,10 @@
   }
 
   .pagination {
-    box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 2px 2px 3px 0px $block-box-shadow-color;
 
     li {
-      border-bottom: 0px solid #000 !important;
+      border-bottom: 0px solid transparent !important;
     }
   }
 
@@ -84,7 +27,7 @@
 
     .dropdown-content {
       margin-top: 10px;
-      background: rgba(0, 0, 0, 1);
+      background: $date-range-picker-dropdown-content-background-color;
 
       a {
         font-size: 12px;
@@ -92,8 +35,8 @@
 
         &.active {
           font-weight: bold;
-          background: #333;
-          color: #999;
+          color: $dropdown-active-link-color;
+          background: $dropdown-active-link-background-color;
         }
       }
     }
@@ -105,23 +48,23 @@
 
     .rd-month-label {
       line-height: 38px;
-      color: rgb(180, 180, 180);
+      color: $date-range-picker-month-label-color;
     }
 
     td, th {
       border: 0;
       padding: 5px;
-      color: rgb(180, 180, 180);
+      color: $date-range-picker-day-number-color;
     }
 
     .rd-day-prev-month, .rd-day-next-month {
-      color: #504e4e;
+      color: $date-range-picker-month-arrow-color;
       text-shadow: none;
     }
 
     td {
       &.rd-day-disabled {
-        color:#101010;
+        color:$date-range-picker-day-number-disabled-color;
         cursor: not-allowed;
         text-shadow: none;
       }

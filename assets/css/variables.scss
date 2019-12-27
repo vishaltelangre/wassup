@@ -1,0 +1,94 @@
+/*
+ **********************************************************
+ * Colors
+ **********************************************************
+ */
+
+$primary-color: #2196F3;
+$text-color: #fff;
+$text-invert-color: #000;
+$secondary-text-color: #757575;
+$base-background-color: #000;
+$base-background-invert-color: #fff;
+$base-border-color: $base-background-color;
+
+// Shadow
+$dark-shadow-color: #000;
+$light-shadow-color: scale-color($dark-shadow-color, $lightness: +25%);
+
+// Block
+$block-background-color: rgba($base-background-color, 0.15);
+$block-border-color: rgba($base-background-color, 0.25);
+$block-box-shadow-color: rgba($base-background-color, 0.5);
+
+// Body
+$body-background-color: rgba($base-background-color, 0.88);
+
+// Inputs
+$input-border-color: #111;
+$input-focused-border-color: $primary-color;
+$form-label-color: $secondary-text-color;
+
+// Links
+$link-color: $primary-color;
+$primary-button-background-color: $link-color;
+$primary-button-border-color: $link-color;
+$primary-button-outline-color: $link-color;
+
+// Dropdown
+$dropdown-link-color: darken($text-color, 20%);
+$dropdown-hovered-link-color: lighten($dropdown-link-color, 30%);
+$dropdown-active-link-color: lighten($dropdown-link-color, 10%);
+$dropdown-background-color: rgba(lighten($base-background-color, 5%), 0.9);
+$dropdown-active-link-background-color: lighten($dropdown-background-color, 25%);
+$dropdown-box-shadow-color: rgba($base-background-color, 0.2);
+$dropdown-hovered-link-background-color: darken($dropdown-background-color, 100%);
+
+// Alerts
+$alert-info-text-color: $primary-color;
+$alert-info-background-color: rgba(darken($alert-info-text-color, 35%), 0.4);
+$alert-info-border-color: darken($alert-info-text-color, 45%);
+$alert-warning-text-color: #de8d00;
+$alert-warning-background-color: rgba(darken($alert-warning-text-color, 35%), 0.4);
+$alert-warning-border-color: darken($alert-warning-text-color, 38%);
+$alert-danger-text-color: #bf1a16;
+$alert-danger-background-color: rgba(darken($alert-danger-text-color, 30%), 0.4);
+$alert-danger-border-color: darken($alert-danger-text-color, 30%);
+$input-help-block-text-color: rgba(lighten($alert-danger-text-color, 10%), 0.8);
+
+// Header
+$header-background-color: rgba($base-background-color, 0.5);
+$header-border-color: darken($base-background-color, 100%);
+
+// Note List
+$note-list-item-even-child-background-color: rgba(#fff, 0.02);
+$note-list-item-hovered-background-color: rgba($base-background-color, 0.3);
+$note-list-item-border-color: rgba($base-border-color, 0.5);
+$note-list-item-meta-icon-box-shadow-color: rgba($dark-shadow-color, 0.5);
+
+// Date badge/label
+$date-label-background-color: lighten($base-background-color, 20%);
+$date-label-text-shadow-color: $date-label-background-color;
+$date-label-text-color: darken($text-color, 20%);
+
+// Modal
+$modal-backdrop-background-color: rgba($base-background-color, 0.5);
+$modal-background-color: $base-background-color;
+$modal-box-shadow-color: rgba(lighten($base-background-color, 20%), 0.5);
+$modal-close-background-color: darken($base-background-invert-color, 20%);
+$modal-close-hovered-background-color: $base-background-invert-color;
+$modal-close-button-text-color: $text-invert-color;
+
+// Note Preview
+$note-preview-meta-border-color: lighten($base-border-color, 15%);
+
+// Pagination
+$pagination-active-background-color: rgba($base-background-color, 0.5);
+$pagination-active-and-disabled-page-link-color: darken($text-color, 60%);
+
+// Date range picker
+$date-range-picker-dropdown-content-background-color: $base-background-color;
+$date-range-picker-day-number-color: darken($text-color, 20%);
+$date-range-picker-day-number-disabled-color: darken($date-range-picker-day-number-color, 70%);
+$date-range-picker-month-label-color: $date-range-picker-day-number-color;
+$date-range-picker-month-arrow-color: lighten($date-range-picker-month-label-color, 30%);

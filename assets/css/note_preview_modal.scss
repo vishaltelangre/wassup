@@ -2,14 +2,16 @@
   .meta {
     display: flex;
     align-items: center;
-    border-bottom: 1px solid #222;
+    border-bottom: 1px solid $note-preview-meta-border-color;
     padding-bottom: 5px;
     margin-bottom: 5px;
 
     .submitted {
       padding: 2px 5px;
       font-size: 10px;
-      background-color: #222;
+      background-color: $date-label-background-color;
+      color: $date-label-text-color;
+      text-shadow: 0 1px 0 $date-label-text-shadow-color;
       border-radius: 5px;
     }
 

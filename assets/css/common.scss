@@ -1,25 +1,25 @@
 /* Base elements */
 body {
   margin: 0;
-  color: #fff;
-  background-color: #333;
+  color: $text-color;
+  background-color: $body-background-color;
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCI+CjxmaWx0ZXIgaWQ9Im4iPgo8ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjciIG51bU9jdGF2ZXM9IjEwIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIj48L2ZlVHVyYnVsZW5jZT4KPC9maWx0ZXI+CjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWxsPSIjMDAwIj48L3JlY3Q+CjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWx0ZXI9InVybCgjbikiIG9wYWNpdHk9IjAuNCI+PC9yZWN0Pgo8L3N2Zz4=");
 }
 
 input, textarea, select {
   font-size: 14px;
-  box-shadow: 2px 2px 3px 0px rgba(60, 60, 60, 0.6) !important;
-  border: 1px solid #111 !important;
-  color: #fff;
+  box-shadow: 2px 2px 3px 0px rgba($light-shadow-color, 0.6) !important;
+  border: 1px solid $input-border-color !important;
+  color: $text-color;
 }
 
 input:focus, select:focus {
-  border-color: #0069d9 !important;
+  border-color: $input-focused-border-color !important;
 }
 
 textarea {
   border: 0px solid transparent;
-  box-shadow: 2px 3px 10px -5px #000;
+  box-shadow: 2px 3px 10px -5px $dark-shadow-color;
   margin-bottom: 0;
   height: 120px;
   max-height: 120px;
@@ -35,7 +35,8 @@ table {
 }
 
 a {
-  text-shadow: 0 1px 0 #000;
+  color: $link-color;
+  text-shadow: 0 1px 0 $dark-shadow-color;
 }
 
 h1 { font-size: 3.6rem; line-height: 1.25 }
@@ -49,14 +50,14 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1;
   margin-bottom: 10px;
   font-weight: bold;
-  text-shadow: 2px 4px 0 #000;
-  color: #fff;
+  text-shadow: 2px 4px 0 $dark-shadow-color;
+  color: $text-color;
 }
 
 /* Reset input background color from Webkit's automcomplete - https://stackoverflow.com/a/37432260/1052356 */
 @-webkit-keyframes autofill {
   to {
-    color: #fff;
+    color: $text-color;
     background: transparent;
   }
 }
@@ -66,15 +67,20 @@ input:-webkit-autofill {
   -webkit-animation-fill-mode: both;
 }
 
-button, .button {
-  box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.5);
+button, .button, input[type='button'], input[type='reset'], input[type='submit'] {
+  box-shadow: 2px 2px 3px 0px rgba($dark-shadow-color, 0.5);
+  border: 0.1rem solid $primary-button-border-color;
+}
+
+.button.button-outline, button.button-outline, input[type='button'].button-outline, input[type='reset'].button-outline, input[type='submit'].button-outline {
+  color: $primary-button-outline-color;
 }
 
 nav.main a {
-  color: #ccc;
+  color: $dropdown-link-color;
 
   &:hover {
-    color: #fff;
+    color: $dropdown-hovered-link-color;
   }
 }
 
@@ -94,7 +100,6 @@ nav.main a {
 .back-link {
   display: inline-block;
   font-weight: normal;
-  text-shadow: 0 1px 0 #000;
   letter-spacing: normal;
   margin-bottom: 20px;
 }
@@ -117,34 +122,35 @@ nav.main a {
 }
 
 .alert-info {
-  color: #0092da;
-  background-color: rgba(0, 46, 95, 0.4);
-  border-color: #041417;
+  color: $alert-info-text-color;
+  background-color: $alert-info-background-color;
+  border-color: $alert-info-border-color;
 }
 
 .alert-warning {
-  color: #de8d00;
-  background-color: rgba(105, 53, 0, 0.4);
-  border-color: #1d1300;
+  color: $alert-warning-text-color;
+  background-color: $alert-warning-background-color;
+  border-color: $alert-warning-border-color;
 }
 
 .alert-danger {
-  color: #bf1a16;
-  background-color: rgba(80, 0, 0, 0.4);
-  border-color: #250006;
+  color: $alert-danger-text-color;
+  background-color: $alert-danger-background-color;
+  border-color: $alert-danger-border-color;
 }
 
 .help-block {
-  color: #a94442;
+  color: $input-help-block-text-color;
   display: block;
   margin: -1rem 0 2rem;
+  font-size: 80%;
 }
 
 /* Headers */
 header {
   width: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  border-bottom: 1px solid #000;
+  background: $header-background-color;
+  border-bottom: 1px solid $header-border-color;
   margin-bottom: 2rem;
 
   section {

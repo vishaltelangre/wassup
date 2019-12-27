@@ -35,7 +35,7 @@
   }
 
   [type=radio]:checked + img {
-    filter: drop-shadow(5px 5px 3px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(5px 5px 3px rgba($dark-shadow-color, 0.5));
     width: 64px;
     height: 64px;
     opacity: 1;

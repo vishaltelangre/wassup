@@ -11,8 +11,8 @@
       a {
         &.active {
           font-weight: bold;
-          background: #333;
-          color: #999;
+          background: $dropdown-active-link-background-color;
+          color: $dropdown-active-link-color;
         }
       }
     }

@@ -8,9 +8,9 @@
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: rgba(10, 10, 10, 0.8);
+  background-color: $dropdown-background-color;
   min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 8px 16px 0px $dropdown-box-shadow-color;
   border-radius: 5px;
   z-index: 1;
   right: 0;
@@ -18,16 +18,16 @@
   /* Links inside the dropdown */
   a {
     font-size: 14px;
-    color: #999;
+    color: $dropdown-link-color;
     padding: 5px 10px;
     text-decoration: none;
     display: block;
-    border-bottom: 1px solid #222;
+    border-bottom: 1px solid lighten($base-border-color, 10%);
 
     /* Change color of dropdown links on hover */
     &:hover {
-      color: #fff;
-      background-color: rgba(0, 0, 0, 1);
+      color: $dropdown-hovered-link-color;
+      background-color: $dropdown-hovered-link-background-color;
     }
   }
 }
