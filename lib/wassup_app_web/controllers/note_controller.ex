@@ -2,9 +2,10 @@ defmodule WassupAppWeb.NoteController do
   use WassupAppWeb, :controller
 
   alias WassupApp.Notes
-  alias WassupApp.Notes.Note
+  alias WassupAppWeb.NoteChannel
+  alias WassupAppWeb.ErrorView
 
-  plug :authorize_note when action in [:edit, :update, :delete]
+  plug :authorize_note when action in [:edit, :update, :delete, :toggle_favorite]
 
   def index(conn, params) do
     %{data: data, paginate: paginate} =
@@ -16,14 +17,14 @@ defmodule WassupAppWeb.NoteController do
   def create(conn, %{"note" => note_params}) do
     case Notes.create_note_for_user(conn.assigns.current_user.id, note_params) do
       {:ok, _} ->
-        WassupAppWeb.NoteChannel.broadcast_refresh(conn.assigns.current_user.id)
+        NoteChannel.broadcast_refresh(conn.assigns.current_user.id)
 
         json(conn, %{})
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(WassupAppWeb.ErrorView, "error.json", changeset: changeset)
+        |> render(ErrorView, "error.json", changeset: changeset)
     end
   end
 
@@ -52,8 +53,22 @@ defmodule WassupAppWeb.NoteController do
     |> redirect(to: Routes.note_path(conn, :index))
   end
 
+  def toggle_favorite(conn, %{"note_id" => _id, "favorite" => favorite}) do
+    case Notes.update_note(conn.assigns.note, %{favorite: favorite}) do
+      {:ok, note} ->
+        NoteChannel.broadcast_refresh(conn.assigns.current_user.id)
+
+        json(conn, note)
+
+      {:error, %Ecto.Changeset{} = _changeset} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> json(%{error: "An error occurred"})
+    end
+  end
+
   defp authorize_note(conn, _) do
-    note = Notes.get_note!(conn.params["id"])
+    note = Notes.get_note!(conn.params["id"] || conn.params["note_id"])
 
     if conn.assigns.current_user.id == note.user_id do
       assign(conn, :note, note)

@@ -5,6 +5,7 @@ defmodule WassupAppWeb.NoteView do
   import WassupAppWeb.PaginateView, only: [pagination_links: 3]
 
   alias WassupApp.PeriodOptions
+  alias WassupApp.Notes.Note
 
   def period_option_links(conn) do
     PeriodOptions.options() |> Enum.map(fn option -> period_option_link(conn, option) end)
@@ -23,5 +24,15 @@ defmodule WassupAppWeb.NoteView do
       class: "daterange-filter",
       data: [behavior: "#{dasherized_option}-filter"]
     )
+  end
+
+  def note_favorite_toggle_link(conn, %Note{id: id, favorite: favorite, favorite_icon_path: favorite_icon_path}) do
+    title = if(favorite, do: "Unstar this note", else: "Star this note")
+
+    link to: {:javascript, "void(0)"},
+         title: title,
+         data: [behavior: "note-favorite-toggle", note_id: id, toggle_to: !favorite] do
+      img_tag(Routes.static_path(conn, favorite_icon_path), class: "icon star-icon")
+    end
   end
 end

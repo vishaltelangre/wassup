@@ -22,6 +22,12 @@
   /* Recent Notes Widget */
   .notes {
     @include note-list-item-mixin;
+
+    li {
+      p {
+        white-space: normal;
+      }
+    }
   }
 
   /* Mood Widget */
@@ -30,7 +36,6 @@
     min-height: 200px;
   }
 }
-
 
 /* Small screen devices */
 @media (max-width: 42.5rem) {

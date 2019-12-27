@@ -49,7 +49,9 @@ defmodule WassupAppWeb.Router do
     get "/graphs/timeline", GraphController, :timeline
 
     # Notes
-    resources "/notes", NoteController, except: [:new, :show]
+    resources "/notes", NoteController, except: [:new, :show] do
+      put "/toggle_favorite", NoteController, :toggle_favorite, as: :toggle_favorite
+    end
   end
 
   defp put_user_token(conn, _) do

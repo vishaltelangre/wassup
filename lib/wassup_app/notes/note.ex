@@ -15,6 +15,7 @@ defmodule WassupApp.Notes.Note do
              :sentiment_color,
              :favorite,
              :favorite_icon_path,
+             :graph_favorite_icon_path,
              :submitted_at
            ]}
 
@@ -30,6 +31,7 @@ defmodule WassupApp.Notes.Note do
     field :body, :string
     field :favorite, :boolean, default: false
     field :favorite_icon_path, :string, virtual: true
+    field :graph_favorite_icon_path, :string, virtual: true
     field :sentiment, SentimentEnum
     field :sentiment_value, :string, virtual: true
     field :sentiment_color, :string, virtual: true
@@ -44,7 +46,14 @@ defmodule WassupApp.Notes.Note do
     |> maybe_transform_submitted_at_in_timezone(timezone)
     |> Map.put(:sentiment_value, sentiment_value(sentiment))
     |> Map.put(:sentiment_color, sentiment_color(sentiment))
-    |> Map.put(:favorite_icon_path, if(favorite, do: "/images/star.svg", else: "/images/blank.svg"))
+    |> Map.put(
+      :favorite_icon_path,
+      if(favorite, do: "/images/star.svg", else: "/images/unstar.svg")
+    )
+    |> Map.put(
+      :graph_favorite_icon_path,
+      if(favorite, do: "/images/star.svg", else: "/images/blank.svg")
+    )
   end
 
   defp maybe_transform_submitted_at_in_timezone(note, nil), do: note

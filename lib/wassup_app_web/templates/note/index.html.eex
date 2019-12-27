@@ -80,7 +80,7 @@
       <li class="row">
         <div class="meta column column-25">
           <%= img_tag(Routes.static_path(@conn, "/images/#{note.sentiment}.svg"), class: "icon") %>
-          <%= img_tag(Routes.static_path(@conn, note.favorite_icon_path), class: "icon") %>
+          <%= note_favorite_toggle_link(@conn, note) %>
           <span class="label"><%= note.submitted_at |> Timex.format!("%b %d, %Y - %I:%M:%S %p", :strftime) %></span>
         </div>
 
