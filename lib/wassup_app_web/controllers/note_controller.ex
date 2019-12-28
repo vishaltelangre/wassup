@@ -1,17 +1,17 @@
 defmodule WassupAppWeb.NoteController do
   use WassupAppWeb, :controller
 
-  alias WassupApp.Notes
+  alias WassupApp.{Notes, Notes.Note}
   alias WassupAppWeb.NoteChannel
   alias WassupAppWeb.ErrorView
 
-  plug :authorize_note when action in [:edit, :update, :delete, :toggle_favorite]
+  plug :authorize_note when action in [:update, :delete, :toggle_favorite]
 
   def index(conn, params) do
     %{data: data, paginate: paginate} =
       Notes.paginate_notes_for_user(conn.assigns.current_user, params["filter"] || %{})
 
-    render(conn, "index.html", notes: data, paginate: paginate, current_path: current_path(conn))
+    render(conn, "index.html", notes: data, paginate: paginate)
   end
 
   def create(conn, %{"note" => note_params}) do
@@ -28,23 +28,17 @@ defmodule WassupAppWeb.NoteController do
     end
   end
 
-  def edit(conn, %{"id" => _id}) do
-    changeset = Notes.change_note(conn.assigns.note)
-    last_path = conn.params["referrer"] || Routes.note_path(conn, :index)
-    render(conn, "edit.html", changeset: changeset, last_path: last_path)
-  end
-
   def update(conn, %{"id" => _id, "note" => note_params}) do
-    last_path = conn.params["referrer"] || Routes.note_path(conn, :index)
-
     case Notes.update_note(conn.assigns.note, note_params) do
-      {:ok, _note} ->
-        conn
-        |> put_flash(:info, "Note updated successfully.")
-        |> redirect(to: last_path)
+      {:ok, note} ->
+        NoteChannel.broadcast_update(conn.assigns.current_user.id, Note.transform_fields(note))
+
+        json(conn, note)
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", changeset: changeset, last_path: last_path)
+        conn
+        |> put_status(:unprocessable_entity)
+        |> render(ErrorView, "error.json", changeset: changeset)
     end
   end
 
@@ -59,7 +53,7 @@ defmodule WassupAppWeb.NoteController do
   def toggle_favorite(conn, %{"note_id" => _id, "favorite" => favorite}) do
     case Notes.update_note(conn.assigns.note, %{favorite: favorite}) do
       {:ok, note} ->
-        NoteChannel.broadcast_refresh(conn.assigns.current_user.id)
+        NoteChannel.broadcast_update(conn.assigns.current_user.id, Note.transform_fields(note))
 
         json(conn, note)
 

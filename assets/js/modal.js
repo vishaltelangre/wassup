@@ -10,11 +10,13 @@ export const showModal = contents => {
   modal.classList.add(modalShowClassName);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+export const closeModal = () => {
   const modal = document.querySelector(modalSelector);
+  modal.classList.remove(modalShowClassName);
+};
+
+document.addEventListener('DOMContentLoaded', () => {
   const closeButton = document.querySelector(modalCloseSelector);
 
-  closeButton.addEventListener('click', () => {
-    modal.classList.remove(modalShowClassName);
-  });
+  closeButton.addEventListener('click', closeModal);
 });

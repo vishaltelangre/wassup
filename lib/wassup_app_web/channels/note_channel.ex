@@ -12,6 +12,14 @@ defmodule WassupAppWeb.NoteChannel do
     end
   end
 
+  def join("note:updates:" <> user_id, _message, socket) do
+    if user_id == socket.assigns.current_user do
+      {:ok, socket}
+    else
+      {:error, %{reason: "unauthorized"}}
+    end
+  end
+
   def join("note:" <> _, _message, _) do
     {:error, %{reason: "Unknown channel"}}
   end
@@ -26,6 +34,14 @@ defmodule WassupAppWeb.NoteChannel do
       "note:dashboard:#{user_id}",
       "refresh",
       refresh_event_response(user_id)
+    )
+  end
+
+  def broadcast_update(user_id, note) do
+    WassupAppWeb.Endpoint.broadcast!(
+      "note:updates:#{user_id}",
+      "update",
+      %{body: note}
     )
   end
 

@@ -3,6 +3,8 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import am4themes_dark from "@amcharts/amcharts4/themes/dark";
 
+import { truncateNoteBodyForChartTooltip } from "./utils";
+
 // Chart colors
 const fixedPeriodContainerLabelColor = am4core.color("#555");
 const fixedPeriodContainerBackgroundColor = am4core.color("#000");
@@ -82,21 +84,7 @@ const createChart = (targetNodeId, data) => {
   // On clicking on the truncated body in a tooltip, attach data attributes
   // to trigger a modal with the detailed note preview.
   chart.data = data.map(note => {
-    const { body } = note;
-    const maxBodyLength = 250;
-    const exceedingMaxBodyLength = body.length > maxBodyLength;
-    const modalTriggerAttributes = `
-      data-note='${JSON.stringify(note)}'
-      data-behavior="note-preview-trigger"
-    `;
-    const elipsis = exceedingMaxBodyLength
-      ? `… <a ${modalTriggerAttributes} href="javascript:void(0)">Read More</a>`
-      : "";
-    const truncatedBody = body.substring(0, maxBodyLength) + elipsis;
-
-    note.short_body = exceedingMaxBodyLength
-      ? `<p ${modalTriggerAttributes}>${truncatedBody}</p>`
-      : truncatedBody;
+    note.short_body = truncateNoteBodyForChartTooltip(note);
 
     return note;
   });
@@ -211,9 +199,9 @@ const createPrimarySeries = (chart, dateFieldName, valueFieldName) => {
   series.tooltipHTML = `
     <div class="tooltip note-preview">
       <div class="meta">
-        <span class="submitted">{submitted_at.formatDate("${displayDateFormat}")}</span>
-        <img class="emoji-icon" src="/images/{sentiment}.svg" />
-        <img class="emoji-icon" src="{graph_favorite_icon_path}" />
+        <span class="label">{submitted_at.formatDate("${displayDateFormat}")}</span>
+        <img class="icon" src="/images/{sentiment}.svg" />
+        <img class="icon star-icon" src="{graph_favorite_icon_path}" />
       </div>
       {short_body}
     </div>

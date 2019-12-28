@@ -1,6 +1,7 @@
 import socket from "./socket";
 import { localizeDateTime, dateTimeFromNow } from "./localize_datetime";
 import { renderLineChart } from "./charts/sentiment_line_chart";
+import { stringifyNote } from "./note";
 
 let sentimentLineChartRef;
 
@@ -54,33 +55,43 @@ const refreshList = (data = []) => {
   if (!targetNode) return;
 
   const noteItem = note => {
-    const { body, sentiment_color, submitted_at } = note;
-    const localDateTime = localizeDateTime(submitted_at).format('MMM DD, YYYY - hh:mm:ss A');
-    const truncate = (text, length) => {
-      const elipsis = text.length > length
-        ? ` <a href="javascript:void(0)"
-               data-note='${JSON.stringify(note)}'
-               data-behavior="note-preview-trigger"
-               title="Read More">…</a>
-          `
-        : "";
-      return text.substring(0, length) + elipsis;
-    };
+    const { id, body, sentiment_color, submitted_at } = note;
+    const localDateTime =
+      localizeDateTime(submitted_at).format('MMM DD, YYYY - hh:mm:ss A');
+    const maxBodyLength = 75;
 
     return `
-      <li class="row" style="border-left: 5px solid ${sentiment_color};">
+      <li class="row"
+          style="border-left: 5px solid ${sentiment_color};"
+          data-behavior="note-item" data-note-id="${id}" data-note-item-context="dashboard">
         <div class="meta column column-33">
           <span class="label" title="${localDateTime}">
             ${dateTimeFromNow(submitted_at)}
           </span>
 
         </div>
-        <p class="column column-67">${truncate(body, 75)}</p>
+        <p class="column column-67"
+           data-behavior="note-body"
+           data-truncate="${maxBodyLength}">
+           ${truncateNoteBody(note, maxBodyLength)}
+        </p>
       </<li>
     `;
   };
   const html = data.map(noteItem).join("");
   targetNode.innerHTML = html;
+};
+
+export const truncateNoteBody = (note, maxLength) => {
+  const { body } = note;
+  const elipsis = body.length > maxLength
+    ? ` <a href="javascript:void(0)"
+           data-note='${stringifyNote(note)}'
+           data-behavior="note-preview-trigger"
+           title="Read More">…</a>
+        `
+    : "";
+  return body.substring(0, maxLength) + elipsis;
 };
 
 export const initializeDashboard = () => {

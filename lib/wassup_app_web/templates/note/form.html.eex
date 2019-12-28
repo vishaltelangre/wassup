@@ -1,4 +1,4 @@
-<%= form_for @changeset, @action, [class: "note-form #{@action_name}"], fn f -> %>
+<%= form_for @changeset, @action, [class: "note-form", data: [behavior: "note-form"]], fn f -> %>
   <%= textarea f, :body, placeholder: "What's in your mind?" %>
   <%= error_tag f, :body %>
 

@@ -4,6 +4,10 @@
     box-shadow: 2px 2px 3px 0px $block-box-shadow-color;
     border-radius: 10px;
     background-color: $block-background-color;
+
+    &:last-child {
+      margin-bottom: 25px;
+    }
   }
 
   .widget-meta-link {
@@ -34,16 +38,5 @@
   .sentiment-line-chart {
     height: 200px;
     min-height: 200px;
-  }
-}
-
-/* Small screen devices */
-@media (max-width: 42.5rem) {
-  .dashboard {
-    .widget {
-      &:last-child {
-        margin-bottom: 25px;
-      }
-    }
   }
 }
