@@ -9,6 +9,7 @@
     transition: all .2s ease-in-out;
 
     &:hover {
+      filter: grayscale(100%) brightness(120%) sepia(90%) hue-rotate(10deg) saturate(400%) contrast(1);
       transform: scale(1.2);
     }
   }
