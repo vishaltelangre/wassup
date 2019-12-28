@@ -2,7 +2,7 @@ import { stringifyNote } from "./../note";
 
 const defaultTruncateMaxLength = 250;
 
-export const truncateNoteBodyForChartTooltip = (note, maxLength = defaultTruncateMaxLength) => {
+const truncateNoteBodyForChartTooltip = (note, maxLength = defaultTruncateMaxLength) => {
   const { body } = note;
   const exceedingMaxBodyLength = body.length > maxLength;
   const modalTriggerAttributes = `
@@ -15,4 +15,6 @@ export const truncateNoteBodyForChartTooltip = (note, maxLength = defaultTruncat
   const truncatedBody = body.substring(0, maxLength) + elipsis;
 
   return `<p ${modalTriggerAttributes}>${truncatedBody}</p>`;
-}
+};
+
+export { truncateNoteBodyForChartTooltip };

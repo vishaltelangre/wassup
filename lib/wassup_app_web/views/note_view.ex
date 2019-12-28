@@ -26,11 +26,16 @@ defmodule WassupAppWeb.NoteView do
     )
   end
 
-  def note_favorite_toggle_link(conn, %Note{id: id, favorite: favorite, favorite_icon_path: favorite_icon_path}) do
+  def note_favorite_toggle_link(conn, %Note{
+        id: id,
+        favorite: favorite,
+        favorite_icon_path: favorite_icon_path
+      }) do
     title = if(favorite, do: "Unstar this note", else: "Star this note")
 
     link to: {:javascript, "void(0)"},
          title: title,
+         class: "icon-wrapper",
          data: [behavior: "note-favorite-toggle", note_id: id, toggle_to: !favorite] do
       img_tag(Routes.static_path(conn, favorite_icon_path), class: "icon star-icon")
     end

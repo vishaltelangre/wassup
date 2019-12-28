@@ -7,7 +7,7 @@
       <div class="sentiment">
         <%= for sentiment <- sentiments do %>
           <%= label class: "control-label radio" do %>
-            <%= radio_button f, :sentiment, sentiment, checked: (input_value(f, :sentiment) || :neutral) == sentiment %>
+            <%= radio_button f, :sentiment, sentiment, checked: (input_value(f, :sentiment) || :happy) == sentiment %>
             <%= img_tag(Routes.static_path(@conn, "/images/#{sentiment}.svg")) %>
           <% end %>
         <% end %>
@@ -19,5 +19,4 @@
       </div>
     </div>
   </div>
-
 <% end %>

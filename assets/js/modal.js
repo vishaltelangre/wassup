@@ -3,14 +3,14 @@ const modalContentSelector = "[data-behavior=modal-content]";
 const modalCloseSelector = "[data-behavior=modal-close]";
 const modalShowClassName = "show";
 
-export const showModal = contents => {
+const showModal = contents => {
   const modal = document.querySelector(modalSelector);
 
   modal.querySelector(modalContentSelector).innerHTML = contents;
   modal.classList.add(modalShowClassName);
 }
 
-export const closeModal = () => {
+const closeModal = () => {
   const modal = document.querySelector(modalSelector);
   modal.classList.remove(modalShowClassName);
 };
@@ -20,3 +20,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
   closeButton.addEventListener('click', closeModal);
 });
+
+export { showModal, closeModal };

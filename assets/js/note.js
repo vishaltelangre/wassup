@@ -10,7 +10,45 @@ const notePreviewTriggerSelector = "[data-behavior=note-preview-trigger]";
 const noteEditTriggerSelector = "[data-behavior=note-edit-trigger]";
 const noteFavoriteToggleSelector = "[data-behavior=note-favorite-toggle]";
 
-export const stringifyNote = note => JSON.stringify(note).replace("'", "&#39;");
+const stringifyNote = note => JSON.stringify(note).replace("'", "&#39;");
+
+const favoriteToggleMarkup = ({ id, favorite, favorite_icon_path }) => {
+  const title = favorite ? "Unstar this note" : "Star this note";
+  return `<a href="javascript:void(0)"
+    title="${title}"
+    class="icon-wrapper"
+    data-behavior="note-favorite-toggle"
+    data-note-id="${id}"
+    data-toggle-to="${!favorite}">
+    <img class="icon star-icon" src="${favorite_icon_path}" />
+  </a>`;
+};
+
+const actionsDropdownMarkup = note => {
+  const csrfToken = document.querySelector(csrfTokenSelector).content;
+  const { id } = note;
+
+  return `<div class="dropdown">
+    <a href="javascript:void(0)" data-behavior="dropdown-trigger">
+      <img class="dropdown-trigger-icon" src="/images/more.svg">
+    </a>
+    <div class="dropdown-content" data-behavior="dropdown-content">
+      <a data-behavior="note-edit-trigger"
+         data-note='${stringifyNote(note)}'
+         href="javascript:void(0)">
+        Edit
+      </a>
+      <a data-confirm="Are you sure that you want to delete the selected note?"
+         data-csrf="${csrfToken}"
+         data-method="delete"
+         data-to="/notes/${id}"
+         href="/notes/${id}"
+         rel="nofollow">
+        Delete
+      </a>
+    </div>
+  </div>`;
+};
 
 const formToJSON = form => {
   const methodInput = document.querySelector(methodFieldSelector);
@@ -42,31 +80,17 @@ const saveNote = (url, data, { onSuccess, onFailure }) => {
 };
 
 const showNotePreviewModal = triggerElement => {
-  const {
-    id,
-    submitted_at,
-    sentiment,
-    body,
-    favorite,
-    favorite_icon_path
-  } = JSON.parse(triggerElement.getAttribute('data-note'));
+  const note = JSON.parse(triggerElement.getAttribute('data-note'));
+  const { id, submitted_at, sentiment, body } = note;
   const localDateTime =
     localizeDateTime(submitted_at).format('MMM DD, YYYY - hh:mm:ss A');
-  const favoriteToggletitle = favorite ? "Unstar this note" : "Star this note";
 
   showModal(`
     <div class="note-preview" data-behavior="note-item" data-note-id="${id}">
       <div class="meta">
         <span class="label">${localDateTime}</span>
         <img class="icon" src="/images/${sentiment}.svg" data-behavior="sentiment-icon" />
-        <a
-          href="javascript:void(0)"
-          title="${favoriteToggletitle}"
-          data-behavior="note-favorite-toggle"
-          data-note-id="${id}"
-          data-toggle-to="${!favorite}">
-          <img class="icon star-icon" src="${favorite_icon_path}" />
-        </a>
+        ${favoriteToggleMarkup(note)}
       </div>
       <p data-behavior="note-body">${body}</p>
     </div>
@@ -74,40 +98,33 @@ const showNotePreviewModal = triggerElement => {
 };
 
 const showNoteEditModal = triggerElement => {
-  const {
-    id,
-    submitted_at,
-    sentiment,
-    body,
-  } = JSON.parse(triggerElement.getAttribute('data-note'));
-  const localDateTime =
-    localizeDateTime(submitted_at).format('MMM DD, YYYY - hh:mm:ss A');
-  const sentimentCheckedAttribute = radioSentiment =>
-    sentiment === radioSentiment ? "checked='checked'" : "";
+  const { id, submitted_at, sentiment, body } = JSON.parse(triggerElement.getAttribute('data-note'));
+  const localDateTime = localizeDateTime(submitted_at).format('MMM DD, YYYY - hh:mm:ss A');
+  const sentimentCheckedAttribute = radioSentiment => sentiment === radioSentiment ? "checked='checked'" : "";
+  const radioMarkup = sentiment => `
+    <label class="control-label radio">
+      <input name="note[sentiment]" type="radio" value="${sentiment}" ${sentimentCheckedAttribute(sentiment)}>
+      <img src="/images/${sentiment}.svg">
+    </label>`;
 
   showModal(`
     <div class="note-edit-modal">
       <h2>Editing Note</h2>
       <p class="muted">which was saved at <strong>${localDateTime}</strong></p>
-      <form action="/notes/${id}" class="note-form" method="post" data-behavior="note-form" data-type="edit">
+      <form action="/notes/${id}"
+            class="note-form"
+            method="post"
+            data-behavior="note-form"
+            data-type="edit">
         <input name="_method" type="hidden" value="put">
         <textarea name="note[body]" placeholder="What's in your mind?">${body}</textarea>
         <span class="help-block"></span>
         <div class="row">
           <div class="column column-60">
             <div class="sentiment">
-              <label class="control-label radio">
-                <input name="note[sentiment]" type="radio" value="happy" ${sentimentCheckedAttribute('happy')}>
-                <img src="/images/happy.svg">
-              </label>
-              <label class="control-label radio">
-                <input name="note[sentiment]" type="radio" value="neutral" ${sentimentCheckedAttribute('neutral')}>
-                <img src="/images/neutral.svg">
-              </label>
-              <label class="control-label radio">
-                <input name="note[sentiment]" type="radio" value="sad" ${sentimentCheckedAttribute('sad')}>
-                <img src="/images/sad.svg">
-              </label>
+              ${radioMarkup("happy")}
+              ${radioMarkup("neutral")}
+              ${radioMarkup("sad")}
             </div>
           </div>
           <div class="column column-40 actions">
@@ -172,3 +189,5 @@ document.addEventListener('click', ({ target }) => {
     toggleFavorite(target.closest(noteFavoriteToggleSelector));
   }
 }, false);
+
+export { stringifyNote, favoriteToggleMarkup, actionsDropdownMarkup };

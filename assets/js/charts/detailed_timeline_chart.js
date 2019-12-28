@@ -1,6 +1,6 @@
 import { renderLineChart } from "./sentiment_line_chart";
 
-export const renderDetailedTimelineChart = () => {
+const renderDetailedTimelineChart = () => {
   const targetNodeId = "detailed-timeline-chart";
   const targetNode = document.getElementById(targetNodeId);
   if (!targetNode) return;
@@ -10,3 +10,5 @@ export const renderDetailedTimelineChart = () => {
 
   renderLineChart(targetNodeId, data, { sentimentDetails, interactive: true });
 };
+
+export { renderDetailedTimelineChart };

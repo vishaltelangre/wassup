@@ -296,7 +296,7 @@ const createScrollbar = (chart, dateFieldName, valueFieldName) => {
   scrollbarSeries.hide();
 };
 
-export const renderLineChart = ((
+const renderLineChart = ((
   targetNodeId,
   data,
   {
@@ -337,3 +337,5 @@ export const renderLineChart = ((
 
   return chart;
 });
+
+export { renderLineChart };

@@ -78,13 +78,12 @@
   <ul>
     <%= for note <- @notes do %>
       <li class="row" data-behavior="note-item" data-note-id="<%= note.id %>">
-        <div class="meta column column-25">
-          <%= img_tag(Routes.static_path(@conn, "/images/#{note.sentiment}.svg"), data: [behavior: "sentiment-icon"], class: "icon") %>
-          <%= note_favorite_toggle_link(@conn, note) %>
-          <span class="label"><%= note.submitted_at |> Timex.format!("%b %d, %Y - %I:%M:%S %p", :strftime) %></span>
-        </div>
-
-        <div class="column column-67">
+        <div class="column column-90">
+          <div class="meta">
+            <span class="label"><%= note.submitted_at |> Timex.format!("%b %d, %Y - %I:%M:%S %p", :strftime) %></span>
+            <%= img_tag(Routes.static_path(@conn, "/images/#{note.sentiment}.svg"), data: [behavior: "sentiment-icon"], class: "icon") %>
+            <%= note_favorite_toggle_link(@conn, note) %>
+          </div>
           <p data-behavior="note-body"><%= note.body %></p>
         </div>
         <div class="meta column column-10">
@@ -94,7 +93,7 @@
             </a>
             <div class="dropdown-content" data-behavior="dropdown-content">
               <%= link "Edit", to: {:javascript, "void(0)"}, data: [behavior: "note-edit-trigger", note: Jason.encode!(note)] %>
-              <%= link "Delete", to: Routes.note_path(@conn, :delete, note), method: :delete, data: [confirm: "Are you sure that you want to delete the selected note?"] %>
+              <%= link "Delete", to: Routes.note_path(@conn, :delete, note, redirect_to: @current_path), method: :delete, data: [confirm: "Are you sure that you want to delete the selected note?"] %>
             </div>
           </div>
         </div>

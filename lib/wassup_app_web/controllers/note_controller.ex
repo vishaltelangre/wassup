@@ -11,7 +11,7 @@ defmodule WassupAppWeb.NoteController do
     %{data: data, paginate: paginate} =
       Notes.paginate_notes_for_user(conn.assigns.current_user, params["filter"] || %{})
 
-    render(conn, "index.html", notes: data, paginate: paginate)
+    render(conn, "index.html", notes: data, paginate: paginate, current_path: current_path(conn))
   end
 
   def create(conn, %{"note" => note_params}) do
@@ -42,12 +42,13 @@ defmodule WassupAppWeb.NoteController do
     end
   end
 
-  def delete(conn, %{"id" => _id}) do
+  def delete(conn, %{"id" => _id} = params) do
+    redirect_to = params["redirect_to"] || "/"
     {:ok, _note} = Notes.delete_note(conn.assigns.note)
 
     conn
     |> put_flash(:info, "Note deleted successfully.")
-    |> redirect(to: Routes.note_path(conn, :index))
+    |> redirect(to: redirect_to)
   end
 
   def toggle_favorite(conn, %{"note_id" => _id, "favorite" => favorite}) do

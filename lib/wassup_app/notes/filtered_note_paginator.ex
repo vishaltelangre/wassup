@@ -7,7 +7,7 @@ defmodule WassupApp.Notes.FilteredNotePaginator do
     "q" => "",
     "period" => "",
     "timezone" => "Etc/UTC",
-    "per_page" => 30,
+    "per_page" => 10,
     "page" => 1
   }
 

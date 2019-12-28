@@ -69,7 +69,7 @@ $note-list-item-meta-icon-box-shadow-color: rgba($dark-shadow-color, 0.5);
 // Date badge/label
 $date-label-background-color: lighten($base-background-color, 20%);
 $date-label-text-shadow-color: $date-label-background-color;
-$date-label-text-color: darken($text-color, 20%);
+$date-label-text-color: $text-color;
 
 // Modal
 $modal-backdrop-background-color: rgba($base-background-color, 0.5);
