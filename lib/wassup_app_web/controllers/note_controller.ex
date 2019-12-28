@@ -29,11 +29,9 @@ defmodule WassupAppWeb.NoteController do
   end
 
   def update(conn, %{"id" => _id, "note" => note_params}) do
-    case Notes.update_note(conn.assigns.note, note_params) do
+    case update_note(conn, note_params) do
       {:ok, note} ->
-        NoteChannel.broadcast_update(conn.assigns.current_user.id, Note.transform_fields(note))
-
-        json(conn, note)
+        conn |> broadcast_note_update_event(note) |> json(note)
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
@@ -52,17 +50,25 @@ defmodule WassupAppWeb.NoteController do
   end
 
   def toggle_favorite(conn, %{"note_id" => _id, "favorite" => favorite}) do
-    case Notes.update_note(conn.assigns.note, %{favorite: favorite}) do
+    case update_note(conn, %{favorite: favorite}) do
       {:ok, note} ->
-        NoteChannel.broadcast_update(conn.assigns.current_user.id, Note.transform_fields(note))
-
-        json(conn, note)
+        conn |> broadcast_note_update_event(note) |> json(note)
 
       {:error, %Ecto.Changeset{} = _changeset} ->
         conn
         |> put_status(:unprocessable_entity)
         |> json(%{error: "An error occurred"})
     end
+  end
+
+  defp update_note(conn, note_params) do
+    conn.assigns.current_user
+    |> Notes.update_note_for_user(conn.assigns.note, note_params)
+  end
+
+  defp broadcast_note_update_event(conn, note) do
+    NoteChannel.broadcast_update(conn.assigns.current_user.id, note)
+    conn
   end
 
   defp authorize_note(conn, _) do

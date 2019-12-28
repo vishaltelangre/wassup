@@ -7,20 +7,20 @@
       </div>
       <br/>
       <h2>
-        Recent Notes
-        <%= link "All Notes ⟶", to: Routes.note_path(@conn, :index), class: "widget-meta-link" %>
-      </h2>
-      <div class="widget">
-        <ul class="notes" data-behavior="note-list"></ul>
-      </div>
-    </div>
-    <div class="column">
-      <h2>
         How's your mood recently?
         <%= link "Detailed Chart ⟶", to: Routes.graph_path(@conn, :timeline), class: "widget-meta-link" %>
       </h2>
       <div class="widget">
         <div id="sentiment-line-chart" class="sentiment-line-chart"></div>
+      </div>
+    </div>
+    <div class="column">
+      <h2>
+        Recent Notes
+        <%= link "All Notes ⟶", to: Routes.note_path(@conn, :index), class: "widget-meta-link" %>
+      </h2>
+      <div class="widget">
+        <ul class="notes" data-behavior="note-list"></ul>
       </div>
     </div>
   </div>

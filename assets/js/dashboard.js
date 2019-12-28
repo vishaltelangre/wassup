@@ -49,11 +49,11 @@ const noteItemMarkup = note => {
   const { id, body, sentiment_color, submitted_at } = note;
   const localDateTime =
     localizeDateTime(submitted_at).format('MMM DD, YYYY - hh:mm:ss A');
-  const maxBodyLength = 65;
+  const maxBodyLength = 120;
 
   return `
     <li class="row"
-        style="border-left: 5px solid ${sentiment_color};"
+        style="border-right: 5px solid ${sentiment_color};"
         data-behavior="note-item"
         data-note-id="${id}"
         data-note-item-context="dashboard">

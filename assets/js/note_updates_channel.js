@@ -58,7 +58,7 @@ const updateNoteOnDashboard = (noteItem, { sentiment_color }) => {
   const noteItemContext = noteItem.getAttribute(noteItemContextAttribute);
 
   if (noteItemContext === "dashboard") {
-    noteItem.style.borderLeftColor = sentiment_color;
+    noteItem.style.borderRightColor = sentiment_color;
   }
 };
 

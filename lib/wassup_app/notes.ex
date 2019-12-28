@@ -138,17 +138,18 @@ defmodule WassupApp.Notes do
 
   ## Examples
 
-      iex> update_note(note, %{field: new_value})
+      iex> update_note_for_user(user, note, %{field: new_value})
       {:ok, %Note{}}
 
-      iex> update_note(note, %{field: bad_value})
+      iex> update_note_for_user(user, note, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_note(%Note{} = note, attrs) do
-    note
-    |> Note.changeset(attrs)
-    |> Repo.update()
+  def update_note_for_user(%User{} = user, %Note{} = note, attrs) do
+    case note |> Note.changeset(attrs) |> Repo.update() do
+      {:ok, note} -> {:ok, Note.transform_fields(note, user.timezone)}
+      {:error, changeset} -> {:error, changeset}
+    end
   end
 
   @doc """

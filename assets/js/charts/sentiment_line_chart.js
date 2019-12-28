@@ -197,7 +197,7 @@ const createPrimarySeries = (chart, dateFieldName, valueFieldName) => {
   series.simplifiedProcessing = true;
 
   series.tooltipHTML = `
-    <div class="tooltip note-preview">
+    <div class="chart-tooltip note-preview">
       <div class="meta">
         <span class="label">{submitted_at.formatDate("${displayDateFormat}")}</span>
         <img class="icon" src="/images/{sentiment}.svg" />

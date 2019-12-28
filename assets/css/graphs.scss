@@ -24,3 +24,9 @@
   height: 400px;
   min-height: 400px;
 }
+
+.chart-tooltip {
+  p {
+    cursor: pointer;
+  }
+}
