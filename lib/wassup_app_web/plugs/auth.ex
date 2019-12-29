@@ -5,6 +5,7 @@ defmodule WassupAppWeb.Plugs.Auth do
   import Phoenix.Controller
 
   alias WassupAppWeb.Router.Helpers, as: Routes
+  alias WassupApp.Auth, as: AuthContext
   alias WassupApp.Accounts
 
   def init(opts), do: opts
@@ -50,5 +51,9 @@ defmodule WassupAppWeb.Plugs.Auth do
     else
       conn
     end
+  end
+
+  def ensure_registration_enabled(conn, _opts) do
+    AuthContext.ensure_registration_enabled(conn)
   end
 end

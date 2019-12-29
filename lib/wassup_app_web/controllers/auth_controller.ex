@@ -2,6 +2,7 @@ defmodule WassupAppWeb.AuthController do
   use WassupAppWeb, :controller
   plug Ueberauth
 
+  alias WassupApp.Auth
   alias WassupApp.Accounts
   alias WassupApp.Accounts.User
   alias WassupApp.UeberauthInfoParser
@@ -26,7 +27,9 @@ defmodule WassupAppWeb.AuthController do
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
     case UeberauthInfoParser.parse(auth) do
       {:ok, info} ->
-        conn |> authenticate_using_auth_info(Map.put(info, :verified_at, Timex.now()))
+        conn
+        |> ensure_user_already_exists_or_registration_enabled(info)
+        |> authenticate_using_auth_info(Map.put(info, :verified_at, Timex.now()))
 
       {:error, reason} ->
         conn
@@ -34,6 +37,15 @@ defmodule WassupAppWeb.AuthController do
         |> redirect(to: Routes.login_path(conn, :request))
     end
   end
+
+  defp ensure_user_already_exists_or_registration_enabled(conn, info) do
+    case Accounts.get_user_by_email(info.email) do
+      %User{} -> conn
+      nil -> Auth.ensure_registration_enabled(conn)
+    end
+  end
+
+  defp authenticate_using_auth_info(conn = %{halted: true}, _info), do: conn
 
   defp authenticate_using_auth_info(conn, info) do
     case Accounts.find_or_create_user(info) do
@@ -43,9 +55,7 @@ defmodule WassupAppWeb.AuthController do
         |> configure_session(renew: true)
         |> redirect(to: "/")
 
-      {:error, %Ecto.Changeset{errors: [password: {_, _}], valid?: false} = changeset} ->
-        IO.inspect(changeset, label: "Password error")
-
+      {:error, %Ecto.Changeset{errors: [password: {_, _}], valid?: false} = _changeset} ->
         conn
         |> put_flash(:error, "Something went wrong")
         |> redirect(to: Routes.login_path(conn, :request))

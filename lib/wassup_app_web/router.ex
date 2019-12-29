@@ -23,6 +23,10 @@ defmodule WassupAppWeb.Router do
     get "/auth/:provider", AuthController, :request
     get "/auth/:provider/callback", AuthController, :callback
     post "/auth/identity/callback", AuthController, :identity_callback
+  end
+
+  scope "/", WassupAppWeb do
+    pipe_through [:browser, :ensure_not_signed_in, :ensure_registration_enabled]
 
     # Registration
     get "/register", RegistrationController, :new

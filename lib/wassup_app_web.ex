@@ -53,7 +53,12 @@ defmodule WassupAppWeb do
       import Phoenix.Controller
 
       import WassupAppWeb.Plugs.Auth,
-        only: [valid_user: 2, ensure_not_signed_in: 2, ensure_password_is_set: 2]
+        only: [
+          valid_user: 2,
+          ensure_not_signed_in: 2,
+          ensure_password_is_set: 2,
+          ensure_registration_enabled: 2
+        ]
     end
   end
 
