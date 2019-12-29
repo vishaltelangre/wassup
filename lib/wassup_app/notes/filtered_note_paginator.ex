@@ -96,6 +96,8 @@ defmodule WassupApp.Notes.FilteredNotePaginator do
     criteria
     |> Map.put("per_page", format_integer(Map.get(criteria, "per_page")))
     |> Map.put("page", format_integer(Map.get(criteria, "page")))
+    # If page is less than or equals to 0, then set it to 1
+    |> (&Map.put(&1, "page", [Map.get(&1, "page"), 1] |> Enum.max())).()
     |> Map.put("q", String.trim(Map.get(criteria, "q")))
   end
 
