@@ -151,6 +151,12 @@ const createDateAxis = (chart, data, interactive) => {
   // Tick label customizations
   dateAxis.renderer.labels.template.fill = dateAxisTickLabelColor;
   dateAxis.renderer.labels.template.fontSize = 14;
+
+  if (!interactive) {
+    // Hide tick labels
+    dateAxis.renderer.labels.template.disabled = true;
+  }
+
   // Axis tooltip customizations
   dateAxis.cursorTooltipEnabled = false;
   // Date format used to format values obtained from this axis using the

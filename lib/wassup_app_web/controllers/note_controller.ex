@@ -44,6 +44,8 @@ defmodule WassupAppWeb.NoteController do
     redirect_to = params["redirect_to"] || "/"
     {:ok, _note} = Notes.delete_note(conn.assigns.note)
 
+    NoteChannel.broadcast_refresh(conn.assigns.current_user.id)
+
     conn
     |> put_flash(:info, "Note deleted successfully.")
     |> redirect(to: redirect_to)
