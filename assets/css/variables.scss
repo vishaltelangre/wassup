@@ -39,10 +39,10 @@ $primary-button-outline-color: $link-color;
 $dropdown-link-color: darken($text-color, 20%);
 $dropdown-hovered-link-color: lighten($dropdown-link-color, 30%);
 $dropdown-active-link-color: lighten($dropdown-link-color, 10%);
-$dropdown-background-color: rgba(lighten($base-background-color, 5%), 0.9);
-$dropdown-active-link-background-color: lighten($dropdown-background-color, 25%);
-$dropdown-box-shadow-color: rgba($base-background-color, 0.2);
-$dropdown-hovered-link-background-color: darken($dropdown-background-color, 100%);
+$dropdown-background-color: rgba(lighten($base-background-color, 5%), 0.95);
+$dropdown-hovered-link-background-color: $primary-color;
+$dropdown-active-link-background-color: darken($dropdown-hovered-link-background-color, 20%);
+$dropdown-box-shadow-color: rgba($base-background-color, 0.8);
 
 // Alerts
 $alert-info-text-color: $primary-color;
@@ -90,5 +90,6 @@ $pagination-active-and-disabled-page-link-color: darken($text-color, 60%);
 $date-range-picker-dropdown-content-background-color: $base-background-color;
 $date-range-picker-day-number-color: darken($text-color, 20%);
 $date-range-picker-day-number-disabled-color: darken($date-range-picker-day-number-color, 70%);
+$date-range-picker-day-number-active-color: $dropdown-active-link-background-color;
 $date-range-picker-month-label-color: $date-range-picker-day-number-color;
 $date-range-picker-month-arrow-color: lighten($date-range-picker-month-label-color, 30%);

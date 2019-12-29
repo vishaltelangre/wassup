@@ -30,6 +30,13 @@
     cursor: pointer;
     white-space: normal;
   }
+
+  .meta .star-icon {
+    &:hover {
+      filter: none;
+      transform: none;
+    }
+  }
 }
 
 .pie-chart-label {

@@ -124,6 +124,17 @@ nav.main a {
   p {
     margin-bottom: 0;
   }
+
+  .close {
+    cursor: pointer;
+    position: absolute;
+    right: 30px;
+    opacity: 0.6;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 }
 
 .alert-info {

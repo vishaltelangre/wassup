@@ -15,6 +15,7 @@ import "phoenix_html";
 //import "./socket";
 import "./dropdown";
 import "./modal";
+import "./alert";
 import { localizeDateTimes } from "./localize_datetime";
 import "./daterange_picker";
 import { initializeDashboard } from "./dashboard";

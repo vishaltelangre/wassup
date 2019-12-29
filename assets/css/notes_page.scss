@@ -68,6 +68,10 @@
         cursor: not-allowed;
         text-shadow: none;
       }
+
+      &.rd-day-selected {
+          background: $date-range-picker-day-number-active-color;
+      }
     }
 
     .actions {
