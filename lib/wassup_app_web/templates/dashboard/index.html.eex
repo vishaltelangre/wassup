@@ -13,6 +13,9 @@
       <div class="widget">
         <div id="sentiment-line-chart" class="sentiment-line-chart"></div>
       </div>
+      <div class="widget">
+        <div id="sentiment-pie-chart" class="sentiment-pie-chart"></div>
+      </div>
     </div>
     <div class="column">
       <h2>

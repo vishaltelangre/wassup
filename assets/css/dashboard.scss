@@ -35,8 +35,17 @@
   }
 
   /* Mood Widget */
-  .sentiment-line-chart {
+  .sentiment-line-chart, .sentiment-pie-chart {
     height: 200px;
     min-height: 200px;
+  }
+}
+
+.sentiment-pie-chart {
+  margin-top: 5px;
+  opacity: 0.8;
+
+  &:hover {
+    opacity: 1;
   }
 }

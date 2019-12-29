@@ -1,6 +1,6 @@
 import { stringifyNote } from "./../note";
 
-const defaultTruncateMaxLength = 250;
+const defaultTruncateMaxLength = 120;
 
 const truncateNoteBodyForChartTooltip = (note, maxLength = defaultTruncateMaxLength) => {
   const { body } = note;
@@ -10,7 +10,7 @@ const truncateNoteBodyForChartTooltip = (note, maxLength = defaultTruncateMaxLen
     data-behavior="note-preview-trigger"
   `;
   const elipsis = exceedingMaxBodyLength
-    ? `… <a href="javascript:void(0)" ${modalTriggerAttributes}>Read More</a>`
+    ? ` <a href="javascript:void(0)" ${modalTriggerAttributes}>…</a>`
     : "";
   const truncatedBody = body.substring(0, maxLength) + elipsis;
 

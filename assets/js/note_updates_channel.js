@@ -1,7 +1,7 @@
 import * as am4core from "@amcharts/amcharts4/core";
 
 import socket from "./socket";
-import { truncateNoteBody } from "./dashboard";
+import { truncateNoteBody, renderSentimentPieChart } from "./dashboard";
 import { truncateNoteBodyForChartTooltip } from "./charts/utils";
 import { stringifyNote } from "./note";
 
@@ -62,7 +62,7 @@ const updateNoteOnDashboard = (noteItem, { sentiment_color }) => {
   }
 };
 
-const updateNoteDataItemInCharts = note => {
+const updateNoteDataItemInLineCharts = note => {
   const { registry: { baseSprites } } = am4core;
   baseSprites.forEach(chart => {
     const { data } = chart;
@@ -77,6 +77,15 @@ const updateNoteDataItemInCharts = note => {
   });
 };
 
+const refreshPieChart = () => {
+  const { registry: { baseSprites } } = am4core;
+  const lineChart = baseSprites.filter(chart => chart.htmlContainer.id !== "sentiment-pie-chart")[0];
+
+  if (lineChart) {
+    renderSentimentPieChart(lineChart.data);
+  }
+};
+
 const onNoteUpdate = ({ body: note }) => {
   const noteItems = document.querySelectorAll(noteItemSelector(note.id));
 
@@ -88,7 +97,8 @@ const onNoteUpdate = ({ body: note }) => {
     updateNoteOnDashboard(noteItem, note);
   }
 
-  updateNoteDataItemInCharts(note);
+  updateNoteDataItemInLineCharts(note);
+  refreshPieChart();
 };
 
 const joinChannel = () => {

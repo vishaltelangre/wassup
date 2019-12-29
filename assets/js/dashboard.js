@@ -1,18 +1,19 @@
 import socket from "./socket";
 import { localizeDateTime, dateTimeFromNow } from "./localize_datetime";
 import { renderLineChart } from "./charts/sentiment_line_chart";
+import { renderPieChart } from "./charts/sentiment_pie_chart";
 import { stringifyNote, favoriteToggleMarkup, actionsDropdownMarkup } from "./note";
 
 let sentimentLineChartRef;
+let sentimentPieChartRef;
 const recentNotesSelector = ".dashboard [data-behavior='note-list']";
 const sentimentLineChartId = "sentiment-line-chart";
+const sentimentPieChartId = "sentiment-pie-chart";
 
 const onRefresh = ({ body }) => {
-  if (sentimentLineChartRef) {
-    maybeDisposeChart();
-    renderSentimentLineChart(JSON.parse(body));
+  if (sentimentLineChartRef) renderSentimentLineChart(JSON.parse(body));
+  if (sentimentPieChartRef) renderSentimentPieChart(JSON.parse(body));
     refreshRecentNotes(JSON.parse(body));
-  }
 };
 
 const joinChannel = () => {
@@ -28,13 +29,6 @@ const joinChannel = () => {
     });
 };
 
-const maybeDisposeChart = () => {
-  if (sentimentLineChartRef) {
-    sentimentLineChartRef.dispose();
-    sentimentLineChartRef = null;
-  }
-};
-
 const renderSentimentLineChart = (data = []) => {
   const sentimentLineChartElement = document.getElementById(sentimentLineChartId);
   if (!sentimentLineChartElement) return;
@@ -42,7 +36,24 @@ const renderSentimentLineChart = (data = []) => {
   const { sentimentDetails } = App;
   const options = { sentimentDetails, interactive: false };
 
+  if (sentimentLineChartRef) {
+    sentimentLineChartRef.dispose();
+    sentimentLineChartRef = null;
+  }
+
   sentimentLineChartRef = renderLineChart(sentimentLineChartId, data, options);
+};
+
+const renderSentimentPieChart = (data = []) => {
+  const sentimentPieChartElement = document.getElementById(sentimentPieChartId);
+  if (!sentimentPieChartElement) return;
+
+  if (sentimentPieChartRef) {
+    sentimentPieChartRef.dispose();
+    sentimentPieChartRef = null;
+  }
+
+  sentimentPieChartRef = renderPieChart(sentimentPieChartId, data);
 };
 
 const noteItemMarkup = note => {
@@ -101,10 +112,12 @@ const truncateNoteBody = (note, maxLength) => {
 const initializeDashboard = () => {
   joinChannel();
   renderSentimentLineChart();
+  renderSentimentPieChart();
   refreshRecentNotes();
 };
 
 export {
   truncateNoteBody,
-  initializeDashboard
+  initializeDashboard,
+  renderSentimentPieChart
 };
