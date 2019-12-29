@@ -4,6 +4,8 @@ defmodule WassupApp.Accounts.User do
   alias WassupApp.Accounts.User
   alias WassupApp.Notes.Note
 
+  @email_regex ~r/^[A-Za-z0-9\._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/
+
   schema "users" do
     field :name, :string
     field :email, :string
@@ -27,6 +29,7 @@ defmodule WassupApp.Accounts.User do
     |> validate_length(:password, min: 6)
     |> validate_confirmation(:password)
     |> down_case_email()
+    |> validate_format(:email, @email_regex)
     |> unique_constraint(:email)
     |> put_password_hash()
   end
@@ -50,7 +53,9 @@ defmodule WassupApp.Accounts.User do
         changeset
 
       _ ->
-        validate_required(changeset, :timezone)
+        changeset
+        |> validate_required(:timezone)
+        |> validate_inclusion(:timezone, Tzdata.zone_list())
     end
   end
 
