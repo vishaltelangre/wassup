@@ -55,5 +55,11 @@
         max-width: 100%;
       }
     }
+
+    .actions {
+      button[type=submit] {
+        margin-bottom: 15px;
+      }
+    }
   }
 }

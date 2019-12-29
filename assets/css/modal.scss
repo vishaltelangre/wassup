@@ -1,3 +1,7 @@
+.noscroll {
+  overflow: hidden;
+}
+
 .modal {
   position: fixed;
   left: 0;
@@ -47,6 +51,15 @@
 
     &:hover {
       background-color: $modal-close-hovered-background-color;
+    }
+  }
+}
+
+/* Small devices */
+@media (max-width: 42.5rem) {
+  .modal {
+    .modal-body {
+      width: 90%;
     }
   }
 }
