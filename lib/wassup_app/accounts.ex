@@ -173,4 +173,8 @@ defmodule WassupApp.Accounts do
       {:error, "Invalid email or password"}
     end
   end
+
+  def mark_as_verified(%User{} = user) do
+    user |> update_user(%{verified_at: Timex.now()})
+  end
 end

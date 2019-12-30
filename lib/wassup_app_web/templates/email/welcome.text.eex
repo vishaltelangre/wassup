@@ -1,0 +1,7 @@
+Hi <%= @user.name %>,
+
+Thanks for signing up on <%= @app_name %>!
+
+Verify your account by clicking on the below link:
+
+<%= @account_verification_link %>

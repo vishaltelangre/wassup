@@ -56,4 +56,16 @@ defmodule WassupAppWeb.Plugs.Auth do
   def ensure_registration_enabled(conn, _opts) do
     AuthContext.ensure_registration_enabled(conn)
   end
+
+  def ensure_account_is_verified(conn, _opts) do
+    current_user = conn.assigns.current_user
+
+    if current_user && is_nil(current_user.verified_at) do
+      conn
+      |> redirect(to: Routes.account_verification_pending_path(conn, :verification_pending))
+      |> halt()
+    else
+      conn
+    end
+  end
 end

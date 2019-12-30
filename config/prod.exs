@@ -16,6 +16,20 @@ config :wassup_app, WassupAppWeb.Endpoint,
 # Do not print debug messages in production
 config :logger, level: :info
 
+config :wassup_app, WassupAppWeb.Mailer,
+  adapter: Bamboo.SMTPAdapter,
+  server: {:system, "SMTP_PROVIDER_DOMAIN"},
+  hostname: {:system, "APP_HOSTNAME"},
+  port: 1025,
+  username: {:system, "SMTP_USERNAME"},
+  password: {:system, "SMTP_PASSWORD"},
+  tls: :if_available,
+  allowed_tls_versions: [:tlsv1, :"tlsv1.1", :"tlsv1.2"],
+  ssl: true,
+  retries: 1,
+  no_mx_lookups: false,
+  auth: :if_available
+
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key

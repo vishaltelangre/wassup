@@ -24,6 +24,10 @@
   <% end %>
 
   <%= if not(registration_disabled?()) do %>
-    <p class="help-text">Don't have account, <%= link "Sign Up", to: Routes.registration_path(@conn, :new) %></p>
+    <p class="help-text">
+      <span>Don't have an account, <%= link "Sign Up", to: Routes.registration_path(@conn, :new) %></span>
+      <br />
+      <span>Didn't receive account verification instructions, <%= link "Send Again", to: Routes.resend_account_verification_instructions_path(@conn, :verification_pending) %></span>
+      </p>
   <% end %>
 </div>

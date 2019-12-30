@@ -57,7 +57,8 @@ defmodule WassupAppWeb do
           valid_user: 2,
           ensure_not_signed_in: 2,
           ensure_password_is_set: 2,
-          ensure_registration_enabled: 2
+          ensure_registration_enabled: 2,
+          ensure_account_is_verified: 2
         ]
     end
   end

@@ -1,6 +1,11 @@
 defmodule WassupAppWeb.Router do
   use WassupAppWeb, :router
 
+  # To preview sent emails
+  if Mix.env() == :dev do
+    forward "/sent_emails", Bamboo.SentEmailViewerPlug
+  end
+
   pipeline :browser do
     plug :accepts, ["html", "json"]
     plug :fetch_session
@@ -16,6 +21,18 @@ defmodule WassupAppWeb.Router do
   end
 
   scope "/", WassupAppWeb do
+    pipe_through [:browser]
+
+    # Account verification
+    get "/verify_account", Account.VerificationController, :verify_account, as: :verify_account
+
+    post "/resend_account_verification_instructions",
+         Account.VerificationController,
+         :resend_account_verification_instructions,
+         as: :account_verification
+  end
+
+  scope "/", WassupAppWeb do
     pipe_through [:browser, :ensure_not_signed_in]
 
     # Login
@@ -23,6 +40,12 @@ defmodule WassupAppWeb.Router do
     get "/auth/:provider", AuthController, :request
     get "/auth/:provider/callback", AuthController, :callback
     post "/auth/identity/callback", AuthController, :identity_callback
+
+    # Resend account verification instructions
+    get "/resend_account_verification_instructions",
+        Account.VerificationController,
+        :verification_pending,
+        as: :resend_account_verification_instructions
   end
 
   scope "/", WassupAppWeb do
@@ -40,11 +63,17 @@ defmodule WassupAppWeb.Router do
     delete "/logout", AuthController, :delete, as: :logout
 
     # Account Management
-    resources "/account", AccountController, singleton: true, only: [:edit, :update]
+    resources "/account", AccountController, singleton: true, only: [:edit, :update] do
+    end
+
+    get "/account/verification_pending",
+        Account.VerificationController,
+        :verification_pending,
+        as: :account_verification_pending
   end
 
   scope "/", WassupAppWeb do
-    pipe_through [:browser, :valid_user, :ensure_password_is_set]
+    pipe_through [:browser, :valid_user, :ensure_password_is_set, :ensure_account_is_verified]
 
     # Dashboard
     get "/", DashboardController, :index

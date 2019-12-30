@@ -1,5 +1,5 @@
 <%= if not(is_nil(@current_user.password_hash)) do %>
-  <%= link "⟵ Dashboard", to: Routes.dashboard_path(@conn, :index), class: "back-link" %>
+  <%= link "⟵ Back", to: Routes.dashboard_path(@conn, :index), class: "back-link" %>
 <% end %>
 
 <div class="auth-page">

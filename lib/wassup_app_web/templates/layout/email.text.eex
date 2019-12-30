@@ -1,0 +1,5 @@
+
+<%= render @view_module, @view_template, assigns %>
+
+Thank you,
+Team <%= WassupApp.Utils.app_name() %>

@@ -2,6 +2,7 @@ defmodule WassupAppWeb.RegistrationController do
   use WassupAppWeb, :controller
 
   alias WassupApp.{Accounts, Accounts.User}
+  alias WassupApp.Auth, as: AuthContext
 
   def new(conn, _params) do
     changeset = Accounts.change_user(%User{})
@@ -10,9 +11,13 @@ defmodule WassupAppWeb.RegistrationController do
 
   def create(conn, %{"user" => user_params}) do
     case Accounts.create_user(user_params) do
-      {:ok, _user} ->
+      {:ok, user} ->
         conn
-        |> put_flash(:info, "Signed up successfully.")
+        |> AuthContext.send_account_verification_instructions(user)
+        |> put_flash(
+          :info,
+          "You are signed up successfully. We have sent you an email with the instructions to verify your account."
+        )
         |> redirect(to: Routes.login_path(conn, :request))
 
       {:error, %Ecto.Changeset{} = changeset} ->

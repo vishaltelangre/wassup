@@ -18,3 +18,6 @@ config :wassup_app, WassupAppWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+# Use TestAdapter for sending emails
+config :wassup_app, WassupAppWeb.Mailer, adapter: Bamboo.TestAdapter

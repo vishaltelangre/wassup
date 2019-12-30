@@ -1,0 +1,29 @@
+<div class="auth-page">
+  <%= if @current_user do %>
+    <p>
+      Your account is not verified yet.
+      Please click the verification link received in your inbox to verify your account.
+    </p>
+
+    <p>
+      If you didn't receive the account verification instructions yet, please <%= link "click here", to: Routes.account_verification_path(@conn, :resend_account_verification_instructions), method: :post %> to resend it.
+    </p>
+  <% else %>
+    <h1>Resend Account Verification Instructions</h1>
+    <%= form_for :account, Routes.account_verification_path(@conn, :resend_account_verification_instructions), [method: :post], fn f -> %>
+      <div class='control-group'>
+        <label class='control-label' for='name-input'>Email</label>
+        <%= text_input f, :email %>
+        <%= error_tag f, :email %>
+      </div>
+
+      <div class='control-group actions'>
+        <div>
+          <%= submit "Resend" %>
+        </div>
+      </div>
+      <% end %>
+
+      <p class="help-text">If your account is alerady verified, <%= link "Sign In", to: Routes.login_path(@conn, :request) %></p>
+  <% end %>
+</div>

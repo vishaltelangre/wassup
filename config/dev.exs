@@ -76,3 +76,6 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+# Use LocalAdaoter for sending emails and previewing them in dev environment
+config :wassup_app, WassupAppWeb.Mailer, adapter: Bamboo.LocalAdapter
