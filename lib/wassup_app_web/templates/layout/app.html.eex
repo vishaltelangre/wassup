@@ -58,6 +58,11 @@
       App.sentimentDetails = <%= raw sentiment_details() %>;
       App.userToken = "<%= assigns[:user_token] %>";
       App.userId = "<%= assigns[:current_user] && assigns[:current_user] |> Map.get(:id) %>";
+      App.digestedAssetsPath = {
+        "/images/more.svg": '<%= Routes.static_path(@conn, "/images/more.svg") %>',
+        "/images/star.svg": '<%= Routes.static_path(@conn, "/images/star.svg") %>',
+        "/images/unstar.svg": '<%= Routes.static_path(@conn, "/images/unstar.svg") %>'
+      };
       window.App = App;
     </script>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>

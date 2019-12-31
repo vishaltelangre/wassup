@@ -1,5 +1,11 @@
 use Mix.Config
 
+app_hostname =
+  System.get_env("APP_HOSTNAME") ||
+    raise """
+    environment variable APP_HOSTNAME is missing.
+    """
+
 # For production, don't forget to configure the url host
 # to something meaningful, Phoenix uses this information
 # when generating URLs.
@@ -10,7 +16,7 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :wassup_app, WassupAppWeb.Endpoint,
-  url: [host: "example.com", port: 80],
+  url: [host: app_hostname, port: 4000],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production

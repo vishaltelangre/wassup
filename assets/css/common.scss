@@ -220,7 +220,12 @@ header {
 
 /* Show an element */
 .show {
-  display: block;
+  display: block !important;
+}
+
+/* Hide an element */
+.hide {
+  display: none;
 }
 
 /* Large screen devices */

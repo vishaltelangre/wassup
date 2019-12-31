@@ -130,7 +130,7 @@ defmodule WassupAppWeb.PaginateView do
     end
   end
 
-  defp page_link(url, options \\ []) do
+  defp page_link(url, options) do
     content_tag :li, class: "page-item #{options[:class]}" do
       link to: url, class: "page-link", tabindex: -1 do
         options[:contents]

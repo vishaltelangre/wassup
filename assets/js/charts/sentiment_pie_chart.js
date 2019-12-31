@@ -5,6 +5,7 @@ const { sentimentDetails } = App;
 
 const transformPieChartData = data => Object.keys(sentimentDetails).map(sentiment => ({
   sentiment,
+  icon_path: sentimentDetails[sentiment].icon_path,
   color: am4core.color(sentimentDetails[sentiment].color),
   percent: data.filter(note => sentiment === note.sentiment).length
 }));
@@ -23,10 +24,11 @@ const renderPieChart = (sentimentPieChartId, data) => {
   series.slices.template.cornerRadius = 5;
   series.slices.template.innerCornerRadius = 5;
   series.labels.template.html = `
-    <span class='pie-chart-label'>
-      <img src='/images/{category}.svg' />
-      <span class='percent'>{value.percent.formatNumber('##.#')}%</span>
+    <span class="pie-chart-label">
+      <img src="{icon_path}" />
+      <span class="percent">{value.percent.formatNumber("##.#")}%</span>
     </span>`;
+
   series.ticks.template.disabled = true;
   series.tooltip.disabled = true;
 

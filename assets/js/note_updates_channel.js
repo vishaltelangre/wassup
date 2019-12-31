@@ -5,6 +5,7 @@ import { truncateNoteBody, renderSentimentPieChart } from "./dashboard";
 import { truncateNoteBodyForChartTooltip } from "./charts/utils";
 import { stringifyNote } from "./note";
 
+const { digestedAssetsPath } = App;
 const noteItemSelector = noteId => `[data-behavior=note-item][data-note-id="${noteId}"]`;
 const sentimentIconSelector = "[data-behavior=sentiment-icon]";
 const favoriteToggleSelector = "[data-behavior=note-favorite-toggle]";
@@ -23,14 +24,14 @@ const updateFavoriteIcon = (noteItem, { id, favorite }) => {
   const iconElement = favoriteToggleElement.querySelector("img");
   favoriteToggleElement.setAttribute("title", title);
   favoriteToggleElement.setAttribute("data-toggle-to", newToggleTo);
-  iconElement && iconElement.setAttribute("src", favoriteIconPath);
+  iconElement && iconElement.setAttribute("src", digestedAssetsPath[favoriteIconPath]);
 };
 
-const updateSentimentIcon = (noteItem, { sentiment }) => {
+const updateSentimentIcon = (noteItem, { sentiment_icon_path }) => {
   const sentimentIconElement = noteItem.querySelector(sentimentIconSelector);
 
   if (sentimentIconElement) {
-    sentimentIconElement.src = `/images/${sentiment}.svg`;
+    sentimentIconElement.src = sentiment_icon_path;
   }
 };
 

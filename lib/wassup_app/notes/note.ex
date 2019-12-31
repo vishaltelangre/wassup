@@ -3,6 +3,7 @@ defmodule WassupApp.Notes.Note do
 
   alias WassupApp.Accounts.User
   alias WassupApp.Notes.Note
+  alias WassupAppWeb.Router.Helpers, as: Routes
 
   import EctoEnum
 
@@ -13,6 +14,7 @@ defmodule WassupApp.Notes.Note do
              :sentiment,
              :sentiment_value,
              :sentiment_color,
+             :sentiment_icon_path,
              :favorite,
              :favorite_icon_path,
              :graph_favorite_icon_path,
@@ -35,6 +37,7 @@ defmodule WassupApp.Notes.Note do
     field :sentiment, SentimentEnum
     field :sentiment_value, :string, virtual: true
     field :sentiment_color, :string, virtual: true
+    field :sentiment_icon_path, :string, virtual: true
     field :submitted_at, :utc_datetime
     belongs_to :user, User
 
@@ -46,13 +49,14 @@ defmodule WassupApp.Notes.Note do
     |> maybe_transform_submitted_at_in_timezone(timezone)
     |> Map.put(:sentiment_value, sentiment_value(sentiment))
     |> Map.put(:sentiment_color, sentiment_color(sentiment))
+    |> Map.put(:sentiment_icon_path, sentiment_icon_path(sentiment))
     |> Map.put(
       :favorite_icon_path,
-      if(favorite, do: "/images/star.svg", else: "/images/unstar.svg")
+      if(favorite, do: "star", else: "unstar") |> icon_path()
     )
     |> Map.put(
       :graph_favorite_icon_path,
-      if(favorite, do: "/images/star.svg", else: "/images/blank.svg")
+      if(favorite, do: "star", else: "blank") |> icon_path()
     )
   end
 
@@ -73,12 +77,26 @@ defmodule WassupApp.Notes.Note do
     Map.fetch!(sentiment_details(), sentiment).color
   end
 
-  def sentiment_details, do: @sentiment_details
+  defp sentiment_icon_path(sentiment) do
+    Map.fetch!(sentiment_details(), sentiment).icon_path
+  end
+
+  def sentiment_details do
+    @sentiment_details
+    |> Enum.map(fn {sentiment, details} ->
+      {sentiment, Map.put(details, :icon_path, icon_path(sentiment))}
+    end)
+    |> Enum.into(%{})
+  end
 
   @doc false
   def changeset(note, attrs) do
     note
     |> cast(attrs, [:body, :favorite, :sentiment, :submitted_at])
     |> validate_required([:body, :favorite, :sentiment])
+  end
+
+  defp icon_path(icon, extension \\ "svg") do
+    Routes.static_path(WassupAppWeb.Endpoint, "/images/#{icon}.#{extension}")
   end
 end

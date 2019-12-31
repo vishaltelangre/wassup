@@ -1,7 +1,7 @@
 defmodule WassupAppWeb.NoteChannel do
   use WassupAppWeb, :channel
 
-  alias WassupApp.{Notes, Notes.Note}
+  alias WassupApp.Notes
   alias WassupApp.Accounts
 
   def join("note:dashboard:" <> user_id, _message, socket) do

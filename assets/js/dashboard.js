@@ -7,7 +7,9 @@ import { stringifyNote, favoriteToggleMarkup, actionsDropdownMarkup } from "./no
 let sentimentLineChartRef;
 let sentimentPieChartRef;
 const recentNotesSelector = ".dashboard [data-behavior='note-list']";
+const recentNotesHeadingSelector = ".dashboard [data-behavior='note-list-heading']";
 const sentimentLineChartId = "sentiment-line-chart";
+const sentimentChartHeadingSelector = ".dashboard [data-behavior='sentiment-chart-heading']";
 const sentimentPieChartId = "sentiment-pie-chart";
 
 const onRefresh = ({ body }) => {
@@ -42,6 +44,9 @@ const renderSentimentLineChart = (data = []) => {
   }
 
   sentimentLineChartRef = renderLineChart(sentimentLineChartId, data, options);
+
+  toggleElementVisibility(document.querySelector(sentimentChartHeadingSelector), data.length);
+  toggleElementVisibility(sentimentLineChartElement, data.length);
 };
 
 const renderSentimentPieChart = (data = []) => {
@@ -54,6 +59,8 @@ const renderSentimentPieChart = (data = []) => {
   }
 
   sentimentPieChartRef = renderPieChart(sentimentPieChartId, data);
+
+  toggleElementVisibility(sentimentPieChartElement, data.length);
 };
 
 const noteItemMarkup = note => {
@@ -95,6 +102,17 @@ const refreshRecentNotes = (data = []) => {
   if (!recentNotesElement) return;
 
   recentNotesElement.innerHTML = data.map(noteItemMarkup).join("");
+
+  toggleElementVisibility(document.querySelector(recentNotesHeadingSelector), data.length);
+  toggleElementVisibility(recentNotesElement, data.length)
+};
+
+const toggleElementVisibility = (headingElement, show) => {
+  if (show) {
+    headingElement.classList.add("show");
+  } else {
+    headingElement.classList.remove("show");
+  }
 };
 
 const truncateNoteBody = (note, maxLength) => {

@@ -6,24 +6,24 @@
         <%= render WassupAppWeb.NoteView, "form.html", Map.put(assigns, :action, Routes.note_path(@conn, :create)) %>
       </div>
       <br/>
-      <h2>
+      <h2 class="hide" data-behavior="sentiment-chart-heading">
         How's your mood recently?
         <%= link "Detailed Chart ⟶", to: Routes.graph_path(@conn, :timeline), class: "widget-meta-link" %>
       </h2>
       <div class="widget">
-        <div id="sentiment-line-chart" class="sentiment-line-chart"></div>
+        <div id="sentiment-line-chart" class="sentiment-line-chart hide"></div>
       </div>
       <div class="widget">
-        <div id="sentiment-pie-chart" class="sentiment-pie-chart"></div>
+        <div id="sentiment-pie-chart" class="sentiment-pie-chart hide"></div>
       </div>
     </div>
     <div class="column">
-      <h2>
+      <h2 class="hide" data-behavior="note-list-heading">
         Recent Notes
         <%= link "All Notes ⟶", to: Routes.note_path(@conn, :index), class: "widget-meta-link" %>
       </h2>
       <div class="widget">
-        <ul class="notes" data-behavior="note-list"></ul>
+        <ul class="notes hide" data-behavior="note-list"></ul>
       </div>
     </div>
   </div>

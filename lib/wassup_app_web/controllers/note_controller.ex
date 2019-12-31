@@ -1,7 +1,7 @@
 defmodule WassupAppWeb.NoteController do
   use WassupAppWeb, :controller
 
-  alias WassupApp.{Notes, Notes.Note}
+  alias WassupApp.Notes
   alias WassupAppWeb.NoteChannel
   alias WassupAppWeb.ErrorView
 

@@ -15,7 +15,7 @@
 
   <div class='control-group'>
     <label class='control-label' for='timezone-input'>Preferred Time Zone</label>
-    <%= select f, :timezone, Tzdata.zone_lists_grouped, prompt: "Select preferred time zone" %>
+    <%= select f, :timezone, Tzdata.zone_list(), prompt: "Select preferred time zone" %>
     <%= error_tag f, :timezone %>
   </div>
 

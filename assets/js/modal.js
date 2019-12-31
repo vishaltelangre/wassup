@@ -14,6 +14,7 @@ const showModal = contents => {
 
 const closeModal = () => {
   const modal = document.querySelector(modalSelector);
+  modal.querySelector(modalContentSelector).innerHTML = "";
   modal.classList.remove(modalShowClassName);
   document.body.classList.remove(noScrollClassName);
 };

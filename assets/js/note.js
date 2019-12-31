@@ -1,6 +1,7 @@
 import { showModal, closeModal } from "./modal";
 import { localizeDateTime } from "./localize_datetime";
 
+const { digestedAssetsPath, sentimentDetails } = App;
 const csrfTokenSelector = "meta[name='csrf-token']";
 const noteFormSelector = "[data-behavior=note-form]";
 const methodFieldSelector = "input[name='_method']";
@@ -10,7 +11,7 @@ const notePreviewTriggerSelector = "[data-behavior=note-preview-trigger]";
 const noteEditTriggerSelector = "[data-behavior=note-edit-trigger]";
 const noteFavoriteToggleSelector = "[data-behavior=note-favorite-toggle]";
 
-const stringifyNote = note => JSON.stringify(note).replace("'", "&#39;");
+const stringifyNote = note => JSON.stringify(note).replace(/'/g, "&#39;");
 
 const favoriteToggleMarkup = ({ id, favorite, favorite_icon_path }) => {
   const title = favorite ? "Unstar this note" : "Star this note";
@@ -30,7 +31,7 @@ const actionsDropdownMarkup = note => {
 
   return `<div class="dropdown">
     <a href="javascript:void(0)" data-behavior="dropdown-trigger">
-      <img class="dropdown-trigger-icon" src="/images/more.svg">
+      <img class="dropdown-trigger-icon" src="${digestedAssetsPath['/images/more.svg']}">
     </a>
     <div class="dropdown-content" data-behavior="dropdown-content">
       <a data-behavior="note-edit-trigger"
@@ -51,7 +52,7 @@ const actionsDropdownMarkup = note => {
 };
 
 const formToJSON = form => {
-  const methodInput = document.querySelector(methodFieldSelector);
+  const methodInput = form.querySelector(methodFieldSelector);
 
   return {
     _csrf_token: document.querySelector(csrfTokenSelector).content,
@@ -81,7 +82,7 @@ const saveNote = (url, data, { onSuccess, onFailure }) => {
 
 const showNotePreviewModal = triggerElement => {
   const note = JSON.parse(triggerElement.getAttribute('data-note'));
-  const { id, submitted_at, sentiment, body } = note;
+  const { id, submitted_at, sentiment, sentiment_icon_path, body } = note;
   const localDateTime =
     localizeDateTime(submitted_at).format('MMM DD, YYYY - hh:mm:ss A');
 
@@ -89,7 +90,7 @@ const showNotePreviewModal = triggerElement => {
     <div class="note-preview" data-behavior="note-item" data-note-id="${id}">
       <div class="meta">
         <span class="label">${localDateTime}</span>
-        <img class="icon" src="/images/${sentiment}.svg" data-behavior="sentiment-icon" />
+        <img class="icon" src="${sentiment_icon_path}" data-behavior="sentiment-icon" />
         ${favoriteToggleMarkup(note)}
       </div>
       <p data-behavior="note-body">${body}</p>
@@ -104,7 +105,7 @@ const showNoteEditModal = triggerElement => {
   const radioMarkup = sentiment => `
     <label class="control-label radio">
       <input name="note[sentiment]" type="radio" value="${sentiment}" ${sentimentCheckedAttribute(sentiment)}>
-      <img src="/images/${sentiment}.svg">
+      <img src="${sentimentDetails[sentiment].icon_path}">
     </label>`;
 
   showModal(`

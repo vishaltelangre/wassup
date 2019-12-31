@@ -1,7 +1,7 @@
 defmodule Mix.Tasks.CreateUser do
   use Mix.Task
 
-  alias WassupApp.{Repo, Accounts}
+  alias WassupApp.Accounts
 
   @impl Mix.Task
   @shortdoc "Create a user"

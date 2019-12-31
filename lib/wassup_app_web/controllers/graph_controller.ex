@@ -1,7 +1,7 @@
 defmodule WassupAppWeb.GraphController do
   use WassupAppWeb, :controller
 
-  alias WassupApp.{Notes, Notes.Note}
+  alias WassupApp.Notes
   alias WassupApp.PeriodOptions
 
   def timeline(conn, params) do

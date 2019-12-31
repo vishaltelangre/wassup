@@ -206,7 +206,7 @@ const createPrimarySeries = (chart, dateFieldName, valueFieldName) => {
     <div class="chart-tooltip note-preview">
       <div class="meta">
         <span class="label">{submitted_at.formatDate("${displayDateFormat}")}</span>
-        <img class="icon" src="/images/{sentiment}.svg" />
+        <img class="icon" src="{sentiment_icon_path}" />
         <img class="icon star-icon" src="{graph_favorite_icon_path}" />
       </div>
       {short_body}
@@ -225,7 +225,7 @@ const createPrimarySeries = (chart, dateFieldName, valueFieldName) => {
 };
 
 const createSentimentRangeOnValueAxis = (sentiment, sentimentDetails, series, valueAxis, interactive) => {
-  const { value, color } = sentimentDetails[sentiment];
+  const { value, color, icon_path } = sentimentDetails[sentiment];
   // Create vertical range on series around the sentiment value
   const range = valueAxis.createSeriesRange(series);
   range.value = value + 0.5;
@@ -241,7 +241,7 @@ const createSentimentRangeOnValueAxis = (sentiment, sentimentDetails, series, va
   // Display the sentiment emoji on that bullet
   const emoji = range.bullet.createChild(am4core.Image);
   const emojiSize = interactive ? 48 : 28;
-  emoji.href = `/images/${sentiment}.svg`;
+  emoji.href = icon_path;
   emoji.width = emojiSize;
   emoji.height = emojiSize;
   emoji.horizontalCenter = "middle";
