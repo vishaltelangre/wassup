@@ -170,17 +170,29 @@ header {
   margin-bottom: 2rem;
 
   section {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    .logo-link {
+      display: inline-block;
 
-    :first-child {
-      order: 2;
+      h1 {
+        display: inline-block;
+
+        img {
+          width: 96px;
+          max-width: none;
+          height: 48px;
+          position: absolute;
+          top: -5px;
+          left: 36px;
+
+          &:hover {
+            filter: drop-shadow(0px 0px 0px #fff);
+          }
+        }
+      }
     }
 
-    :last-child {
-      order: 1;
+    nav.main {
+      float: right;
     }
   }
 

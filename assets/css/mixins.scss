@@ -72,5 +72,12 @@
       white-space: pre-wrap;
       max-width: 100%;
     }
+
+    /* Small screen devices */
+    @media (max-width: 42.5rem) {
+      .dropdown-content {
+        left: 0;
+      }
+    }
   }
 }

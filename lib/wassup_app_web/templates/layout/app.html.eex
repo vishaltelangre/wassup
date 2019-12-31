@@ -4,13 +4,20 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" href="<%= Routes.static_path(@conn, "/images/favicon.png") %>" sizes="32x32" />
     <%= csrf_meta_tag() %>
-    <title>Wassup</title>
+    <title><%= WassupApp.Utils.app_name() %></title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
   </head>
   <body>
     <header>
       <section class="container">
+        <%= link to: "/", title: WassupApp.Utils.app_name(), class: "logo-link" do %>
+          <h1>
+            <%= img_tag(Routes.static_path(@conn, "/images/logo.png")) %>
+            <span class="hide"><%= WassupApp.Utils.app_name() %></span>
+          </h1>
+        <% end %>
         <nav class="main" role="navigation">
           <ul>
             <li>

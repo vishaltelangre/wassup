@@ -1,7 +1,6 @@
 <div class="container dashboard">
   <div class="row">
     <div class="column">
-      <h2>Wassup?</h2>
       <div class="widget">
         <%= render WassupAppWeb.NoteView, "form.html", Map.put(assigns, :action, Routes.note_path(@conn, :create)) %>
       </div>
