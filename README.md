@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://user-images.githubusercontent.com/876195/71629118-ad39a300-2c21-11ea-80e7-33e999c756b2.png">
 
-  <h1>Wassup</h1>
+  <h1 align="center">Wassup</h1>
 
   <p align="center">
     A privacy-first open-source personal assistant to help
