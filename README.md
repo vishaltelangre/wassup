@@ -33,8 +33,8 @@
 
 ## Why use Wassup?
 
-Did you ever want to have someone in your file
-with whom you can share your inner feelings?
+Did you ever want to have someone in your life
+with whom you can share all your inner feelings?
 A feeling can be a note of any random thought,
 memory of an experience or an incidence.
 Well, you may already have such a person in your life.
