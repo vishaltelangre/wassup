@@ -1,8 +1,9 @@
 defmodule WassupAppWeb.Router do
   use WassupAppWeb, :router
+  alias WassupApp.Utils
 
   # To preview sent emails
-  if Mix.env() == :dev do
+  if Mix.env() == :dev || Utils.demo_instance?() do
     forward "/sent_emails", Bamboo.SentEmailViewerPlug
   end
 

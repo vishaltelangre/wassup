@@ -10,7 +10,17 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
   </head>
   <body>
-    <header>
+    <%= if WassupApp.Utils.demo_instance?() do %>
+      <header class="banner banner-info">
+        <section class="container">
+          <p>This is a <strong>DEMO</strong> instance. All the data in this demo is wiped everyday. If you've signed up & need to verify your account, <%= link "check the welcome email here", to: "/sent_emails" %>.</p>
+          <%= if !@current_user do %>
+            <p>Sign in with <strong>john@example.com</strong> email and <strong>test1234</strong> password to get started.</p>
+          <% end %>
+        </section>
+      </header>
+    <% end %>
+    <header class="main">
       <section class="container">
         <%= link to: "/", title: WassupApp.Utils.app_name(), class: "logo-link" do %>
           <h1>
@@ -18,7 +28,7 @@
             <span class="hide"><%= WassupApp.Utils.app_name() %></span>
           </h1>
         <% end %>
-        <nav class="main" role="navigation">
+        <nav role="navigation">
           <ul>
             <li>
               <%= if @current_user do %>
@@ -36,7 +46,6 @@
             </li>
           </ul>
         </nav>
-        <h1></h1>
       </section>
     </header>
     <main role="main" class="container">
@@ -73,5 +82,17 @@
       window.App = App;
     </script>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+
+    <%= if WassupApp.Utils.google_analytics_tracking_id() |> to_string |> String.length > 0 do %>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=<%= WassupApp.Utils.google_analytics_tracking_id() %>"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', '<%= WassupApp.Utils.google_analytics_tracking_id() %>');
+      </script>
+      <% end %>
   </body>
 </html>

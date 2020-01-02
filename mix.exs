@@ -65,7 +65,8 @@ defmodule WassupApp.MixProject do
       {:dotenv, "~> 3.0.0"},
       {:timex, "~> 3.5"},
       {:bamboo, "~> 1.3"},
-      {:bamboo_smtp, "~> 2.1.0"}
+      {:bamboo_smtp, "~> 2.1.0"},
+      {:faker, "~> 0.13"}
     ]
   end
 
