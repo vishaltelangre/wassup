@@ -6,6 +6,7 @@
 
 # General application configuration
 use Mix.Config
+alias WassupApp.Utils
 
 config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
 
@@ -43,3 +44,8 @@ config :ueberauth, Ueberauth.Strategy.Google.OAuth,
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
+
+if System.get_env("DEMO") == "true" do
+  # Use LocalAdapter for sending emails and previewing them in a demo instance
+  config :wassup_app, WassupAppWeb.Mailer, adapter: Bamboo.LocalAdapter
+end
