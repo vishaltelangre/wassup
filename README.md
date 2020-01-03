@@ -20,7 +20,7 @@
 </p>
 
 <h2 align="center">
-  Checkout the live demo at <a href="https://demo.wassuphq.com" target="_blank">https://demo.wassuphq.com</a>
+  Checkout the live demo at <a href="https://demo.wassuphq.com/login" target="_blank">https://demo.wassuphq.com</a>
 </h2>
 
 - [Why use Wassup?](#why-use-wassup)
