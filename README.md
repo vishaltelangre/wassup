@@ -19,6 +19,10 @@
   <img src="https://user-images.githubusercontent.com/876195/71629219-5a142000-2c22-11ea-9df0-277398d3f2d6.png">
 </p>
 
+<h2 align="center">
+  Checkout the live demo at <a href="https://demo.wassuphq.com" target="_blank">https://demo.wassuphq.com</a>
+</h2>
+
 - [Why use Wassup?](#why-use-wassup)
 - [Features](#features)
   - [Currently available features](#currently-available-features)
