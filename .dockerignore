@@ -1,0 +1,9 @@
+_build
+deps
+test
+.*
+.git
+docs
+*.md
+assets/node_modules
+
