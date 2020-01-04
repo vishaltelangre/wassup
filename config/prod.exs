@@ -23,6 +23,13 @@ app_hostname =
 # before starting your production server.
 config :wassup_app, WassupAppWeb.Endpoint,
   url: [scheme: "https", host: app_hostname, port: 443],
+  https: [
+    :inet6,
+    port: 443,
+    cipher_suite: :strong,
+    keyfile: System.get_env("SSL_KEY_PATH"),
+    certfile: System.get_env("SSL_CERT_PATH")
+  ],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
