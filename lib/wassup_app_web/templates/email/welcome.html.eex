@@ -2,5 +2,5 @@
 <p>Thanks for signing up on <%= @app_name %>!</p>
 <p>
   Verify your account by clicking on the below link:<br />
-  <a href="<%= @account_verification_link %>"><%= @account_verification_link %></a>
+  <a href="<%= @account_verification_link %>" target="_blank"><%= @account_verification_link %></a>
 </p>

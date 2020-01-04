@@ -11,9 +11,15 @@
 # and so on) as they will fail if something goes wrong.
 
 alias WassupApp.Accounts
+alias WassupApp.Accounts.User
 alias WassupApp.Notes
+alias WassupApp.Notes.Note
+alias WassupApp.Repo
+alias WassupApp.Utils
 
-if Mix.env() != :prod do
+if (Mix.env() == :prod && Utils.demo_instance?()) || Mix.env() != :prod do
+  Repo.delete_all(User)
+
   {:ok, user} =
     Accounts.find_or_create_user(%{
       name: "John Doe",
@@ -25,49 +31,10 @@ if Mix.env() != :prod do
 
   Enum.map(1..100, fn n ->
     Notes.create_note_for_user(user.id, %{
-      body: "John's #{n - 101} note",
+      body: Faker.Lorem.sentence(Enum.random(10..20)),
       favorite: Enum.random(0..1) == 0,
-      sentiment: Enum.random(WassupApp.Notes.Note.sentiment_details() |> Map.keys()),
+      sentiment: Enum.random(Note.sentiment_details() |> Map.keys()),
       submitted_at: DateTime.utc_now() |> DateTime.add(-60 * 60 * 24 * n)
     })
   end)
-
-  {:ok, user} =
-    Accounts.find_or_create_user(%{
-      name: "Jane Doe",
-      email: "jane@example.com",
-      timezone: Tzdata.zone_list() |> Enum.random(),
-      verified_at: Timex.now(),
-      password: "test1234"
-    })
-
-  Notes.create_note_for_user(user.id, %{
-    body: "I am neutral now",
-    sentiment: :neutral,
-    submitted_at: DateTime.utc_now() |> DateTime.add(-60 * 60 * 24 * 3)
-  })
-
-  Notes.create_note_for_user(user.id, %{
-    body: "I am bored now",
-    sentiment: :sad,
-    submitted_at: DateTime.utc_now() |> DateTime.add(-3)
-  })
-
-  Notes.create_note_for_user(user.id, %{
-    body: "I am happy now",
-    sentiment: :happy,
-    submitted_at: DateTime.utc_now() |> DateTime.add(-120)
-  })
-
-  Notes.create_note_for_user(user.id, %{
-    body: "I am happy now",
-    sentiment: :happy,
-    submitted_at: DateTime.utc_now() |> DateTime.add(-60 * 60 * 24 * 1)
-  })
-
-  Notes.create_note_for_user(user.id, %{
-    body: "I am happy now",
-    sentiment: :happy,
-    submitted_at: DateTime.utc_now() |> DateTime.add(-60 * 60)
-  })
 end
