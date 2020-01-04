@@ -17,8 +17,6 @@ RUN npm install --prefix ./assets
 RUN npm run deploy --prefix ./assets
 RUN mix phx.digest
 
-ENV MIX_ENV prod
-
 RUN mix compile
 
 EXPOSE 4000/tcp
