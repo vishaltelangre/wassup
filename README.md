@@ -176,6 +176,8 @@ Check these emails anytime by visiting
 
 ## Production Setup
 
+If you happen to prefer Docker, you can follow the steps to build your own Docker image [`here`](https://github.com/wassuphq/wassup/blob/master/docs/setup/building-docker-image.md).
+
 1. Copy all the environment variables in [`.env.example`](.env.example) and export them with appropriate values (e.g. `source .env.prod`).
 2. Install production environment dependencies using `mix deps.get --only prod`.
 3. Compile the Elixir code using `MIX_ENV=prod mix compile`.
