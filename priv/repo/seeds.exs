@@ -29,12 +29,12 @@ if (Mix.env() == :prod && Utils.demo_instance?()) || Mix.env() != :prod do
       password: "test1234"
     })
 
-  Enum.map(1..100, fn n ->
+  Enum.map(1..200, fn n ->
     Notes.create_note_for_user(user.id, %{
       body: Faker.Lorem.sentence(Enum.random(10..20)),
       favorite: Enum.random(0..1) == 0,
       sentiment: Enum.random(Note.sentiment_details() |> Map.keys()),
-      submitted_at: DateTime.utc_now() |> DateTime.add(-60 * 60 * 24 * n)
+      submitted_at: DateTime.utc_now() |> DateTime.add(-60 * 60 * n)
     })
   end)
 end
