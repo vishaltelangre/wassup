@@ -22,7 +22,7 @@ docker run -d --name wassup_postgres -e POSTGRES_PASSWORD=password_here \
 
 3. Prepare your wassup's `data` folder. It can be anywhere, just make sure to put in there 2 SSL certificate files: private key file and cert file obtained in step # 1. above. If you already have these cert files on your computer, set the environment variables `SSL_KEY_PATH` and `SSL_CERT_PATH` with the fully qualified path to these cert files accordingly.
 
-4. Now you're ready to build.
+4. Build the Docker image using the command: 
 
 `docker build -t wassup .`
 
