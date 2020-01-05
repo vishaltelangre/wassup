@@ -1,6 +1,10 @@
-Follow the steps to build and run your own Docker container of wassup.
+# Building Docker image
+
+## This document presents the steps to build a Docker image from wassup's source code.
 
 The ready-to-serve Docker image will be online later.
+
+
 
 1. First, obtain your SSL certificate. 
 
@@ -11,6 +15,7 @@ Reside the cert files where you're comfortable with for future SSL certificates 
 
 After that, make a copy of the cert files' folder, name it "wassup_data" (or anything you want). This will be our Wassup's data folder.
 Make sure in there available two SSL certificate files: a private key file and a cert file.
+
 
 2. Have a PostgreSQL server with SSL running. If not, setup one with the command:
 
@@ -24,13 +29,17 @@ docker run -d --name wassup_postgres -e POSTGRES_PASSWORD=password_here \
   -c ssl_key_file=/var/lib/postgresql/server.key
 ```
 
+
 3. Clone the latest Wassup code using  `git clone https://github.com/wassuphq/wassup.git`.
 
+
 4. `cd wassup`
+
 
 5. Build the Docker image using the command: 
 
 `docker build -t wassup .`
+
 
 6. Now the Docker image built step # 5 above can be run in a container. Remember to adjust the `--mount` path to your "wassup_data" folder, all the environment variables 
 specified using the `-e` option, especially `DATABASE_URL`, along with the file names such as `privkey.pem` and `fullchain.pem` -- change those 
