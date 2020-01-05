@@ -156,9 +156,14 @@ can be found in [`priv/repo/seeds.exs`](./priv/repo/seeds.exs) file.
 
 If you ever need to reset the seed data, run `mix ecto.reset`.
 
-If you need to allow social signing in using Google,
-please create a `.env` file with the following environment
+If you need to allow social sign-in using Google to Wassup,
+please
+[follow this guide](https://github.com/wassuphq/wassup/wiki/Creating-an-OAuth-2.0-client-to-enable-sign-in-using-Google)
+about creating an OAuth 2.0 client
+in Google API console.
+Then, create a `.env` file with the following environment
 variables appropriately and restart the Phoenix server.
+
 
 ```sh
 # Variables to allow signing in using Google
