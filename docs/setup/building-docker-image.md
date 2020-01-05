@@ -2,9 +2,17 @@ Follow the steps to build and run your own Docker container of wassup.
 
 The ready-to-serve Docker image will be online later.
 
-0. (Required) First, obtain your SSL certificate.
+1. First, obtain your SSL certificate. 
 
-0. (Optional) If you don't have a PostgreSQL server with SSL running, setup one with the command:
+You can generate a free LetsEncrypt SSL certificate for your own domain at
+[`https://certbot.eff.org/`](https://certbot.eff.org/) or [`https://zerossl.com/free-ssl/#crt`](https://zerossl.com/free-ssl/#crt)
+
+Reside the cert files where you're comfortable with for future SSL certificates on your domain. 
+
+After that, make a copy of the cert files' folder, name it "wassup_data" (or anything you want). This will be our Wassup's data folder.
+Make sure in there available two SSL certificate files: a private key file and a cert file.
+
+2. Have a PostgreSQL server with SSL running. If not, setup one with the command:
 
 ```
 docker run -d --name wassup_postgres -e POSTGRES_PASSWORD=password_here \
@@ -18,15 +26,15 @@ docker run -d --name wassup_postgres -e POSTGRES_PASSWORD=password_here \
 
 3. Clone the latest Wassup code using  `git clone https://github.com/wassuphq/wassup.git`.
 
-2. `cd wassup`
+4. `cd wassup`
 
-3. Prepare your wassup's `data` folder. It can be anywhere, just make sure to put in there 2 SSL certificate files: private key file and cert file obtained in step # 1. above. If you already have these cert files on your computer, set the environment variables `SSL_KEY_PATH` and `SSL_CERT_PATH` with the fully qualified path to these cert files accordingly.
-
-4. Build the Docker image using the command: 
+5. Build the Docker image using the command: 
 
 `docker build -t wassup .`
 
-5. Now the Docker image built step # 4 above can be run in a container. Remember to adjust the `--mount` path, all the environment variables specified using the `-e` option, especially `DATABASE_URL`, along with the file names such as `privkey.pem` and `fullchain.pem` -- change those to your file names. Remember to change the file names and not their location.
+6. Now the Docker image built step # 5 above can be run in a container. Remember to adjust the `--mount` path to your "wassup_data" folder, all the environment variables 
+specified using the `-e` option, especially `DATABASE_URL`, along with the file names such as `privkey.pem` and `fullchain.pem` -- change those 
+to your file names. Remember to change the file names and not their location.
 
 More details about all these environment variables can be found [here](/.env.example).
 
