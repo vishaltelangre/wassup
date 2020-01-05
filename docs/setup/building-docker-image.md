@@ -28,7 +28,7 @@ docker run -d --name wassup_postgres -e POSTGRES_PASSWORD=password_here \
 
 5. Run the built image. Remember to adjust the --mount path, all the environment variables -e, especially DATABASE_URL, along with the file names (privkey.pem & fullchain.pem, change those to your file names. Remember, file names, not location).
 
-More infomation about the environment variables is available [here](https://github.com/wassuphq/wassup/blob/master/.env.example).
+More details about all these environment variables can be found [here](/.env.example).
 
 ```
 docker run -d -p 4000:443 --name wassup --mount src=/path/to/wassup/data,dst=/root/wassupssl,type=bind \
