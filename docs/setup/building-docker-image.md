@@ -16,7 +16,7 @@ docker run -d --name wassup_postgres -e POSTGRES_PASSWORD=password_here \
   -c ssl_key_file=/var/lib/postgresql/server.key
 ```
 
-1. Clone https://github.com/wassuphq/wassup.git
+3. Clone the latest Wassup code using  `git clone https://github.com/wassuphq/wassup.git`.
 
 2. `cd wassup`
 
@@ -49,4 +49,3 @@ docker run -d -p 4000:443 --name wassup --mount src=/path/to/wassup/data,dst=/ro
 -e SSL_CERT_PATH=/root/wassupssl/fullchain.pem \
 wassup
 ```
-
