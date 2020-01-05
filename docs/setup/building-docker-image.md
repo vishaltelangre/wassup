@@ -34,7 +34,7 @@ docker run -d --name wassup_postgres -e POSTGRES_PASSWORD=password_here \
 
 `docker build -t wassup .`
 
-6. Now the Docker image built step # 5 above can be run in a container. Remember to adjust the `--mount` path to your "wassup_data" folder, all the environment variables 
+6. Now the Docker image that was built in step # 5 above can be run in a container. Remember to adjust the `--mount` path to your "wassup_data" folder, all the environment variables 
 specified using the `-e` option, especially `DATABASE_URL`, along with the file names such as `privkey.pem` and `fullchain.pem` -- change those 
 to your file names. Remember to change the file names and not their location.
 
