@@ -29,6 +29,7 @@
   - [Features that will be built eventually and will be available in future](#features-that-will-be-built-eventually-and-will-be-available-in-future)
 - [Local Development Setup](#local-development-setup)
 - [Production Setup](#production-setup)
+  - [Adding user(s)](#adding-users)
 - [Monetization](#monetization)
 - [Want to contribute?](#want-to-contribute)
 - [Team](#team)
@@ -187,6 +188,24 @@ Check these emails anytime by visiting
 4. Compile static assets with `npm run deploy --prefix ./assets` and then generate a static assets digest manifest using `mix phx.digest`.
 5. Create and migrate the database using `MIX_ENV=prod mix ecto.setup` and `MIX_ENV=prod mix ecto.migrate`.
 6. Start the Phoenix server using `MIX_ENV=prod mix phx.server` or in a detached or background mode using `MIX_ENV=prod elixir --erl "-detached" -S mix phx.server`.
+
+### Adding user(s)
+
+Wassup offers the `mix create_user` task
+to add user(s) using command line interface.
+The accounts of the users created using this mix task
+would be automatically marked as verified,
+therefore these users would be able to sign-in
+to your hosted Wassup directly.
+
+Run `mix help create_user`
+to understand how to use this task properly.
+
+The `create_user` mix task is really helpful
+  - when you have self-hosted Wassup
+  - and you have disabled registration using `REGISTRATION_DISABLED=false`
+    environment variable
+  - and you would like to register yourself (and/or your family members).
 
 ## Monetization
 
