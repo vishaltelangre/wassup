@@ -1,0 +1,15 @@
+<div class="modal show" data-behavior="modal">
+  <div class="modal-body">
+    <div class="close" data-behavior="modal-close" phx-click="close_note_preview">×</div>
+    <div class="modal-content" data-behavior="modal-content">
+      <div class="note-preview">
+        <div class="meta">
+          <span class="label"><%= formatted_datetime(@note.submitted_at) %></span>
+          <img class="icon" src="<%= @note.sentiment_icon_path %>"/>
+          <%= note_favorite_icon_link(@note) %>
+        </div>
+        <p><%= @note.body %></p>
+      </div>
+    </div>
+  </div>
+</div>

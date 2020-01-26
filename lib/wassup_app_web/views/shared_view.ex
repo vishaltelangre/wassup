@@ -7,26 +7,23 @@ defmodule WassupAppWeb.SharedView do
 
   def sentiments, do: Note.sentiment_details() |> Map.keys()
 
-  def reset_filter_path(conn = %Plug.Conn{}, filter_name) do
-    conn |> reset_filter_path(filter_name, conn.params["filter"])
+  def present?(value) do
+    !(value == nil || String.length(String.trim(value)) == 0)
   end
 
-  def reset_filter_path(conn, _filter_name, _filter_params = nil) do
-    Path.join(["/" | conn.path_info])
+  def note_favorite_icon_link(note) do
+    link(
+      to: {:javascript, "void(0)"},
+      class: "icon-wrapper",
+      "phx-click": "toggle_note_favorite",
+      "phx-value-note-id": note.id,
+      "phx-value-favorite": "#{!note.favorite}"
+    ) do
+      img_tag(note.favorite_icon_path, class: "icon star-icon")
+    end
   end
 
-  def reset_filter_path(conn, filter_name, filter_params) do
-    filter_params |> Map.delete(filter_name) |> Map.delete("page") |> reset_filters_path(conn)
-  end
-
-  defp reset_filters_path(new_filter_params, conn) do
-    params = Map.put(conn.params, "filter", new_filter_params)
-    Path.join(["/" | conn.path_info]) <> "?" <> Plug.Conn.Query.encode(params)
-  end
-
-  def filter_present?(conn, filter_name) do
-    filter = conn.params["filter"][filter_name]
-
-    !(filter == nil || String.length(String.trim(filter)) == 0)
+  def formatted_datetime(datetime) do
+    Timex.format!(datetime, "%B %d, %Y - %I:%M:%S %p", :strftime)
   end
 end

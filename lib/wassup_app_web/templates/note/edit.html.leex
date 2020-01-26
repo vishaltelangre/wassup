@@ -1,0 +1,3 @@
+<h2>Editing Note</h2>
+<p class="muted">which was saved at <strong><%= formatted_datetime(@note.submitted_at) %></strong></p>
+<%= render "form.html", assigns |> Map.put(:show_errors, true) %>

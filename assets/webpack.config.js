@@ -8,6 +8,12 @@ const { IgnorePlugin } = require('webpack');
 
 
 module.exports = (env, options) => ({
+  externals: function (context, request, callback) {
+    if (/xlsx|canvg|pdfmake/.test(request)) {
+      return callback(null, "commonjs " + request);
+    }
+    callback();
+  },
   optimization: {
     minimizer: [
       new UglifyJsPlugin({ cache: true, parallel: true, sourceMap: false }),
@@ -15,11 +21,11 @@ module.exports = (env, options) => ({
     ]
   },
   entry: {
-    './js/app.js': glob.sync('./vendor/**/*.js').concat(['./js/app.js'])
+    "./js/app.js": glob.sync("./vendor/**/*.js").concat(["./js/app.js"])
   },
   output: {
-    filename: 'app.js',
-    path: path.resolve(__dirname, '../priv/static/js')
+    filename: "app.js",
+    path: path.resolve(__dirname, "../priv/static/js")
   },
   module: {
     rules: [
@@ -27,22 +33,22 @@ module.exports = (env, options) => ({
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
+          loader: "babel-loader"
         }
       },
       {
         test: /\.scss$/,
         use: [
           MiniCssExtractPlugin.loader,
-          { loader: 'css-loader' },
-          { loader: 'sass-loader' }
+          { loader: "css-loader" },
+          { loader: "sass-loader" }
         ]
       }
     ]
   },
   plugins: [
     new IgnorePlugin(/^\.\/locale$/, /moment$/),
-    new MiniCssExtractPlugin({ filename: '../css/app.css' }),
-    new CopyWebpackPlugin([{ from: 'static/', to: '../' }])
+    new MiniCssExtractPlugin({ filename: "../css/app.css" }),
+    new CopyWebpackPlugin([{ from: "static/", to: "../" }])
   ]
 });

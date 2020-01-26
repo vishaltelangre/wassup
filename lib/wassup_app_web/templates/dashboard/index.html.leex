@@ -1,0 +1,41 @@
+<div class="container dashboard">
+  <div class="row">
+    <div class="column">
+      <div class="widget">
+        <%= render "add_note_widget.html", assigns %>
+      </div>
+      <br/>
+      <%= if @notes_count > 0 do %>
+        <h2>
+          How's your mood recently?
+          <%= live_link "Detailed Chart ⟶", to: Routes.live_path(@socket, WassupAppWeb.GraphLive.Timeline), class: "widget-meta-link" %>
+        </h2>
+        <div class="widget">
+          <div id="sentiment-line-chart" class="sentiment-line-chart" data-chart="<%= Jason.encode!(@notes) %>" phx-update="ignore" phx-hook="DashboardSentimentLineChart"></div>
+        </div>
+        <div class="widget">
+          <div id="sentiment-pie-chart" class="sentiment-pie-chart" data-chart="<%= Jason.encode!(@notes) %>" phx-update="ignore" phx-hook="DashboardSentimentPieChart"></div>
+        </div>
+      <% end %>
+    </div>
+    <%= if @notes_count > 0 do %>
+      <div class="column">
+        <h2>
+          Recent Notes
+          <%= live_link "All Notes ⟶", to: Routes.live_path(@socket, WassupAppWeb.NoteLive.Index), class: "widget-meta-link" %>
+        </h2>
+        <div class="widget">
+          <%= render "recent_notes_widget.html", assigns %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<%= if @preview_note && @note do %>
+  <%= render WassupAppWeb.NoteView, "preview_note_modal.html", assigns %>
+<% end %>
+
+<%= if @edit_note_changeset && @note do %>
+  <%= render WassupAppWeb.NoteView, "edit_note_modal.html", assigns %>
+<% end %>

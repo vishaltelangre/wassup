@@ -1,23 +1,23 @@
-import * as am4core from "@amcharts/amcharts4/core";
-import * as am4charts from "@amcharts/amcharts4/charts";
+import { color, create, percent } from "@amcharts/amcharts4/core";
+import { PieChart, PieSeries } from "@amcharts/amcharts4/charts";
 
 const { sentimentDetails } = App;
 
 const transformPieChartData = data => Object.keys(sentimentDetails).map(sentiment => ({
   sentiment,
   icon_path: sentimentDetails[sentiment].icon_path,
-  color: am4core.color(sentimentDetails[sentiment].color),
+  color: color(sentimentDetails[sentiment].color),
   percent: data.filter(note => sentiment === note.sentiment).length
 }));
 
 const renderPieChart = (sentimentPieChartId, data) => {
   const sentimentPieChartElement = document.getElementById(sentimentPieChartId);
-  const chart = am4core.create(sentimentPieChartElement, am4charts.PieChart);
+  const chart = create(sentimentPieChartElement, PieChart);
   chart.paddingTop = 20;
   chart.data = transformPieChartData(data);
-  chart.innerRadius = am4core.percent(50);
+  chart.innerRadius = percent(50);
 
-  const series = chart.series.push(new am4charts.PieSeries());
+  const series = chart.series.push(new PieSeries());
   series.dataFields.value = "percent";
   series.dataFields.category = "sentiment";
   series.slices.template.propertyFields.fill = "color";

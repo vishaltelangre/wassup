@@ -23,6 +23,7 @@ defmodule WassupAppWeb do
 
       import Plug.Conn
       import WassupAppWeb.Gettext
+      import Phoenix.LiveView.Controller
       alias WassupAppWeb.Router.Helpers, as: Routes
     end
   end
@@ -42,6 +43,7 @@ defmodule WassupAppWeb do
 
       import WassupAppWeb.ErrorHelpers
       import WassupAppWeb.Gettext
+      import Phoenix.LiveView.Helpers
       alias WassupAppWeb.Router.Helpers, as: Routes
     end
   end
@@ -51,6 +53,7 @@ defmodule WassupAppWeb do
       use Phoenix.Router
       import Plug.Conn
       import Phoenix.Controller
+      import Phoenix.LiveView.Router
 
       import WassupAppWeb.Plugs.Auth,
         only: [

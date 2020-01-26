@@ -1,0 +1,36 @@
+<%= live_link "⟵ Dashboard", to: Routes.live_path(@socket, WassupAppWeb.DashboardLive), class: "back-link" %>
+<div class="timeline-graph-page">
+  <h1>Mood Chart</h1>
+
+  <div class="criteria">
+    <%= f = form_for :filter, "#", phx_change: "criteria_change", phx_submit: "criteria_change" %>
+      <span class="search">
+        <%= img_tag(Routes.static_path(@socket, "/images/search.svg"), class: "search-icon") %>
+        <%= text_input(f, :q, value: @q, class: "value", placeholder: "Search", phx_debounce: "1500") %>
+        <%= if present?(@q) do %>
+          <%= link to: {:javascript, "void(0)"}, class: "reset-search", title: "Reset Search", "phx-click": "reset_search_query" do %>
+            <%= img_tag(Routes.static_path(@socket, "/images/clear.svg"), class: "clear-icon") %>
+          <% end %>
+        <% end %>
+      </span>
+      <div class="period">
+        <div class="dropdown">
+          <a href="javascript:void(0)" data-behavior="dropdown-trigger">
+            <%= img_tag(Routes.static_path(@socket, "/images/calendar.svg"), class: "calendar-icon") %>
+            <%= text_input(f, :period, value: @period_option, class: "value", placeholder: "Period", readonly: true) %>
+          </a>
+          <div class="dropdown-content" data-behavior="dropdown-content">
+            <%= period_option_links(@period_option) %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div id="detailed-timeline-chart" class="detailed-timeline-chart" data-chart="<%= Jason.encode!(@notes) %>" phx-update="ignore" phx-hook="DetailedSentimentLineChart"></div>
+</div>
+
+<%= if @preview_note && @note do %>
+  <%= render WassupAppWeb.NoteView, "preview_note_modal.html", assigns %>
+<% end %>

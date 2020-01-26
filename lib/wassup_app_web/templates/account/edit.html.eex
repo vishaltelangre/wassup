@@ -1,5 +1,5 @@
 <%= if not(is_nil(@current_user.password_hash)) do %>
-  <%= link "⟵ Back", to: Routes.dashboard_path(@conn, :index), class: "back-link" %>
+  <%= link "⟵ Back", to: Routes.live_path(@conn, WassupAppWeb.DashboardLive), class: "back-link" %>
 <% end %>
 
 <div class="auth-page">
