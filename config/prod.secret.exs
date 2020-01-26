@@ -25,9 +25,19 @@ secret_key_base =
     You can generate one by calling: mix phx.gen.secret
     """
 
+live_view_signing_salt =
+  System.get_env("LIVE_VIEW_SIGNING_SALT") ||
+    raise """
+    environment variable LIVE_VIEW_SIGNING_SALT is missing.
+    You can generate one by calling: mix phx.gen.secret 32
+    """
+
 config :wassup_app, WassupAppWeb.Endpoint,
   http: [:inet6, port: String.to_integer(System.get_env("PORT") || "4000")],
-  secret_key_base: secret_key_base
+  secret_key_base: secret_key_base,
+  live_view: [
+    signing_salt: live_view_signing_salt
+  ]
 
 # ## Using releases (Elixir v1.9+)
 #

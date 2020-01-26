@@ -177,7 +177,7 @@ defmodule WassupApp.Notes do
       %Ecto.Changeset{source: %Note{}}
 
   """
-  def change_note(%Note{} = note) do
-    Note.changeset(note, %{})
+  def change_note(note, attrs \\ %{}) do
+    Note.changeset(note, attrs)
   end
 end

@@ -63,6 +63,7 @@
       <% end %>
       <%= render @view_module, @view_template, assigns %>
     </main>
+
     <div class="modal" data-behavior="modal">
       <div class="modal-body">
         <div class="close" data-behavior="modal-close">×</div>

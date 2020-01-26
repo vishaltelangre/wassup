@@ -11,7 +11,7 @@ defmodule WassupApp.PeriodOptions do
     "Last Year",
     "Last 5 Years"
   ]
-  @default_option "Last 30 Days"
+  @default_option "Last 7 Days"
   @default_timezone "Etc/UTC"
 
   def options, do: @options
@@ -19,11 +19,11 @@ defmodule WassupApp.PeriodOptions do
   def default_option, do: @default_option
 
   def today(:from, timezone) do
-    Timex.now(timezone) |> Timex.beginning_of_day()
+    Timex.today() |> Timex.to_datetime(timezone) |> Timex.beginning_of_day()
   end
 
   def today(:to, timezone) do
-    Timex.now(timezone) |> Timex.end_of_day()
+    Timex.today() |> Timex.to_datetime(timezone) |> Timex.end_of_day()
   end
 
   def dates_for_period(period), do: dates_for_period(period, @default_timezone)
@@ -77,8 +77,8 @@ defmodule WassupApp.PeriodOptions do
   end
 
   def dates_for_period(_period = "This Year", timezone) do
-    from = today(:to, timezone) |> Timex.beginning_of_year()
-    to = today(:to, timezone)
+    from = today(:from, timezone) |> Timex.beginning_of_year()
+    to = today(:to, timezone) |> Timex.end_of_year()
 
     %{from: from, to: to}
   end
@@ -100,4 +100,11 @@ defmodule WassupApp.PeriodOptions do
   end
 
   def dates_for_period(_period, timezone), do: dates_for_period(@default_option, timezone)
+
+  def active_option(%{from: _from, to: _to} = dates, timezone) do
+    @options
+    |> Enum.find("Custom Period", fn option ->
+      dates == dates_for_period(option, timezone)
+    end)
+  end
 end

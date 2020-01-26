@@ -12,19 +12,6 @@ import css from "../css/app.scss";
 import "phoenix_html";
 
 // Import local files
-//import "./socket";
 import "./dropdown";
-import "./modal";
 import "./alert";
-import { localizeDateTimes } from "./localize_datetime";
-import "./daterange_picker";
-import { initializeDashboard } from "./dashboard";
-import "./note";
-import "./note_updates_channel";
-import { renderDetailedTimelineChart } from "./charts/detailed_timeline_chart";
-
-document.addEventListener('DOMContentLoaded', () => {
-  initializeDashboard();
-  localizeDateTimes();
-  renderDetailedTimelineChart();
-});
+import "./live_view";

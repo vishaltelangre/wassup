@@ -1,0 +1,17 @@
+<div class="modal show" data-behavior="modal">
+    <div class="modal-body">
+      <div class="close" data-behavior="modal-close" phx-click="cancel_editing_note">×</div>
+      <div class="modal-content" data-behavior="modal-content">
+        <%=
+          live_component(
+            @socket,
+            WassupAppWeb.NoteComponent.Edit,
+            id: "edit_note_form",
+            changeset: @edit_note_changeset,
+            current_user: @current_user,
+            note: @note
+          )
+        %>
+      </div>
+    </div>
+  </div>

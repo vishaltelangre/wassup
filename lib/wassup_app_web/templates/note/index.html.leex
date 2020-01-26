@@ -1,0 +1,97 @@
+<%= live_link "⟵ Dashboard", to: Routes.live_path(@socket, WassupAppWeb.DashboardLive), class: "back-link" %>
+<div id="notes" class="notes-page">
+  <h1>Notes</h1>
+    <div class="criteria">
+      <%= f = form_for :filter, "#", phx_change: "criteria_change", phx_submit: "criteria_change" %>
+        <span class="search">
+          <%= img_tag(Routes.static_path(@socket, "/images/search.svg"), class: "search-icon") %>
+          <%= text_input(f, :q, value: @q, class: "value", placeholder: "Search", phx_debounce: "1500") %>
+          <%= if present?(@q) do %>
+            <%= link to: {:javascript, "void(0)"}, class: "reset-search", title: "Reset Search", "phx-click": "reset_search_query" do %>
+              <%= img_tag(Routes.static_path(@socket, "/images/clear.svg"), class: "clear-icon") %>
+            <% end %>
+          <% end %>
+        </span>
+        <div class="period" data-behavior="daterange-picker" phx-hook="NotesDateRangePicker">
+          <div class="dropdown">
+            <a href="javascript:void(0)" data-behavior="dropdown-trigger">
+              <%= img_tag(Routes.static_path(@socket, "/images/calendar.svg"), class: "calendar-icon") %>
+              <%= text_input(f, :period, value: @period, class: "value", placeholder: "Period", readonly: true, data: [behavior: "value"]) %>
+              <%= if present?(@period) do %>
+                <%= link to: {:javascript, "void(0)"}, class: "reset-period", title: "Reset Period", "phx-click": "reset_period" do %>
+                  <%= img_tag(Routes.static_path(@socket, "/images/clear.svg"), class: "clear-icon") %>
+                <% end %>
+              <% end %>
+            </a>
+            <div class="dropdown-content" data-behavior="dropdown-content">
+              <div class="row">
+                <div class="column column-25">
+                  <%= period_option_links(@socket) %>
+                </div>
+                <div class="column column-75">
+                  <div class="from" data-behavior="daterange-picker-from-calendar"></div>
+                  <div class="to" data-behavior="daterange-picker-to-calendar"></div>
+                  <div class="actions">
+                    <button class="button button-small button-clear cancel" type="button" data-behavior="cancel-daterange">Cancel</button>
+                    <button class="button button-small apply" type="button" data-behavior="apply-daterange">Apply</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <span class="per-page-results">
+          Show&nbsp;
+          <%= select(f, :per_page, [10, 20, 30, 50, 100], selected: @paginate[:per_page], class: "value") %>
+          &nbsp;per page
+        </span>
+      </form>
+    </div>
+
+  <%= if @paginate[:total_count] == 0 do %>
+    <div class="no-results">
+      No results found
+      <%= if present?(@q) do %>
+        &nbsp;for query <strong><%= @q %></strong>
+      <% end %>
+      <%= if present?(@period) do %>
+        &nbsp;between period <strong><%= @period %></strong>
+      <% end %>.
+    </div>
+  <% end %>
+
+  <ul>
+    <%= for note <- @notes do %>
+      <li class="row">
+        <div class="column column-90">
+          <div class="meta">
+            <span class="label"><%= formatted_datetime(note.submitted_at) %></span>
+            <%= img_tag(note.sentiment_icon_path, data: [behavior: "sentiment-icon"], class: "icon") %>
+            <%= note_favorite_icon_link(note) %>
+          </div>
+          <p><%= note.body %></p>
+        </div>
+        <div class="meta column column-10">
+          <div class="dropdown">
+            <a href="javascript:void(0)" data-behavior="dropdown-trigger">
+              <%= img_tag(Routes.static_path(@socket, "/images/more.svg"), class: "dropdown-trigger-icon") %>
+            </a>
+            <div class="dropdown-content" data-behavior="dropdown-content">
+              <%= link "Edit", to: {:javascript, "void(0)"}, "phx-click": "edit_note", "phx-value-note-id": note.id %>
+              <%= link "Delete", to: {:javascript, "void(0)"}, data: [confirm: "Are you sure that you want to delete the selected note?"], "phx-click": "delete_note", "phx-value-note-id": note.id %>
+            </div>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+
+  <%= if @paginate[:total_count] > 0 do %>
+    <%= pagination_links(@socket, @paginate, []) %>
+  <% end %>
+</div>
+
+<%= if @edit_note_changeset && @note do %>
+  <%= render "edit_note_modal.html", assigns %>
+<% end %>

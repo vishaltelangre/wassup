@@ -1,0 +1,24 @@
+<%= f = form_for @changeset, "#", [id: @id, class: "note-form", phx_change: :validate, phx_submit: :save, phx_target: "##{@id}"] %>
+  <%= textarea f, :body, placeholder: "What's in your mind?", phx_debounce: "500" %>
+  <%= if @show_errors do %>
+    <%= error_tag f, :body %>
+  <% end %>
+
+  <div class="row">
+    <div class="column column-60">
+      <div class="sentiment">
+        <%= for sentiment <- sentiments() do %>
+          <%= label class: "control-label radio" do %>
+            <%= radio_button f, :sentiment, sentiment %>
+            <%= img_tag(Routes.static_path(@socket, "/images/#{sentiment}.svg")) %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class="column column-40 actions">
+      <div>
+        <%= submit "Save", phx_disable_with: "Saving...", class: "button button-small button-outline" %>
+      </div>
+    </div>
+  </div>
+</form>

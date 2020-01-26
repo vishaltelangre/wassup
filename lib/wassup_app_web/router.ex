@@ -11,6 +11,7 @@ defmodule WassupAppWeb.Router do
     plug :accepts, ["html", "json"]
     plug :fetch_session
     plug :fetch_flash
+    plug Phoenix.LiveView.Flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug WassupAppWeb.Plugs.Auth
@@ -77,15 +78,13 @@ defmodule WassupAppWeb.Router do
     pipe_through [:browser, :valid_user, :ensure_password_is_set, :ensure_account_is_verified]
 
     # Dashboard
-    get "/", DashboardController, :index
+    live "/", DashboardLive
 
     # Graphs
-    get "/graphs/timeline", GraphController, :timeline
+    live "/graphs/timeline", GraphLive.Timeline
 
     # Notes
-    resources "/notes", NoteController, except: [:new, :show, :edit] do
-      put "/toggle_favorite", NoteController, :toggle_favorite, as: :toggle_favorite
-    end
+    live "/notes", NoteLive.Index
   end
 
   defp put_user_token(conn, _) do

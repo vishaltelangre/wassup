@@ -1,43 +1,46 @@
 defmodule WassupAppWeb.NoteView do
   use WassupAppWeb, :view
 
-  import WassupAppWeb.SharedView, only: [sentiments: 0, reset_filter_path: 2, filter_present?: 2]
+  import WassupAppWeb.SharedView,
+    only: [
+      sentiments: 0,
+      present?: 1,
+      note_favorite_icon_link: 1,
+      formatted_datetime: 1
+    ]
+
   import WassupAppWeb.PaginateView, only: [pagination_links: 3]
 
-  alias WassupApp.PeriodOptions
   alias WassupApp.Notes.Note
+  alias WassupApp.PeriodOptions
 
-  def period_option_links(conn) do
-    PeriodOptions.options() |> Enum.map(fn option -> period_option_link(conn, option) end)
+  def period_option_links(socket) do
+    PeriodOptions.options()
+    |> Enum.map(fn option -> period_option_link(socket, option) end)
+    |> Enum.concat([custom_period_option_link(socket)])
   end
 
-  def period_option_link(_conn, option) do
-    dasherized_option =
-      option
-      |> to_string
-      |> String.trim()
-      |> String.downcase()
-      |> String.replace(~r/\s+/, "-")
-
+  defp period_option_link(
+         %{assigns: %{active_period_option: active_period_option}} = _socket,
+         option
+       ) do
     link(option,
       to: {:javascript, "void(0)"},
-      class: "daterange-filter",
-      data: [behavior: "#{dasherized_option}-filter"]
+      class: "daterange-filter #{period_option_active_class(option, active_period_option)}",
+      phx_click: "filter_by_period_option",
+      phx_value_option: option
     )
   end
 
-  def note_favorite_toggle_link(conn, %Note{
-        id: id,
-        favorite: favorite,
-        favorite_icon_path: favorite_icon_path
-      }) do
-    title = if(favorite, do: "Unstar this note", else: "Star this note")
-
-    link to: {:javascript, "void(0)"},
-         title: title,
-         class: "icon-wrapper",
-         data: [behavior: "note-favorite-toggle", note_id: id, toggle_to: !favorite] do
-      img_tag(Routes.static_path(conn, favorite_icon_path), class: "icon star-icon")
-    end
+  defp custom_period_option_link(socket) do
+    link("Custom Period",
+      to: {:javascript, "void(0)"},
+      class:
+        "daterange-filter " <>
+          period_option_active_class("Custom Period", socket.assigns.active_period_option)
+    )
   end
+
+  defp period_option_active_class(option, active_option),
+    do: if(option == active_option, do: "active", else: "")
 end

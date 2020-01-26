@@ -1,28 +1,21 @@
 defmodule WassupAppWeb.GraphView do
   use WassupAppWeb, :view
 
-  import WassupAppWeb.SharedView, only: [reset_filter_path: 2, filter_present?: 2]
+  import WassupAppWeb.SharedView, only: [present?: 1]
   alias WassupApp.PeriodOptions
 
-  def period_filter_value(conn) do
-    filter = conn.params["filter"]["period"]
-
-    if Enum.member?(PeriodOptions.options(), filter),
-      do: filter,
-      else: PeriodOptions.default_option()
+  def period_option_links(selected_option) do
+    PeriodOptions.options()
+    |> Enum.map(fn option -> period_option_link(option, selected_option) end)
   end
 
-  def period_option_links(conn) do
-    PeriodOptions.options() |> Enum.map(fn option -> period_option_link(conn, option) end)
-  end
-
-  def period_option_link(conn, option) do
-    active_class = if period_filter_value(conn) == option, do: "active", else: ""
+  def period_option_link(option, selected_option) do
+    active_class = if selected_option == option, do: "active", else: ""
 
     link(option,
-      to:
-        {:javascript,
-         "var e = document.querySelector('.period .value'); e.value='#{option}'; e.onchange();"},
+      to: {:javascript, "var e = document.querySelector('.period .value');
+         e.value='#{option}';
+         e.dispatchEvent(new Event('change', {bubbles: true}));"},
       class: "option #{active_class}"
     )
   end

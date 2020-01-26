@@ -55,6 +55,10 @@ defmodule WassupApp.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
+      # Ensure that it contains this fix - https://github.com/phoenixframework/phoenix_live_view/commit/b81a12504013d7c8b56a50891ede809dbb8be4af
+      {:phoenix_live_view,
+       github: "phoenixframework/phoenix_live_view",
+       ref: "b81a12504013d7c8b56a50891ede809dbb8be4af"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},

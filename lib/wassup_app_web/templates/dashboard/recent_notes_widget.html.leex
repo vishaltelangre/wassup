@@ -1,0 +1,28 @@
+<ul class="notes">
+  <%= for note <- @notes do %>
+    <li class="row" style="border-right: 5px solid <%= note.sentiment_color %>;">
+      <div class="meta column column-33">
+        <span class="label" title="<%= formatted_datetime(note.submitted_at) %>">
+          <%= note.relative_submitted_at %>
+        </span>
+        <%= note_favorite_icon_link(note) %>
+      </div>
+      <div class="column column-67">
+        <div class="row">
+          <p class="column column-80"><%= truncated_note_body_with_more_link(note, 120) %></p>
+          <div class="column column-20">
+            <div class="dropdown">
+              <a href="javascript:void(0)" data-behavior="dropdown-trigger">
+                <%= img_tag(Routes.static_path(@socket, "/images/more.svg"), class: "dropdown-trigger-icon") %>
+              </a>
+              <div class="dropdown-content" data-behavior="dropdown-content">
+                <%= link "Edit", to: {:javascript, "void(0)"}, "phx-click": "edit_note", "phx-value-note-id": note.id %>
+                <%= link "Delete", to: {:javascript, "void(0)"}, data: [confirm: "Are you sure that you want to delete the selected note?"], "phx-click": "delete_note", "phx-value-note-id": note.id %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </<li>
+  <% end %>
+</ul>

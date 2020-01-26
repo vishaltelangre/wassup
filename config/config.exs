@@ -18,7 +18,10 @@ config :wassup_app, WassupAppWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "jj4AvO5bojcIvY4ttxNobXA6PDEQbSpYzL0nE0M8WCqqpDPegU8rsIAvvnGM9s44",
   render_errors: [view: WassupAppWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: WassupApp.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: WassupApp.PubSub, adapter: Phoenix.PubSub.PG2],
+  live_view: [
+    signing_salt: "l52cziB8xK3W/0+Zw6ZSxzJ9RfEkwn4t"
+  ]
 
 # Configures Elixir's Logger
 config :logger, :console,

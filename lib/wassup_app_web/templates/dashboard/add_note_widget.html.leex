@@ -1,0 +1,9 @@
+<%=
+  live_component(
+    @socket,
+    WassupAppWeb.NoteComponent.New,
+    id: "new_note_form",
+    changeset: @new_note_changeset,
+    current_user: @current_user
+  )
+%>

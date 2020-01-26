@@ -1,34 +1,51 @@
-import * as am4core from "@amcharts/amcharts4/core";
-import * as am4charts from "@amcharts/amcharts4/charts";
+import {
+  color,
+  useTheme,
+  create,
+  ready,
+  Label,
+  Image,
+  Container,
+  MouseCursorStyle,
+  DropShadowFilter,
+} from "@amcharts/amcharts4/core";
+import {
+  XYChart,
+  DateAxis,
+  ValueAxis,
+  LineSeries,
+  AxisBullet,
+  CircleBullet,
+  XYChartScrollbar,
+  XYCursor,
+} from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import am4themes_dark from "@amcharts/amcharts4/themes/dark";
 
-import { truncateNoteBodyForChartTooltip } from "./utils";
-
 // Chart colors
-const fixedPeriodContainerLabelColor = am4core.color("#555");
-const fixedPeriodContainerBackgroundColor = am4core.color("#000");
-const zoomOutButtonBackgroundColor = am4core.color("#555");
-const zoomOutButtonHoverBackgroundColor = am4core.color("#606271");
-const zoomOutButtonStrokeColor = am4core.color("#EFD9CE");
-const dateAxisTickLabelColor = am4core.color("#888");
-const primarySeriesFillColor = am4core.color("#000");
-const primarySeriesTooltipBackgroundColor = am4core.color("#111");
+const fixedPeriodContainerLabelColor = color("#555");
+const fixedPeriodContainerBackgroundColor = color("#000");
+const zoomOutButtonBackgroundColor = color("#555");
+const zoomOutButtonHoverBackgroundColor = color("#606271");
+const zoomOutButtonStrokeColor = color("#EFD9CE");
+const dateAxisTickLabelColor = color("#888");
+const primarySeriesFillColor = color("#000");
+const primarySeriesTooltipBackgroundColor = color("#111");
 
 // Date format to present dates in
-const displayDateFormat = "MMM dd, YYYY - hh:mm:ss a";
+const displayDateFormat = "MMM dd, yyyy - hh:mm:ss a";
 
 const globalSetup = () => {
   // Enable themes
-  am4core.useTheme(am4themes_dark);
-  am4core.useTheme(am4themes_animated);
+  useTheme(am4themes_dark);
+  useTheme(am4themes_animated);
 };
 
 // Function to add "From" and "To" labels to the fixed period container
 const createPeriodLabel = (parent, field, title) => {
   const fontSize = 11;
-  const titleLabel = parent.createChild(am4core.Label);
-  const valueLabel = parent.createChild(am4core.Label);
+  const titleLabel = parent.createChild(Label);
+  const valueLabel = parent.createChild(Label);
 
   // Title configuration
   titleLabel.text = `${title}: `;
@@ -61,7 +78,7 @@ const updatePeriodLabelValues = chart => {
 }
 
 const createChart = (targetNodeId, data) => {
-  const chart = am4core.create(targetNodeId, am4charts.XYChart);
+  const chart = create(targetNodeId, XYChart);
   // Create initial fade-in
   chart.hiddenState.properties.opacity = 0;
   // Make responsive
@@ -79,22 +96,14 @@ const createChart = (targetNodeId, data) => {
     updatePeriodLabelValues(chart);
   });
   // Set data.
-  // Inject additional "short_body" attribute to every "note" item in the data
-  // with the truncated "body" attribute when it is exceeding defined length.
-  // On clicking on the truncated body in a tooltip, attach data attributes
-  // to trigger a modal with the detailed note preview.
-  chart.data = data.map(note => {
-    note.short_body = truncateNoteBodyForChartTooltip(note);
-
-    return note;
-  });
+  chart.data = transformLineChartData(data);
 
   return chart;
 };
 
 // Fixed period container to display current "From" and "To" dates on date axis
 const createFixedPeriodContainer = chart => {
-  const container = chart.plotContainer.createChild(am4core.Container);
+  const container = chart.plotContainer.createChild(Container);
   container.width = 200;
   container.height = 35;
   container.x = 20;
@@ -103,7 +112,7 @@ const createFixedPeriodContainer = chart => {
   container.background.fill = fixedPeriodContainerBackgroundColor;
   container.background.fillOpacity = 0.2;
   container.layout = "grid";
-  container.filters.push(new am4core.DropShadowFilter());
+  container.filters.push(new DropShadowFilter());
 
   createPeriodLabel(container, "from", "FROM")
   createPeriodLabel(container, "to", "TO")
@@ -123,13 +132,12 @@ const configureZoomOutButton = (chart, interactive) => {
 };
 
 const createDateAxis = (chart, data, interactive) => {
-  const dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+  const dateAxis = chart.xAxes.push(new DateAxis());
   dateAxis.renderer.grid.template.strokeOpacity = 0.1;
   dateAxis.renderer.grid.template.location = 0;
   // Aggregate when dataset is large
   dateAxis.groupData = false;
-  // Zoom-in to the small subset when dataset contains more than 31 items
-  dateAxis.start = interactive && (data.length > 31) ? 0.8 : 0;
+  dateAxis.start = 0;
   dateAxis.keepSelection = true;
   // Add small spacing from left and right on date axis to avoid clipping graph
   dateAxis.extraMin = interactive ? 0.04 : 0.06;
@@ -172,7 +180,7 @@ const createDateAxis = (chart, data, interactive) => {
 };
 
 const createValueAxis = chart => {
-  const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+  const valueAxis = chart.yAxes.push(new ValueAxis());
   valueAxis.cursorTooltipEnabled = false;
   valueAxis.renderer.grid.template.location = 0;
   valueAxis.renderer.grid.template.strokeOpacity = 0;
@@ -187,7 +195,7 @@ const createValueAxis = chart => {
 };
 
 const createPrimarySeries = (chart, dateFieldName, valueFieldName) => {
-  const series = chart.series.push(new am4charts.LineSeries());
+  const series = chart.series.push(new LineSeries());
   series.dataFields.dateX = dateFieldName;
   series.dataFields.valueY = valueFieldName;
   series.sequencedInterpolation = true;
@@ -225,38 +233,38 @@ const createPrimarySeries = (chart, dateFieldName, valueFieldName) => {
 };
 
 const createSentimentRangeOnValueAxis = (sentiment, sentimentDetails, series, valueAxis, interactive) => {
-  const { value, color, icon_path } = sentimentDetails[sentiment];
+  const { value, color: sentimentColor, icon_path } = sentimentDetails[sentiment];
   // Create vertical range on series around the sentiment value
   const range = valueAxis.createSeriesRange(series);
   range.value = value + 0.5;
   range.endValue = value - 0.5;
   // Colorize the line depending on the sentiment
-  range.contents.stroke = am4core.color(color);
+  range.contents.stroke = color(sentimentColor);
   range.contents.strokeOpacity = 1;
   range.contents.fillOpacity = series.fillOpacity;
   // Create a bullet on range
-  const bullet = new am4charts.AxisBullet();
+  const bullet = new AxisBullet();
   bullet.location = 0.5; // display in the center of the range
   range.bullet = bullet;
   // Display the sentiment emoji on that bullet
-  const emoji = range.bullet.createChild(am4core.Image);
+  const emoji = range.bullet.createChild(Image);
   const emojiSize = interactive ? 48 : 28;
   emoji.href = icon_path;
   emoji.width = emojiSize;
   emoji.height = emojiSize;
   emoji.horizontalCenter = "middle";
   emoji.verticalCenter = "middle";
-  emoji.filters.push(new am4core.DropShadowFilter());
+  emoji.filters.push(new DropShadowFilter());
 };
 
 const createDataItemBullets = series => {
-  const bullet = series.bullets.push(new am4charts.CircleBullet());
+  const bullet = series.bullets.push(new CircleBullet());
   bullet.hoverOnFocus = true;
   bullet.strokeOpacity = 0;
-  bullet.filters.push(new am4core.DropShadowFilter());
+  bullet.filters.push(new DropShadowFilter());
   // Colorize bullet with the sentiment's color
-  bullet.adapter.add("fill", (fill, { dataItem: { dataContext: { sentiment_color } } }) => am4core.color(sentiment_color));
-  const favoriteIcon = bullet.createChild(am4core.Image);
+  bullet.adapter.add("fill", (fill, { dataItem: { dataContext: { sentiment_color } } }) => color(sentiment_color));
+  const favoriteIcon = bullet.createChild(Image);
   favoriteIcon.propertyFields.href = "graph_favorite_icon_path";
   favoriteIcon.width = 24;
   favoriteIcon.height = 24;
@@ -268,19 +276,19 @@ const createDataItemBullets = series => {
 };
 
 const createPanningCursor = (chart, series, dateAxis) => {
-  const cursor = new am4charts.XYCursor();
+  const cursor = new XYCursor();
   cursor.behavior = "panX";
   cursor.xAxis = dateAxis;
   cursor.snapToSeries = series;
   cursor.lineX.opacity = 0.7;
   cursor.lineY.opacity = 0.7;
-  cursor.cursorDownStyle = am4core.MouseCursorStyle.grabbing;
+  cursor.cursorDownStyle = MouseCursorStyle.grabbing;
   chart.cursor = cursor;
 };
 
 const createScrollbar = (chart, dateFieldName, valueFieldName) => {
   // A separate series for scrollbar
-  const scrollbarSeries = chart.series.push(new am4charts.LineSeries());
+  const scrollbarSeries = chart.series.push(new LineSeries());
   scrollbarSeries.dataFields.dateX = dateFieldName;
   scrollbarSeries.dataFields.valueY = valueFieldName;
   // Need to set on default state, as initially series is "show"
@@ -288,7 +296,7 @@ const createScrollbar = (chart, dateFieldName, valueFieldName) => {
   // Hide this series from legend, too (in case there is one)
   scrollbarSeries.hiddenInLegend = true;
   // Create a horizontal scrollbar and place it beneath the date axis
-  const scrollbar = new am4charts.XYChartScrollbar();
+  const scrollbar = new XYChartScrollbar();
   scrollbar.series.push(scrollbarSeries);
   scrollbar.marginTop = 40;
   scrollbar.height = 30;
@@ -313,7 +321,7 @@ const renderLineChart = ((
   }) => {
     let chart;
 
-  am4core.ready(() => {
+  ready(() => {
     globalSetup();
     chart = createChart(targetNodeId, data);
 
@@ -344,4 +352,25 @@ const renderLineChart = ((
   return chart;
 });
 
-export { renderLineChart };
+const transformLineChartData = data => {
+  // Inject additional "short_body" attribute to every "note" item in the data
+  // with the truncated "body" attribute when it is exceeding defined length.
+  // On clicking on the truncated body in a tooltip, attach data attributes
+  // to trigger a modal with the detailed note preview.
+  return data.map(note => {
+    const { body } = note;
+    const maxShortBodyLength = 120;
+    const modalTriggerAttributes = `phx-click="preview_note" phx-value-note-id='${note.id}'`;
+    const elipsis =
+      body.length > maxShortBodyLength
+        ? ` <a href="javascript:void(0)" ${modalTriggerAttributes}>…</a>`
+        : "";
+    const truncatedBody = body.substring(0, maxShortBodyLength) + elipsis;
+
+    note.short_body = `<p ${modalTriggerAttributes}>${truncatedBody}</p>`;
+
+    return note;
+  });
+};
+
+export { renderLineChart, transformLineChartData };

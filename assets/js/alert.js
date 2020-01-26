@@ -5,3 +5,8 @@ document.addEventListener('click', ({ target }) => {
     target.closest(alertCloseSelector).parentNode.remove();
   }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const alertClose = document.querySelector(alertCloseSelector);
+  if (alertClose) setTimeout(() => { alertClose.parentNode.remove() }, 5000);
+});

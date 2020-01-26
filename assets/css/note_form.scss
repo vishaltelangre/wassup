@@ -10,7 +10,7 @@
     justify-content: flex-end;
     padding-right: 20px;
 
-    button[type=submit] {
+    button[type="submit"] {
       margin-bottom: 0;
     }
   }
@@ -20,26 +20,30 @@
   }
 
   /* Sentiment emoji radio buttons */
-  [type=radio] {
+  [type="radio"] {
     position: absolute;
     opacity: 0;
     width: 0;
     height: 0;
   }
 
-  [type=radio] + img {
+  [type="radio"] + img {
     cursor: pointer;
     width: 48px;
     height: 48px;
     opacity: 0.3;
   }
 
-  [type=radio]:checked + img {
+  [type="radio"]:checked + img {
     filter: drop-shadow(5px 5px 3px rgba($dark-shadow-color, 0.5));
     width: 64px;
     height: 64px;
     opacity: 1;
     transition: opacity 0.5s ease-in-out;
+  }
+
+  .help-block {
+    margin: 0 10px 0;
   }
 }
 
@@ -57,7 +61,7 @@
     }
 
     .actions {
-      button[type=submit] {
+      button[type="submit"] {
         margin-bottom: 15px;
       }
     }

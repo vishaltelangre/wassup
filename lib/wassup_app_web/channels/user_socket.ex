@@ -2,7 +2,7 @@ defmodule WassupAppWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel "note:*", WassupAppWeb.NoteChannel
+  # channel "note:*", WassupAppWeb.NoteChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
