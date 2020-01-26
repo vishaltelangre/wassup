@@ -270,11 +270,22 @@ header.main {
   nav {
     ul,
     li {
-      margin: 0;
+      margin: 0 0 0 20px;
       padding: 0;
-      display: block;
+      display: inline-block;
       text-align: right;
       white-space: nowrap;
+
+      &.toggle-theme {
+        cursor: pointer;
+        font-size: 10px;
+        text-transform: uppercase;
+        color: lighten($secondary-text-color, 10%);
+
+        &:hover {
+          text-shadow: 1px 1px 4px #777;
+        }
+      }
     }
 
     ul {
@@ -286,8 +297,12 @@ header.main {
       display: inline-block;
     }
 
-    .dropdown-content a {
-      display: block;
+    .dropdown-content {
+      overflow: hidden;
+
+      a {
+        display: block;
+      }
     }
   }
 }
@@ -313,7 +328,7 @@ header.main {
 
 /* Hide an element */
 .hide {
-  display: none;
+  display: none !important;
 }
 
 .no-results {

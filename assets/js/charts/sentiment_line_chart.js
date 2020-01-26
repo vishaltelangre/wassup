@@ -22,23 +22,46 @@ import {
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import am4themes_dark from "@amcharts/amcharts4/themes/dark";
 
-// Chart colors
-const fixedPeriodContainerLabelColor = color("#555");
-const fixedPeriodContainerBackgroundColor = color("#000");
-const zoomOutButtonBackgroundColor = color("#555");
-const zoomOutButtonHoverBackgroundColor = color("#606271");
-const zoomOutButtonStrokeColor = color("#EFD9CE");
-const dateAxisTickLabelColor = color("#888");
-const primarySeriesFillColor = color("#000");
-const primarySeriesTooltipBackgroundColor = color("#111");
+const darkMode = "dark-mode";
+const lightMode = "light-mode";
+
+const themeColors = {
+  [darkMode]: {
+    fixedPeriodContainerLabelColor: color("#555"),
+    fixedPeriodContainerBackgroundColor: color("#000"),
+    zoomOutButtonBackgroundColor: color("#555"),
+    zoomOutButtonHoverBackgroundColor: color("#606271"),
+    zoomOutButtonStrokeColor: color("#EFD9CE"),
+    dateAxisTickLabelColor: color("#888"),
+    primarySeriesFillColor: color("#000"),
+    primarySeriesTooltipBackgroundColor: color("#111"),
+    primarySeriesTooltipTextColor: color("#FFF")
+  },
+  [lightMode]: {
+    fixedPeriodContainerLabelColor: color("#555"),
+    fixedPeriodContainerBackgroundColor: color("#CCC"),
+    zoomOutButtonBackgroundColor: color("#555"),
+    zoomOutButtonHoverBackgroundColor: color("#606271"),
+    zoomOutButtonStrokeColor: color("#FFF"),
+    dateAxisTickLabelColor: color("#888"),
+    primarySeriesFillColor: color("#FFF"),
+    primarySeriesTooltipBackgroundColor: color("#FFF"),
+    primarySeriesTooltipTextColor: color("#000")
+  }
+};
+
+const currentTheme = () =>
+  document.body.classList.contains("light-mode") ? lightMode : darkMode;
+
+const currentThemeColors = () => themeColors[currentTheme()];
 
 // Date format to present dates in
 const displayDateFormat = "MMM dd, yyyy - hh:mm:ss a";
 
 const globalSetup = () => {
   // Enable themes
-  useTheme(am4themes_dark);
   useTheme(am4themes_animated);
+  if (currentTheme() === darkMode) useTheme(am4themes_dark);
 };
 
 // Function to add "From" and "To" labels to the fixed period container
@@ -52,7 +75,7 @@ const createPeriodLabel = (parent, field, title) => {
   titleLabel.fontSize = fontSize;
   titleLabel.minWidth = 30;
   titleLabel.marginRight = 5;
-  titleLabel.fill = fixedPeriodContainerLabelColor;
+  titleLabel.fill = currentThemeColors().fixedPeriodContainerLabelColor;
 
   // Value configuration
   valueLabel.id = field;
@@ -60,7 +83,7 @@ const createPeriodLabel = (parent, field, title) => {
   valueLabel.fontSize = fontSize;
   valueLabel.minWidth = 125;
   valueLabel.fontWeight = "bold";
-  valueLabel.fill = fixedPeriodContainerLabelColor;
+  valueLabel.fill = currentThemeColors().fixedPeriodContainerLabelColor;
 };
 
 // Callback function to update the "From" and "To" label values in the fixed
@@ -109,7 +132,8 @@ const createFixedPeriodContainer = chart => {
   container.x = 20;
   container.y = -10;
   container.padding(5, 5, 5, 10);
-  container.background.fill = fixedPeriodContainerBackgroundColor;
+  container.background.fill =
+    currentThemeColors().fixedPeriodContainerBackgroundColor;
   container.background.fillOpacity = 0.2;
   container.layout = "grid";
   container.filters.push(new DropShadowFilter());
@@ -122,10 +146,13 @@ const configureZoomOutButton = (chart, interactive) => {
   if (interactive) {
     chart.zoomOutButton.scale = 0.5;
     chart.zoomOutButton.background.cornerRadius(5, 5, 5, 5);
-    chart.zoomOutButton.background.fill = zoomOutButtonBackgroundColor;
-    chart.zoomOutButton.icon.stroke = zoomOutButtonStrokeColor;
+    chart.zoomOutButton.background.fill =
+      currentThemeColors().zoomOutButtonBackgroundColor;
+    chart.zoomOutButton.icon.stroke =
+      currentThemeColors().zoomOutButtonStrokeColor;
     chart.zoomOutButton.icon.strokeWidth = 2;
-    chart.zoomOutButton.background.states.getKey("hover").properties.fill = zoomOutButtonHoverBackgroundColor;
+    chart.zoomOutButton.background.states.getKey("hover").properties.fill =
+      currentThemeColors().zoomOutButtonHoverBackgroundColor;
   } else {
     chart.zoomOutButton.disabled = true;
   }
@@ -157,7 +184,8 @@ const createDateAxis = (chart, data, interactive) => {
   dateAxis.dateFormats.setKey("month", "MMMM yyyy");
   dateAxis.periodChangeDateFormats.setKey("month", "MMMM yyyy");
   // Tick label customizations
-  dateAxis.renderer.labels.template.fill = dateAxisTickLabelColor;
+  dateAxis.renderer.labels.template.fill =
+    currentThemeColors().dateAxisTickLabelColor;
   dateAxis.renderer.labels.template.fontSize = 14;
 
   if (!interactive) {
@@ -199,7 +227,7 @@ const createPrimarySeries = (chart, dateFieldName, valueFieldName) => {
   series.dataFields.dateX = dateFieldName;
   series.dataFields.valueY = valueFieldName;
   series.sequencedInterpolation = true;
-  series.fill = primarySeriesFillColor;
+  series.fill = currentThemeColors().primarySeriesFillColor;
   series.fillOpacity = 0.2;
   series.defaultState.transitionDuration = 1000;
   series.tensionX = 1;
@@ -222,7 +250,9 @@ const createPrimarySeries = (chart, dateFieldName, valueFieldName) => {
   `;
   series.tooltip.getFillFromObject = false;
   series.tooltip.pointerOrientation = "vertical";
-  series.tooltip.background.fill = primarySeriesTooltipBackgroundColor;
+  series.tooltip.label.fill = currentThemeColors().primarySeriesTooltipTextColor;
+  series.tooltip.background.fill =
+    currentThemeColors().primarySeriesTooltipBackgroundColor;
   series.tooltip.background.fillOpacity = 0.9;
   series.tooltip.background.cornerRadius = 5;
   series.tooltip.background.strokeOpacity = 0;

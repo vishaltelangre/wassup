@@ -21,7 +21,8 @@
   }
 
   .period {
-    .from, .to {
+    .from,
+    .to {
       display: inline-block;
     }
 
@@ -51,26 +52,28 @@
       color: $date-range-picker-month-label-color;
     }
 
-    td, th {
+    td,
+    th {
       border: 0;
       padding: 5px;
       color: $date-range-picker-day-number-color;
     }
 
-    .rd-day-prev-month, .rd-day-next-month {
-      color: $date-range-picker-month-arrow-color;
+    .rd-day-prev-month,
+    .rd-day-next-month {
+      color: $date-range-picker-prev-next-month-day-color;
       text-shadow: none;
     }
 
     td {
       &.rd-day-disabled {
-        color:$date-range-picker-day-number-disabled-color;
+        color: $date-range-picker-day-number-disabled-color;
         cursor: not-allowed;
         text-shadow: none;
       }
 
       &.rd-day-selected {
-          background: $date-range-picker-day-number-active-color;
+        background: $date-range-picker-day-number-active-color;
       }
     }
 
@@ -79,7 +82,8 @@
     }
 
     button {
-      &.cancel, &.apply {
+      &.cancel,
+      &.apply {
         margin-right: 10px;
       }
     }

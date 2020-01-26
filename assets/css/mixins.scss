@@ -6,10 +6,11 @@
   }
 
   .star-icon {
-    transition: all .2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 
     &:hover {
-      filter: grayscale(100%) brightness(120%) sepia(90%) hue-rotate(10deg) saturate(400%) contrast(1);
+      filter: grayscale(100%) brightness(120%) sepia(90%) hue-rotate(10deg)
+        saturate(400%) contrast(1);
       transform: scale(1.2);
     }
   }
@@ -27,6 +28,21 @@
     color: $date-label-text-color;
     display: inline-block;
     vertical-align: top;
+  }
+}
+
+@mixin note-meta-items-mixin-light-mode {
+  .icon {
+    filter: drop-shadow(
+      2px 2px 1px $note-list-item-meta-icon-box-shadow-invert-color
+    );
+  }
+
+  .label {
+    text-shadow: 0 0 1px $date-label-text-shadow-invert-color;
+    background-color: $date-label-background-invert-color;
+    color: $date-label-text-invert-color;
+    box-shadow: 1px 1px 1px 0px $block-box-shadow-invert-color;
   }
 }
 
@@ -78,6 +94,33 @@
       .dropdown-content {
         left: 0;
       }
+    }
+  }
+}
+
+@mixin note-list-item-mixin-light-mode {
+  li {
+    border-bottom: 1px solid $note-list-item-border-invert-color;
+    background: $base-background-invert-color;
+
+    &:hover {
+      background: $note-list-item-hovered-background-invert-color !important;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:nth-child(even) {
+      background: $note-list-item-even-child-background-invert-color;
+    }
+
+    .meta {
+      @include note-meta-items-mixin-light-mode;
+    }
+
+    p {
+      color: darken($text-invert-color, 10%);
     }
   }
 }

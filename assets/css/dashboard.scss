@@ -1,4 +1,3 @@
-
 .dashboard {
   .widget {
     box-shadow: 2px 2px 3px 0px $block-box-shadow-color;
@@ -19,7 +18,8 @@
     letter-spacing: normal;
   }
 
-  form, .notes {
+  form,
+  .notes {
     margin-bottom: 0;
   }
 
@@ -35,7 +35,8 @@
   }
 
   /* Mood Widget */
-  .sentiment-line-chart, .sentiment-pie-chart {
+  .sentiment-line-chart,
+  .sentiment-pie-chart {
     height: 200px;
     min-height: 200px;
   }

@@ -14,4 +14,5 @@ import "phoenix_html";
 // Import local files
 import "./dropdown";
 import "./alert";
+import "./theme";
 import "./live_view";

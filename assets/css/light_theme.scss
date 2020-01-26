@@ -1,0 +1,273 @@
+body.light-mode {
+  color: $text-invert-color;
+  background-color: $body-background-invert-color;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: $text-invert-color;
+    text-shadow: 2px 2px 1px darken($base-background-invert-color, 10%);
+    font-weight: lighter;
+  }
+
+  a {
+    text-shadow: 0 0 1px transparent;
+
+    &:focus,
+    &:hover {
+      color: darken($link-color, 20%);
+    }
+  }
+
+  input,
+  textarea,
+  select {
+    border-color: $input-border-invert-color !important;
+    color: $text-invert-color;
+    box-shadow: 1px 1px 2px 0px inset $block-box-shadow-invert-color !important;
+  }
+
+  input:focus,
+  select:focus {
+    border-color: $input-focused-border-invert-color !important;
+  }
+
+  textarea {
+    box-shadow: 0px 0px 0px 0px #000 !important;
+  }
+
+  /* Reset input background color from Webkit's automcomplete - https://stackoverflow.com/a/37432260/1052356 */
+  @-webkit-keyframes autofill-light-mode {
+    to {
+      color: $text-invert-color;
+      background: transparent;
+    }
+  }
+
+  input:-webkit-autofill {
+    -webkit-animation-name: autofill-light-mode;
+    -webkit-animation-fill-mode: both;
+  }
+
+  button,
+  .button,
+  input[type="button"],
+  input[type="reset"],
+  input[type="submit"] {
+    box-shadow: 2px 2px 3px 0px $block-box-shadow-invert-color;
+  }
+
+  .muted {
+    text-shadow: none;
+    color: $secondary-text-invert-color;
+  }
+
+  header {
+    &.banner {
+      &.banner-info {
+        background: rgba(darken($alert-info-background-invert-color, 55%), 1);
+        color: lighten($alert-info-text-invert-color, 20%);
+      }
+    }
+
+    &.main {
+      background: $header-background-invert-color;
+      border-bottom: 1px solid $header-border-invert-color;
+      color: $text-color;
+    }
+  }
+
+  .alert-info {
+    color: $alert-info-text-invert-color;
+    background-color: $alert-info-background-invert-color;
+    border-color: $alert-info-border-invert-color;
+  }
+
+  .alert-warning {
+    color: $alert-warning-text-invert-color;
+    background-color: $alert-warning-background-invert-color;
+    border-color: $alert-warning-border-invert-color;
+  }
+
+  .alert-danger {
+    color: $alert-danger-text-invert-color;
+    background-color: $alert-danger-background-invert-color;
+    border-color: $alert-danger-border-invert-color;
+  }
+
+  .dropdown-content {
+    background-color: $dropdown-background-invert-color;
+    box-shadow: 0px 8px 16px 0px $dropdown-box-shadow-invert-color;
+
+    a {
+      color: $dropdown-link-invert-color;
+      border-bottom: 1px solid darken($base-border-invert-color, 5%);
+
+      &:hover {
+        color: $dropdown-hovered-link-invert-color;
+        background-color: $dropdown-hovered-link-background-invert-color;
+      }
+    }
+  }
+
+  .modal {
+    background-color: $modal-backdrop-background-invert-color;
+
+    .modal-body {
+      background: $modal-background-invert-color;
+      box-shadow: 2px 2px 3px 0px $modal-box-shadow-invert-color;
+    }
+
+    .close {
+      background-color: $modal-close-background-invert-color;
+      color: $modal-close-button-text-invert-color;
+
+      &:hover {
+        background-color: $modal-close-hovered-background-invert-color;
+      }
+    }
+  }
+
+  .note-preview {
+    .meta {
+      border-bottom: 1px solid $note-preview-meta-border-invert-color;
+
+      @include note-meta-items-mixin-light-mode;
+    }
+  }
+
+  .dashboard {
+    .widget {
+      box-shadow: 0px 0px 0px 0px transparent;
+      background-color: $base-background-invert-color;
+      border: 1px solid $block-border-invert-color;
+
+      &.sentiment-pie-chart-widget {
+        margin-top: 10px;
+
+        .pie-chart-label {
+          .percent {
+            color: $text-invert-color;
+          }
+        }
+      }
+
+      &.recent-notes-widget {
+        overflow: hidden;
+      }
+    }
+
+    .notes {
+      @include note-list-item-mixin-light-mode;
+    }
+  }
+
+  .pagination {
+    li.page-item.active {
+      background: $pagination-active-background-invert-color;
+    }
+
+    .disabled,
+    .active {
+      .page-link {
+        color: $pagination-active-and-disabled-page-link-invert-color;
+      }
+    }
+  }
+
+  .criteria {
+    color: $text-color;
+    text-shadow: 0px 0px 1px transparent;
+    border: 1px solid $block-border-invert-color;
+    box-shadow: 2px 2px 2px 0px $block-box-shadow-invert-color;
+  }
+
+  .notes-page {
+    ul {
+      background-color: $block-background-invert-color;
+      border: 1px solid $block-border-invert-color;
+      box-shadow: 2px 2px 3px 0px $block-box-shadow-invert-color;
+      overflow: hidden;
+    }
+
+    @include note-list-item-mixin-light-mode;
+
+    .pagination {
+      box-shadow: 2px 2px 3px 0px $block-box-shadow-invert-color;
+    }
+
+    .period {
+      .dropdown-content {
+        background: $date-range-picker-dropdown-content-background-invert-color;
+
+        a {
+          &.active {
+            color: $dropdown-active-link-invert-color;
+            background: $dropdown-active-link-background-invert-color;
+          }
+        }
+      }
+
+      .rd-month-label {
+        color: $date-range-picker-month-label-invert-color;
+      }
+
+      th {
+        color: lighten($date-range-picker-day-number-invert-color, 40%);
+      }
+
+      td {
+        color: $date-range-picker-day-number-invert-color;
+      }
+
+      .rd-day-prev-month,
+      .rd-day-next-month {
+        color: $date-range-picker-prev-next-month-day-invert-color;
+      }
+
+      .rd-back,
+      .rd-next {
+        box-shadow: 0 0 0 0 transparent;
+        color: $text-invert-color;
+
+        &:focus,
+        &:hover {
+          background-color: transparent;
+        }
+      }
+
+      td {
+        &.rd-day-disabled {
+          color: $date-range-picker-day-number-disabled-invert-color;
+        }
+
+        &.rd-day-selected {
+          background: $date-range-picker-day-number-active-invert-color;
+          color: $text-color;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+  .auth-page {
+    form {
+      border: 1px solid $block-border-invert-color;
+      background: none;
+      box-shadow: 2px 2px 5px 0px $block-box-shadow-invert-color;
+    }
+
+    .control-label {
+      color: $form-label-invert-color;
+      text-shadow: none;
+    }
+
+    .divider {
+      color: $secondary-text-invert-color;
+      text-shadow: none;
+    }
+  }
+}
