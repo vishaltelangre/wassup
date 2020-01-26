@@ -61,31 +61,33 @@
     </div>
   <% end %>
 
-  <ul>
-    <%= for note <- @notes do %>
-      <li class="row">
-        <div class="column column-90">
-          <div class="meta">
-            <span class="label"><%= formatted_datetime(note.submitted_at) %></span>
-            <%= img_tag(note.sentiment_icon_path, data: [behavior: "sentiment-icon"], class: "icon") %>
-            <%= note_favorite_icon_link(note) %>
+  <%= if @paginate[:total_count] > 0 do %>
+    <ul>
+      <%= for note <- @notes do %>
+        <li class="row">
+          <div class="column column-90">
+            <div class="meta">
+              <span class="label"><%= formatted_datetime(note.submitted_at) %></span>
+              <%= img_tag(note.sentiment_icon_path, data: [behavior: "sentiment-icon"], class: "icon") %>
+              <%= note_favorite_icon_link(note) %>
+            </div>
+            <p><%= note.body %></p>
           </div>
-          <p><%= note.body %></p>
-        </div>
-        <div class="meta column column-10">
-          <div class="dropdown">
-            <a href="javascript:void(0)" data-behavior="dropdown-trigger">
-              <%= img_tag(Routes.static_path(@socket, "/images/more.svg"), class: "dropdown-trigger-icon") %>
-            </a>
-            <div class="dropdown-content" data-behavior="dropdown-content">
-              <%= link "Edit", to: {:javascript, "void(0)"}, "phx-click": "edit_note", "phx-value-note-id": note.id %>
-              <%= link "Delete", to: {:javascript, "void(0)"}, data: [confirm: "Are you sure that you want to delete the selected note?"], "phx-click": "delete_note", "phx-value-note-id": note.id %>
+          <div class="meta column column-10">
+            <div class="dropdown">
+              <a href="javascript:void(0)" data-behavior="dropdown-trigger">
+                <%= img_tag(Routes.static_path(@socket, "/images/more.svg"), class: "dropdown-trigger-icon") %>
+              </a>
+              <div class="dropdown-content" data-behavior="dropdown-content">
+                <%= link "Edit", to: {:javascript, "void(0)"}, "phx-click": "edit_note", "phx-value-note-id": note.id %>
+                <%= link "Delete", to: {:javascript, "void(0)"}, data: [confirm: "Are you sure that you want to delete the selected note?"], "phx-click": "delete_note", "phx-value-note-id": note.id %>
+              </div>
             </div>
           </div>
-        </div>
-      </li>
-    <% end %>
-  </ul>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
 
   <%= if @paginate[:total_count] > 0 do %>
     <%= pagination_links(@socket, @paginate, []) %>

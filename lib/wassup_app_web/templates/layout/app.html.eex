@@ -30,6 +30,7 @@
         <% end %>
         <nav role="navigation">
           <ul>
+            <li class="toggle-theme hide" data-behavior="toggle-theme"></li>
             <li>
               <%= if @current_user do %>
                 <div class="dropdown">

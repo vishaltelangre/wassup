@@ -13,7 +13,7 @@
         <div class="widget">
           <div id="sentiment-line-chart" class="sentiment-line-chart" data-chart="<%= Jason.encode!(@notes) %>" phx-update="ignore" phx-hook="DashboardSentimentLineChart"></div>
         </div>
-        <div class="widget">
+        <div class="widget sentiment-pie-chart-widget">
           <div id="sentiment-pie-chart" class="sentiment-pie-chart" data-chart="<%= Jason.encode!(@notes) %>" phx-update="ignore" phx-hook="DashboardSentimentPieChart"></div>
         </div>
       <% end %>
@@ -24,7 +24,7 @@
           Recent Notes
           <%= live_link "All Notes ⟶", to: Routes.live_path(@socket, WassupAppWeb.NoteLive.Index), class: "widget-meta-link" %>
         </h2>
-        <div class="widget">
+        <div class="widget recent-notes-widget">
           <%= render "recent_notes_widget.html", assigns %>
         </div>
       </div>
