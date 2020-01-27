@@ -1,6 +1,7 @@
 defmodule WassupApp.Accounts.User do
   use WassupApp.BaseModel
 
+  alias WassupApp.Accounts
   alias WassupApp.Accounts.User
   alias WassupApp.Notes.Note
 
@@ -12,6 +13,7 @@ defmodule WassupApp.Accounts.User do
     field :password_hash, :string
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
+    field :current_password, :string, virtual: true
     field :verified_at, :utc_datetime
     field :timezone, :string
     has_many :notes, Note
@@ -31,6 +33,16 @@ defmodule WassupApp.Accounts.User do
     |> down_case_email()
     |> validate_format(:email, @email_regex)
     |> unique_constraint(:email)
+    |> put_password_hash()
+  end
+
+  def change_password_changeset(%User{} = user, attrs) do
+    user
+    |> cast(attrs, [:current_password, :password, :password_confirmation])
+    |> validate_required([:current_password, :password])
+    |> validate_matches_current_password()
+    |> validate_length(:password, min: 6)
+    |> validate_confirmation(:password)
     |> put_password_hash()
   end
 
@@ -76,6 +88,26 @@ defmodule WassupApp.Accounts.User do
 
       email ->
         put_change(changeset, :email, String.downcase(email))
+    end
+  end
+
+  defp validate_matches_current_password(%Ecto.Changeset{errors: errors} = changeset) do
+    if Keyword.has_key?(errors, :current_password) do
+      changeset
+    else
+      current_password = to_string(get_field(changeset, :current_password))
+
+      case Accounts.get_user(get_field(changeset, :id)) do
+        %User{password_hash: password_hash} ->
+          if Argon2.verify_pass(current_password, password_hash) do
+            changeset
+          else
+            add_error(changeset, :current_password, "does not match with current password")
+          end
+
+        _ ->
+          add_error(changeset, :current_password, "invalid")
+      end
     end
   end
 end

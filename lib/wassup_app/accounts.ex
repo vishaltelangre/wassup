@@ -174,6 +174,22 @@ defmodule WassupApp.Accounts do
     end
   end
 
+  @doc """
+  Updates user's password.
+
+  ## Examples
+
+      iex> update_user(user, %{current_password: current_password_here, password: new_password_here, password_confirmation: new_password_here})
+      {:ok, %User{}}
+
+      iex> update_user(user, %{current_password: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_password(%User{} = user, attrs) do
+    user |> User.change_password_changeset(attrs) |> Repo.update()
+  end
+
   def mark_as_verified(%User{} = user) do
     user |> update_user(%{verified_at: Timex.now()})
   end

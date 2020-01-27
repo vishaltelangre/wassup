@@ -66,6 +66,8 @@ defmodule WassupAppWeb.Router do
 
     # Account Management
     resources "/account", AccountController, singleton: true, only: [:edit, :update] do
+      get "/change_password", AccountController, :change_password, as: :change_password
+      put "/update_password", AccountController, :update_password, as: :update_password
     end
 
     get "/account/verification_pending",

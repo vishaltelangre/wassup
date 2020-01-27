@@ -11,7 +11,6 @@ defmodule WassupAppWeb.NoteView do
 
   import WassupAppWeb.PaginateView, only: [pagination_links: 3]
 
-  alias WassupApp.Notes.Note
   alias WassupApp.PeriodOptions
 
   def period_option_links(socket) do

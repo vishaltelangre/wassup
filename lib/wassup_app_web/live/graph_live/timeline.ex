@@ -20,7 +20,7 @@ defmodule WassupAppWeb.GraphLive.Timeline do
 
     socket =
       socket
-      |> assign_filters(%{})
+      |> assign_filters()
       |> assign(:current_user, current_user)
       |> assign(:note, nil)
       |> assign(:preview_note, false)
@@ -30,7 +30,7 @@ defmodule WassupAppWeb.GraphLive.Timeline do
     {:ok, socket}
   end
 
-  def handle_params(params, _uri, %{assigns: %{current_user: current_user}} = socket) do
+  def handle_params(params, _uri, socket) do
     filter = params["filter"] || %{}
     socket = assign_filters(socket, filter)
     socket = socket |> assign(:notes, load_notes(socket))
@@ -100,7 +100,7 @@ defmodule WassupAppWeb.GraphLive.Timeline do
   end
 
   defp load_notes(
-         %{assigns: %{current_user: current_user, period_option: period_option, q: q}} = socket
+         %{assigns: %{current_user: current_user, period_option: period_option, q: q}} = _socket
        ) do
     Notes.list_notes_for_user(current_user,
       period: PeriodOptions.dates_for_period(period_option, current_user.timezone),
