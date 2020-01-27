@@ -40,6 +40,7 @@
                   </a>
                   <div class="dropdown-content" data-behavior="dropdown-content">
                     <%= link "Update Account", to: Routes.account_path(@conn, :edit) %>
+                    <%= link "Change Password", to: Routes.account_change_password_path(@conn, :change_password) %>
                     <%= link "Logout", to: Routes.logout_path(@conn, :delete), method: :delete %>
                   </div>
                 </div>
