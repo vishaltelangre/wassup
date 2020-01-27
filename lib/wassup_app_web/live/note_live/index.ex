@@ -23,7 +23,7 @@ defmodule WassupAppWeb.NoteLive.Index do
 
     socket =
       socket
-      |> assign_filters(%{})
+      |> assign_filters()
       |> assign(:notes, notes)
       |> assign(:paginate, paginate)
       |> assign(:current_user, current_user)
@@ -78,16 +78,6 @@ defmodule WassupAppWeb.NoteLive.Index do
     refresh(socket, %{"filter" => %{"period" => period}})
   end
 
-  defp parse_period_date(date, timezone) do
-    String.trim(date)
-    |> Timex.parse!(@period_date_display_format, :strftime)
-    |> Timex.to_datetime(timezone)
-  end
-
-  defp update_active_period_option_assign(socket, dates, timezone) do
-    assign(socket, :active_period_option, PeriodOptions.active_option(dates, timezone))
-  end
-
   def handle_event("reset_period", _params, socket) do
     socket = assign(socket, :active_period_option, @default_active_period_option)
     refresh(socket, %{"filter" => %{"period" => nil}})
@@ -104,6 +94,16 @@ defmodule WassupAppWeb.NoteLive.Index do
     broadcast!(socket, {:note_favorite_updated, note})
 
     {:noreply, socket}
+  end
+
+  defp parse_period_date(date, timezone) do
+    String.trim(date)
+    |> Timex.parse!(@period_date_display_format, :strftime)
+    |> Timex.to_datetime(timezone)
+  end
+
+  defp update_active_period_option_assign(socket, dates, timezone) do
+    assign(socket, :active_period_option, PeriodOptions.active_option(dates, timezone))
   end
 
   def handle_info(:refresh_notes, socket), do: refresh(socket)
