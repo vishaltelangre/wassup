@@ -33,7 +33,7 @@ const themeColors = {
     zoomOutButtonHoverBackgroundColor: color("#606271"),
     zoomOutButtonStrokeColor: color("#EFD9CE"),
     dateAxisTickLabelColor: color("#888"),
-    primarySeriesFillColor: color("#000"),
+    primarySeriesFillColor: color("#666"),
     primarySeriesTooltipBackgroundColor: color("#111"),
     primarySeriesTooltipTextColor: color("#FFF")
   },
@@ -44,7 +44,7 @@ const themeColors = {
     zoomOutButtonHoverBackgroundColor: color("#606271"),
     zoomOutButtonStrokeColor: color("#FFF"),
     dateAxisTickLabelColor: color("#888"),
-    primarySeriesFillColor: color("#FFF"),
+    primarySeriesFillColor: color("#999"),
     primarySeriesTooltipBackgroundColor: color("#FFF"),
     primarySeriesTooltipTextColor: color("#000")
   }
@@ -228,7 +228,7 @@ const createPrimarySeries = (chart, dateFieldName, valueFieldName) => {
   series.dataFields.valueY = valueFieldName;
   series.sequencedInterpolation = true;
   series.fill = currentThemeColors().primarySeriesFillColor;
-  series.fillOpacity = 0.2;
+  series.fillOpacity = 0.1;
   series.defaultState.transitionDuration = 1000;
   series.tensionX = 1;
   series.tensionY = 1;
