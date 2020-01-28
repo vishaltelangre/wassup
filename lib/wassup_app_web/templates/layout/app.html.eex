@@ -83,6 +83,15 @@
         "/images/unstar.svg": '<%= Routes.static_path(@conn, "/images/unstar.svg") %>'
       };
       window.App = App;
+
+      window.paceOptions = {
+      // Don't track WebSockets to determine whether a LiveView is loaded or not
+        ajax: { trackWebSockets: false },
+        // Don't restart progress bar when new URL is pushed to History
+        restartOnPushState: false,
+        // Show progress bar when AJAX is taking more than 100ms to finish
+        restartOnRequestAfter: 100
+      };
     </script>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
 
