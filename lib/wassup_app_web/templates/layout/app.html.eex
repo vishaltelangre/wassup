@@ -57,6 +57,12 @@
           <span class="close" data-behavior="alert-close">×</span>
         </p>
       <% end %>
+      <%= if get_flash(@conn, :warn) do %>
+        <p class="alert alert-warning" role="alert">
+          <%= get_flash(@conn, :warn) %>
+          <span class="close" data-behavior="alert-close">×</span>
+        </p>
+      <% end %>
       <%= if get_flash(@conn, :error) do %>
         <p class="alert alert-danger" role="alert">
           <%= get_flash(@conn, :error) %>

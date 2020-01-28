@@ -1,0 +1,18 @@
+<div class="auth-page">
+  <h1>Forgot Your Password?</h1>
+
+  <%= form_for :password_reset, Routes.password_reset_path(@conn, :create), fn f -> %>
+    <div class='control-group'>
+      <label class='control-label' for='email-input'>Email</label>
+      <%= text_input f, :email %>
+      <%= error_tag f, :email %>
+    </div>
+
+    <div class='control-group actions'>
+      <div><%= submit "Send Password Reset Info" %></div>
+    </div>
+  <% end %>
+
+  <p class="help-text small muted">It may take several minutes to receive a password reset email. Make sure to check your junk/spam mail.</p>
+  <p class="help-text">If you know your password, <%= link "Sign In", to: Routes.login_path(@conn, :request) %></p>
+</div>

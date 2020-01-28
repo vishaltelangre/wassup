@@ -14,6 +14,8 @@
     <div class='control-group actions'>
       <div>
         <button class='btn btn-primary'>Sign In</button>
+        &nbsp;
+        <%= link "Forgot Password?", to: Routes.password_reset_path(@conn, :new), class: "small" %>
         <span class= "divider">or</span>
         <%= link to: Routes.auth_path(@conn, :request, "google"), class: "button button-small button-outline google-auth-button" do %>
           <%= img_tag(Routes.static_path(@conn, "/images/google.svg")) %>

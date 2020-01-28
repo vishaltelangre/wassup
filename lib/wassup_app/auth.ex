@@ -46,4 +46,16 @@ defmodule WassupApp.Auth do
   end
 
   def send_account_verification_instructions(conn, _user), do: conn
+
+  # Send password reset link
+  def send_password_reset_instructions(conn, nil = _user), do: conn
+
+  def send_password_reset_instructions(conn, user) do
+    token = Token.generate_password_reset_token(user)
+    change_password_link = Routes.change_password_url(conn, :change_password, token: token)
+
+    Email.reset_password_email(user, change_password_link) |> Mailer.deliver_later()
+
+    conn
+  end
 end

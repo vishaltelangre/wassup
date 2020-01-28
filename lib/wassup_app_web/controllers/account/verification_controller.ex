@@ -12,7 +12,7 @@ defmodule WassupAppWeb.Account.VerificationController do
     else
       _ ->
         conn
-        |> put_flash(:info, "The account verification link is either expired or invalid.")
+        |> put_flash(:warn, "The account verification link is either expired or invalid.")
         |> redirect(to: account_verification_pending_path(conn))
     end
   end
@@ -32,7 +32,7 @@ defmodule WassupAppWeb.Account.VerificationController do
 
       _ ->
         conn
-        |> put_flash(:info, "There was an error while verifying your account.")
+        |> put_flash(:error, "There was an error while verifying your account.")
         |> redirect(to: account_verification_pending_path(conn))
     end
   end
