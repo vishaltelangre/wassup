@@ -230,6 +230,7 @@ const createPrimarySeries = (chart, dateFieldName, valueFieldName) => {
   series.fill = currentThemeColors().primarySeriesFillColor;
   series.fillOpacity = 0.1;
   series.defaultState.transitionDuration = 1000;
+  series.interpolationDuration = 0;
   series.tensionX = 1;
   series.tensionY = 1;
   series.strokeWidth = 4;
@@ -248,6 +249,7 @@ const createPrimarySeries = (chart, dateFieldName, valueFieldName) => {
       {short_body}
     </div>
   `;
+  series.tooltip.animationDuration = 500;
   series.tooltip.getFillFromObject = false;
   series.tooltip.pointerOrientation = "vertical";
   series.tooltip.label.fill = currentThemeColors().primarySeriesTooltipTextColor;
@@ -390,7 +392,7 @@ const transformLineChartData = data => {
   return data.map(note => {
     const { body } = note;
     const maxShortBodyLength = 120;
-    const modalTriggerAttributes = `phx-click="preview_note" phx-value-note-id='${note.id}'`;
+    const modalTriggerAttributes = `phx-click="preview_note" phx-value-note-id='${note.id}' title="Click to see in detail"`;
     const elipsis =
       body.length > maxShortBodyLength
         ? ` <a href="javascript:void(0)" ${modalTriggerAttributes}>…</a>`
