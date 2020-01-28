@@ -9,6 +9,7 @@ import css from "../css/app.scss";
 //
 // Import dependencies
 //
+import "pace-progress";
 import "phoenix_html";
 
 // Import local files

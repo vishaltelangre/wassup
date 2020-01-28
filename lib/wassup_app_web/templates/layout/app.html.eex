@@ -83,6 +83,9 @@
         "/images/unstar.svg": '<%= Routes.static_path(@conn, "/images/unstar.svg") %>'
       };
       window.App = App;
+
+      // Don't track WebSockets to determine whether a LiveView is loaded or not
+      window.paceOptions = { ajax: { trackWebSockets: false } };
     </script>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
 

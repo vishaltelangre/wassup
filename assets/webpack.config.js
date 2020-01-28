@@ -14,6 +14,11 @@ module.exports = (env, options) => ({
     }
     callback();
   },
+  resolve: {
+    alias: {
+      pace: 'pace-progress'
+    }
+  },
   optimization: {
     minimizer: [
       new UglifyJsPlugin({ cache: true, parallel: true, sourceMap: false }),
