@@ -10,15 +10,24 @@ defmodule WassupAppWeb.Mailer.Email do
     base_email()
     |> to(email)
     |> subject("Welcome to #{Utils.app_name()}")
-    |> assign(:app_name, Utils.app_name())
     |> assign(:user, user)
     |> assign(:account_verification_link, account_verification_link)
     |> render(:welcome)
+  end
+
+  def reset_password_email(%User{email: email} = user, change_password_link) do
+    base_email()
+    |> to(email)
+    |> subject("Resetting your #{Utils.app_name()} password")
+    |> assign(:user, user)
+    |> assign(:change_password_link, change_password_link)
+    |> render(:reset_password)
   end
 
   defp base_email do
     new_email()
     |> from(Utils.mail_sender_email())
     |> put_layout({WassupAppWeb.LayoutView, :email})
+    |> assign(:app_name, Utils.app_name())
   end
 end

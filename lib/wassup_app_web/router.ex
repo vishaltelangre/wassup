@@ -48,6 +48,12 @@ defmodule WassupAppWeb.Router do
         Account.VerificationController,
         :verification_pending,
         as: :resend_account_verification_instructions
+
+    # Password reset
+    get "/password/reset", PasswordResetController, :new
+    post "/password/reset", PasswordResetController, :create
+    get "/password/change", PasswordResetController, :change_password, as: :change_password
+    put "/password/change", PasswordResetController, :update_password, as: :update_password
   end
 
   scope "/", WassupAppWeb do
