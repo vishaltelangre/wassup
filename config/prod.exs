@@ -1,16 +1,4 @@
-use Mix.Config
-
-app_hostname = System.get_env("APP_HOSTNAME")
-heroku_app_name = System.get_env("HEROKU_APP_NAME")
-
-if !app_hostname && !heroku_app_name do
-  raise """
-  environment variable APP_HOSTNAME or HEROKU_APP_NAME is missing.
-  """
-end
-
-app_hostname =
-  if heroku_app_name, do: to_string(heroku_app_name) <> "herokuapp.com", else: app_hostname
+import Config
 
 # For production, don't forget to configure the url host
 # to something meaningful, Phoenix uses this information
@@ -22,7 +10,7 @@ app_hostname =
 # which you should run after static files are built and
 # before starting your production server.
 config :wassup_app, WassupAppWeb.Endpoint,
-  url: [scheme: "https", host: app_hostname, port: 443],
+  url: [scheme: "https", host: {:system, "APP_HOSTNAME"}, port: 443],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
@@ -32,7 +20,7 @@ config :logger, level: :info
 config :wassup_app, WassupAppWeb.Mailer,
   adapter: Bamboo.SMTPAdapter,
   server: {:system, "SMTP_PROVIDER_DOMAIN"},
-  hostname: app_hostname,
+  hostname: {:system, "APP_HOSTNAME"},
   port: 1025,
   username: {:system, "SMTP_USERNAME"},
   password: {:system, "SMTP_PASSWORD"},

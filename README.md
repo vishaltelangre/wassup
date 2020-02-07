@@ -29,6 +29,9 @@
   - [Features that will be built eventually and will be available in future](#features-that-will-be-built-eventually-and-will-be-available-in-future)
 - [Local Development Setup](#local-development-setup)
 - [Production Setup](#production-setup)
+  - [Deploying on a VM (Digital Ocean, Linode, AWS EC2, etc.)](#deploying-on-a-vm-digital-ocean-linode-aws-ec2-etc)
+  - [Deploying on Heroku](#deploying-on-heroku)
+  - [Run in a Docker container](#run-in-a-docker-container)
   - [Adding user(s)](#adding-users)
 - [Monetization](#monetization)
 - [Want to contribute?](#want-to-contribute)
@@ -118,10 +121,10 @@ Imagine, it is a real deal.
 - Sign in using email and password or social sign in using your Google account
 - (If you host Wassup yourself) ability to disable registration
 - (If you host Wassup yourself) ability to add users directly (from command-line interface)
+- Run in a Docker container
 
 ### Features that will be built eventually and will be available in future
 
-- (TODO) Run in a Docker container
 - (TODO) Export notes along with the mood/sentiment data
 - (TODO) Import notes along with the mood/sentiment data
 - (TODO) Sends you an email reminder if you haven't saved a note for a while (configurable frequency)
@@ -182,12 +185,45 @@ Check these emails anytime by visiting
 
 ## Production Setup
 
-1. Copy all the environment variables in [`.env.example`](.env.example) and export them with appropriate values (e.g. `source .env.prod`).
+### Deploying on a VM (Digital Ocean, Linode, AWS EC2, etc.)
+
+1. Export all the environment variables in [`.env.example`](.env.example) with the appropriate values on the host machine.
 2. Install production environment dependencies using `mix deps.get --only prod`.
 3. Compile the Elixir code using `MIX_ENV=prod mix compile`.
 4. Compile static assets with `npm run deploy --prefix ./assets` and then generate a static assets digest manifest using `mix phx.digest`.
 5. Create and migrate the database using `MIX_ENV=prod mix ecto.setup` and `MIX_ENV=prod mix ecto.migrate`.
 6. Start the Phoenix server using `MIX_ENV=prod mix phx.server` or in a detached or background mode using `MIX_ENV=prod elixir --erl "-detached" -S mix phx.server`.
+
+### Deploying on Heroku
+
+Please follow the instructions at https://hexdocs.pm/phoenix/heroku.html to deploy to Heroku.
+
+### Run in a Docker container
+
+1. Use the latest pre-built Docker image `wassuphq/wassup:latest`.
+2. Copy [`.env.example`](.env.example) in a separate file (for example, `.env.docker`) by setting all the containing environment variables with the appropriate values.
+3. Ensure that the database is created and can be accessible inside a Docker container. (For example, if the database is installed and running in the host machine then that database cannot be accessed using `localhost` as the host. Instead specify the host machine's IP. If the host machine is a macOS, you can use `host.docker.internal` as the host in the `DATABASE_URL` environment variable's value.)
+4. Run a Docker container from the latest Docker image and execute migrations in it with this command.
+
+  ```sh
+  $ docker run               \
+      --rm                   \
+      --name wassup_migrator \
+      --env-file .env.docker \
+      wassuphq/wassup:latest \
+      bin/wassup_app eval "WassupApp.Release.migrate"
+  ```
+5. Now run the app as follows. It can be accessed on the host machine on port `4000`.
+
+  ```sh
+  $ docker run               \
+      --rm                   \
+      --expose 4000:4000     \
+      --name wassup_app      \
+      --env-file .env.docker \
+      wassuphq/wassup:latest \
+      bin/wassup_app start
+  ```
 
 ### Adding user(s)
 
