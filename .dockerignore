@@ -1,0 +1,5 @@
+/.git
+/_build
+/deps
+/assets/build
+/assets/node_modules

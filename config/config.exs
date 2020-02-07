@@ -5,7 +5,7 @@
 # is restricted to this project.
 
 # General application configuration
-use Mix.Config
+import Config
 alias WassupApp.Utils
 
 config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
