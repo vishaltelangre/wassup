@@ -89,6 +89,25 @@ defmodule WassupApp.Notes.Note do
     |> Enum.into(%{})
   end
 
+  def analyzed_sentiment_from_text(text, default_sentiment) do
+    if to_string(text) |> String.length() > 0 do
+      case Veritaserum.analyze(text) do
+        n when n < 0 -> 1
+        0 -> 2
+        n when n > 0 -> 3
+      end
+      |> sentiment_from_value
+    else
+      default_sentiment
+    end
+  end
+
+  defp sentiment_from_value(value) do
+    @sentiment_details
+    |> Enum.find({nil}, fn {_sentiment, %{value: val}} -> value == val end)
+    |> elem(0)
+  end
+
   @doc false
   def changeset(note, attrs) do
     note

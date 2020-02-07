@@ -72,7 +72,8 @@ defmodule WassupApp.MixProject do
       {:bamboo_smtp, "~> 2.1.0"},
       {:faker, "~> 0.13"},
       {:csv, "~> 2.3"},
-      {:briefly, github: "CargoSense/briefly", ref: "2526e96"}
+      {:briefly, github: "CargoSense/briefly", ref: "2526e96"},
+      {:veritaserum, "~> 0.2.1"}
     ]
   end
 
