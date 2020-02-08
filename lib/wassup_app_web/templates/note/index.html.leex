@@ -1,6 +1,9 @@
 <%= live_link "⟵ Dashboard", to: Routes.live_path(@socket, WassupAppWeb.DashboardLive), class: "back-link" %>
 <div id="notes" class="notes-page">
-  <h1>Notes</h1>
+  <h1>
+    Notes
+    <%= link "Download All Notes (in CSV)", to: Routes.notes_csv_export_path(@socket, :csv), class: "meta-link", target: "_blank" %>
+  </h1>
     <div class="criteria">
       <%= f = form_for :filter, "#", phx_change: "criteria_change", phx_submit: "criteria_change" %>
         <span class="search">

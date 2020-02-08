@@ -93,6 +93,7 @@ defmodule WassupAppWeb.Router do
 
     # Notes
     live "/notes", NoteLive.Index
+    get "/notes.csv", Note.ExportController, :csv, as: :notes_csv_export
   end
 
   defp put_user_token(conn, _) do

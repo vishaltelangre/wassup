@@ -109,6 +109,7 @@ Imagine, it is a real deal.
 - See recently saved notes on dashboard
 - See how your mood has been recently on the dashboard using helpful visual charts
 - See all your past notes
+- Export notes along with the mood/sentiment data
 - Filter notes by a (search) query
 - See (filtered) notes in between any date range
 - Ready made date range filters to list notes for today, yesterday, this week, this month, etc.
@@ -125,7 +126,6 @@ Imagine, it is a real deal.
 
 ### Features that will be built eventually and will be available in future
 
-- (TODO) Export notes along with the mood/sentiment data
 - (TODO) Import notes along with the mood/sentiment data
 - (TODO) Sends you an email reminder if you haven't saved a note for a while (configurable frequency)
 - (TODO) REST APIs to add, update and access your notes programmatically and securely
