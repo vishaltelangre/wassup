@@ -8,7 +8,7 @@ defmodule WassupAppWeb.NoteComponent.Shared do
 
         params =
           params
-          |> Map.put("sentiment", Note.analyzed_sentiment_from_text(body, sentiment))
+          |> Map.put("sentiment", Note.analyze_sentiment_from_text(body, sentiment))
 
         handle_event("validate", %{"note" => params}, socket)
       end
