@@ -104,7 +104,9 @@ Imagine, it is a real deal.
 
 - Simple, beautiful and responsive user interface
 - Easily add notes
-- Record emotions while saving notes
+- Record sentiment while saving notes
+  <sub><sup>(sentiment is automatically selected by analyzing the contents of
+  the note based on `afinn-165` algorithm)</sup></sub>
 - Realtime dashboard
 - See recently saved notes on dashboard
 - See how your mood has been recently on the dashboard using helpful visual charts
