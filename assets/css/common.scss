@@ -82,6 +82,15 @@ h6 {
   font-weight: bold;
   text-shadow: 2px 4px 0 $dark-shadow-color;
   color: $text-color;
+
+  .meta-link {
+    font-size: 12px;
+    display: block;
+    float: right;
+    line-height: 30px;
+    font-weight: normal;
+    letter-spacing: normal;
+  }
 }
 
 /* Reset input background color from Webkit's automcomplete - https://stackoverflow.com/a/37432260/1052356 */
