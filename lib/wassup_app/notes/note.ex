@@ -89,6 +89,18 @@ defmodule WassupApp.Notes.Note do
     |> Enum.into(%{})
   end
 
+  def analyze_sentiment_from_text(text, default_sentiment) do
+    if text |> to_string() |> String.length() > 0 do
+      case Veritaserum.analyze(text) do
+        n when n < 0 -> :sad
+        0 -> :neutral
+        n when n > 0 -> :happy
+      end
+    else
+      default_sentiment |> String.to_existing_atom()
+    end
+  end
+
   @doc false
   def changeset(note, attrs) do
     note

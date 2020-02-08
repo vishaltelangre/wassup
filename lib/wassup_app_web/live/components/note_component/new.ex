@@ -1,5 +1,6 @@
 defmodule WassupAppWeb.NoteComponent.New do
   use Phoenix.LiveComponent
+  use WassupAppWeb.NoteComponent.Shared
 
   alias WassupApp.Notes
   alias WassupApp.Notes.Note
