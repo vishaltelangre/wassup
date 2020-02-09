@@ -107,6 +107,7 @@ Imagine, it is a real deal.
 - Record sentiment while saving notes
   <sub><sup>(sentiment is automatically selected by analyzing the contents of
   the note based on `afinn-165` algorithm)</sup></sub>
+- Sends you an email reminder if you haven't saved a note for a while (configurable frequency)
 - Realtime dashboard
 - See recently saved notes on dashboard
 - See how your mood has been recently on the dashboard using helpful visual charts
@@ -128,13 +129,12 @@ Imagine, it is a real deal.
 
 ### Features that will be built eventually and will be available in future
 
-- (TODO) Import notes along with the mood/sentiment data
-- (TODO) Sends you an email reminder if you haven't saved a note for a while (configurable frequency)
-- (TODO) REST APIs to add, update and access your notes programmatically and securely
-- (TODO) Google Chrome extension to add notes and see recent notes
-- (TODO) Multi-language (internationalization) support
-- (TODO) Simple desktop application to easily add notes and see recent notes
-- (TODO) Native mobile application for popular platforms
+- Import notes along with the mood/sentiment data
+- REST APIs to add, update and access your notes programmatically and securely
+- Google Chrome extension to add notes and see recent notes
+- Multi-language (internationalization) support
+- Simple desktop application to easily add notes and see recent notes
+- Native mobile application for popular platforms
 
 ## Local Development Setup
 

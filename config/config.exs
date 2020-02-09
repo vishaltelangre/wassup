@@ -44,6 +44,15 @@ config :ueberauth, Ueberauth.Strategy.Google.OAuth,
   client_secret: {System, :get_env, ["GOOGLE_CLIENT_SECRET"]},
   redirect_uri: {System, :get_env, ["GOOGLE_REDIRECT_URI"]}
 
+config :wassup_app, WassupAppWeb.Scheduler,
+  jobs: [
+    note_reminder: [
+      # Every 15 minutes
+      schedule: "*/15 * * * *",
+      task: {WassupApp.Jobs.NoteReminderJob, :run, []}
+    ]
+  ]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

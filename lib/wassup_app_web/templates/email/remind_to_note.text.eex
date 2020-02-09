@@ -1,0 +1,9 @@
+Hi <%= @user.name %>,
+
+It seems that you haven't added a note in <%= @app_name %> <%= @help_text %>.
+
+Please visit <%= @app_url %> to add a note now.
+
+Note that we have sent this email to you since the "Remind Me To Note" preference is set to "<%= Map.fetch!(WassupApp.Accounts.User.remind_to_note_options, @user.remind_to_note) %>" in your account.
+
+If you do not wish to recieve reminder emails anymore then please visit <%= @preferences_url %> to change your preferences in your account.

@@ -1,0 +1,5 @@
+<p>Hi <%= @user.name %>,</p>
+<p>It seems that you haven't added a note in <%= @app_name %> <%= @help_text %>.</p>
+<p>Please <a href="<%= @app_url %>" target="_blank">click here</a> to add a note now.</p>
+<p>Note that we have sent this email to you since the <strong>Remind Me To Note</strong> preference is set to <strong><%= Map.fetch!(WassupApp.Accounts.User.remind_to_note_options, @user.remind_to_note) %></strong> in your account.</p>
+<p>If you do not wish to recieve reminder emails anymore then please <a href="<%= @preferences_url %>" target="_blank">change your preferences</a> in your account.</p>
