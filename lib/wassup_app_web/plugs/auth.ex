@@ -23,6 +23,8 @@ defmodule WassupAppWeb.Plugs.Auth do
   end
 
   def valid_user(conn, _opts) do
+    redirect_to = "#{conn.request_path}?#{conn.query_string}"
+
     cond do
       conn.assigns.current_user ->
         conn
@@ -30,7 +32,7 @@ defmodule WassupAppWeb.Plugs.Auth do
       true ->
         conn
         |> put_flash(:error, "You must be logged in to access that page")
-        |> redirect(to: Routes.login_path(conn, :request))
+        |> redirect(to: Routes.login_path(conn, :request, redirect_to: redirect_to))
         |> halt()
     end
   end

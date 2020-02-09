@@ -1,6 +1,6 @@
 <div class="auth-page">
   <h1>Sign In</h1>
-  <%= form_tag Routes.auth_path(@conn, :identity_callback), method: "post" do %>
+  <%= form_tag Routes.auth_path(@conn, :identity_callback, redirect_to: @conn.query_params["redirect_to"]), method: "post" do %>
     <div class='control-group'>
       <label class='control-label' for='email-input'>Email</label>
       <input class='form-control' type='email' name='email' value='<%= @conn.params["email"] %>' />

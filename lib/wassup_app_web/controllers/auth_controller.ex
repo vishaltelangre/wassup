@@ -69,24 +69,27 @@ defmodule WassupAppWeb.AuthController do
     end
   end
 
-  def identity_callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
+  def identity_callback(%{assigns: %{ueberauth_auth: auth}} = conn, params) do
     case UeberauthInfoParser.parse(auth) do
       {:ok, %{email: email, password: password}} ->
-        identity_authenticated(conn, Accounts.authenticate(email, password))
+        identity_authenticated(conn, Accounts.authenticate(email, password), params)
 
       {:error, error} ->
-        identity_authenticated(conn, {:error, error})
+        identity_authenticated(conn, {:error, error}, params)
     end
   end
 
-  defp identity_authenticated(conn, {:ok, %User{} = user}) do
+  defp identity_authenticated(conn, {:ok, %User{} = user}, params) do
+    redirect_to = params["redirect_to"] |> to_string() |> String.trim()
+    redirect_to = if String.length(redirect_to) > 0, do: redirect_to, else: "/"
+
     conn
     |> put_session(:user_id, user.id)
     |> configure_session(renew: true)
-    |> redirect(to: "/")
+    |> redirect(to: redirect_to)
   end
 
-  defp identity_authenticated(conn, {:error, error}) do
+  defp identity_authenticated(conn, {:error, error}, _params) do
     conn
     |> put_flash(:error, error)
     |> render("request.html")
