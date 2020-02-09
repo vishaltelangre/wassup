@@ -1,6 +1,5 @@
 <html>
   <head>
-    <link rel="stylesheet" href="<%= Routes.static_url(WassupAppWeb.Endpoint, "/css/email.css") %>">
   </head>
   <body>
     <%= render @view_module, @view_template, assigns %>

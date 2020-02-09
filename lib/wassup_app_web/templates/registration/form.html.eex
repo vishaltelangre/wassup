@@ -19,6 +19,15 @@
     <%= error_tag f, :timezone %>
   </div>
 
+  <%= if @editing do %>
+    <label class='control-label' for='remind_to_note-input'>Remind Me To Note</label>
+    <%= select f, :remind_to_note, WassupApp.Accounts.User.remind_to_note_dropdown_options() %>
+    <%= error_tag f, :remind_to_note %>
+    <p class="help-text small muted">
+      <small>We will send an email reminder to you at around 9 PM your local time as per this preference.<small>
+    </p>
+  <% end %>
+
   <%= if not(@editing) || (@editing && @prompt_password) do %>
     <div class='control-group'>
       <label class='control-label' for='password-input'>Password</label>

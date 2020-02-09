@@ -5,7 +5,19 @@ defmodule WassupApp.Accounts.User do
   alias WassupApp.Accounts.User
   alias WassupApp.Notes.Note
 
+  import EctoEnum
+
   @email_regex ~r/^[A-Za-z0-9\._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/
+
+  @remind_to_note_options %{
+    never: "Never",
+    when_missed_in_24_hours: "When no note is added in last 24 hours",
+    when_missed_in_last_07_days: "When no note is added in last 7 days",
+    when_missed_in_last_15_days: "When no note is added in last 15 days",
+    when_missed_in_last_30_days: "When no note is added in last 30 days"
+  }
+
+  defenum(RemindToNoteEnum, @remind_to_note_options |> Map.keys() |> Enum.map(&to_string/1))
 
   schema "users" do
     field :name, :string
@@ -16,6 +28,7 @@ defmodule WassupApp.Accounts.User do
     field :current_password, :string, virtual: true
     field :verified_at, :utc_datetime
     field :timezone, :string
+    field :remind_to_note, RemindToNoteEnum
     has_many :notes, Note
 
     timestamps()
@@ -24,8 +37,16 @@ defmodule WassupApp.Accounts.User do
   @doc false
   def changeset(%User{} = user, attrs) do
     user
-    |> cast(attrs, [:name, :email, :password, :password_confirmation, :verified_at, :timezone])
-    |> validate_required([:name, :email])
+    |> cast(attrs, [
+      :name,
+      :email,
+      :password,
+      :password_confirmation,
+      :verified_at,
+      :timezone,
+      :remind_to_note
+    ])
+    |> validate_required([:name, :email, :remind_to_note])
     |> maybe_require_password()
     |> maybe_require_timezone()
     |> validate_length(:password, min: 6)
@@ -110,4 +131,11 @@ defmodule WassupApp.Accounts.User do
       end
     end
   end
+
+  def remind_to_note_options, do: @remind_to_note_options
+
+  def remind_to_note_dropdown_options,
+    do:
+      @remind_to_note_options
+      |> Enum.map(fn {key, value} -> [key: value, value: key] end)
 end
