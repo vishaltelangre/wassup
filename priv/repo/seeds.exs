@@ -26,7 +26,8 @@ if (Mix.env() == :prod && Utils.demo_instance?()) || Mix.env() != :prod do
       email: "john@example.com",
       timezone: Tzdata.zone_list() |> Enum.random(),
       verified_at: Timex.now(),
-      password: "test1234"
+      password: "test1234",
+      remind_to_note: "when_missed_in_last_07_days"
     })
 
   Enum.map(1..200, fn n ->
