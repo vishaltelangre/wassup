@@ -109,6 +109,7 @@ Imagine, it is a real deal.
   the note based on `afinn-165` algorithm)</sup></sub>
 - Sends you an email reminder if you haven't saved a note for a while (configurable frequency)
 - Realtime dashboard
+- Dark/light mode
 - See recently saved notes on dashboard
 - See how your mood has been recently on the dashboard using helpful visual charts
 - See all your past notes
