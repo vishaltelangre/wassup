@@ -30,6 +30,6 @@
     "sass-loader": "^7.2.0",
     "uglifyjs-webpack-plugin": "^1.2.4",
     "webpack": "^4.41.4",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.12"
   }
 }
